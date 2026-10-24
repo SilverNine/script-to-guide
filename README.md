@@ -127,10 +127,6 @@ The code is MIT. The voice output follows the terms of the provider you choose.
 6. ~~**First release.**~~ Done. Plugin and Codex manifests, one entry point (`stg`), guides kept in your project, references for every stage.
 7. **Next.** A Korean sample guide, more cards, Windows support.
 
-## Related projects
-
-- [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft) makes cinematic product promos. [video-talkcraft](https://github.com/Vincentwei1021/video-talkcraft) makes voiceover-driven explainers from a finished recording. script-to-guide makes the guide that comes after the promo: narrated from a script, shipped as a web page, re-timed when the script changes.
-
 ## License
 
 MIT. See [LICENSE](LICENSE).
