@@ -38,7 +38,7 @@ Providers
 - edge (default): Microsoft Edge neural voices through the `edge-tts` package. Free, no key,
   word boundaries included. Voices such as `en-US-AriaNeural`, `ko-KR-SunHiNeural`.
 - elevenlabs: `with-timestamps` endpoint, character timestamps. Key from ELEVENLABS_API_KEY or
-  a `.env.elevenlabs` file in the repository root. The key is never printed.
+  a `.env.elevenlabs` file in your project folder (never in the skill folder). The key is never printed.
 """
 from __future__ import annotations
 
@@ -134,7 +134,7 @@ def load_key() -> str:
     p = next((d / ".env.elevenlabs" for d in (CWD, ROOT) if (d / ".env.elevenlabs").exists()), ROOT / ".env.elevenlabs")
     if p.exists():
         return p.read_text(encoding="utf-8").strip()
-    sys.exit("No ElevenLabs key: set ELEVENLABS_API_KEY or create .env.elevenlabs in the repository root")
+    sys.exit("No ElevenLabs key: set ELEVENLABS_API_KEY or put .env.elevenlabs in your project folder in the repository root")
 
 
 def synth_elevenlabs(text: str, voice: str, model: str, lang: str):
@@ -163,7 +163,7 @@ def synth_edge(text: str, voice: str, model: str, lang: str):
     try:
         import edge_tts  # type: ignore
     except ImportError:
-        sys.exit("edge-tts is not installed: pip install -r requirements.txt")
+        sys.exit("edge-tts is not installed: run `stg setup` (or pip install -r requirements.txt)")
 
     async def run():
         try:
@@ -251,8 +251,8 @@ def ffprobe_seconds(p: pathlib.Path) -> float:
     return float(out.stdout.strip())
 
 
-def scene_hash(spoken: str, provider: str, voice: str, model: str) -> str:
-    return hashlib.sha256(f"{provider}|{voice}|{model}|{spoken}".encode()).hexdigest()[:16]
+def scene_hash(spoken: str, provider: str, voice: str, model: str, lang: str) -> str:
+    return hashlib.sha256(f"{provider}|{voice}|{model}|{lang}|{spoken}".encode()).hexdigest()[:16]
 
 
 # ---------- main ----------
@@ -269,8 +269,6 @@ def main() -> None:
     ap.add_argument("--force", default="", help="scenes to re-synthesize, comma separated")
     a = ap.parse_args()
 
-    if not re.fullmatch(r"[a-z][a-z0-9-]{1,39}", a.guide):
-        sys.exit("guide names use lowercase letters, digits and hyphens")
     gdir = resolve_guide(a.guide)
     if not (gdir / "script.md").exists():
         sys.exit(f"missing {gdir}/script.md")
@@ -301,7 +299,7 @@ def main() -> None:
         display, spans, spoken = build([l for l in lines if l[0] == sc], table)
         mp3, js = takes / f"{sc}.mp3", takes / f"{sc}.json"
         meta = json.loads(js.read_text(encoding="utf-8")) if js.exists() else None
-        h = scene_hash(spoken, provider, voice, model)
+        h = scene_hash(spoken, provider, voice, model, lang)
         if meta and mp3.exists() and meta.get("hash") == h and sc not in force:
             kept.append(sc)
         else:

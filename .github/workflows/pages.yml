@@ -1,7 +1,7 @@
 name: Pages
 
 # Publishes the motion gallery and the sample guide to GitHub Pages on every push to main.
-# Skipped while the repository is private.
+# Needs Settings > Pages > Source: GitHub Actions. Skipped while the repository is private.
 
 on:
   push:

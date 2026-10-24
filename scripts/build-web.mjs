@@ -83,6 +83,11 @@ const home = (p) => p.replace(/^~(?=\/|$)/, os.homedir());
 const outRoot = outPath(home(outArg || build.out || 'dist'));
 const G = (p) => inGuide(gDir, p);
 const dir = path.join(outRoot, NAME);
+const inside = (a, b) => a === b || a.startsWith(b + path.sep);
+if (inside(gDir, dir) || inside(dir, gDir) || inside(ROOT, dir)) {
+  console.error(`refusing to build into ${dir}: it overlaps the guide or the engine folder. Choose another --out.`);
+  process.exit(1);
+}
 rmSync(dir, { recursive: true, force: true });
 mkdirSync(path.join(dir, 'fonts'), { recursive: true });
 

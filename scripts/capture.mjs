@@ -73,6 +73,10 @@ if (has('--probe')) {
 if (out) {
   mkdirSync(path.dirname(out), { recursive: true });
   const ext = path.extname(out).toLowerCase();
+  if (ext !== '.png' && ext !== '.webp') {
+    console.error(`--out must end in .png or .webp, got ${ext || 'no extension'}`);
+    process.exit(1);
+  }
   const png = ext === '.png' ? out : out.replace(/\.[^.]+$/, '.capture.png');
   await page.screenshot({ path: png });
   if (ext === '.webp') {

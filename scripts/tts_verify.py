@@ -22,7 +22,7 @@ Engines
   build from source). Model path from --model or WHISPER_MODEL, e.g. ~/models/ggml-small.bin.
 - pywhispercpp: the same engine through its Python binding (pip install pywhispercpp). --model takes a
   model name (small.en) or a path to a ggml-*.bin file.
-- elevenlabs: Scribe. Key from ELEVENLABS_API_KEY or .env.elevenlabs in the repository root.
+- elevenlabs: Scribe. Key from ELEVENLABS_API_KEY or .env.elevenlabs in your project folder.
 """
 from __future__ import annotations
 
@@ -52,7 +52,7 @@ def load_key() -> str:
     p = next((d / ".env.elevenlabs" for d in (CWD, ROOT) if (d / ".env.elevenlabs").exists()), ROOT / ".env.elevenlabs")
     if p.exists():
         return p.read_text(encoding="utf-8").strip()
-    sys.exit("No ElevenLabs key: set ELEVENLABS_API_KEY or create .env.elevenlabs")
+    sys.exit("No ElevenLabs key: set ELEVENLABS_API_KEY or put .env.elevenlabs in your project folder")
 
 
 def stt_elevenlabs(mp3: pathlib.Path, lang: str, model: str | None) -> str:
@@ -73,7 +73,7 @@ def stt_elevenlabs(mp3: pathlib.Path, lang: str, model: str | None) -> str:
 def stt_whisper(mp3: pathlib.Path, lang: str, model: str | None) -> str:
     exe = shutil.which("whisper-cli") or shutil.which("whisper-cpp") or shutil.which("main")
     if not exe:
-        sys.exit("whisper-cli not found: brew install whisper-cpp (or pass --stt elevenlabs)")
+        sys.exit("no transcription engine: run `stg setup` to install pywhispercpp, or brew install whisper-cpp, or pass --stt elevenlabs")
     model = model or os.environ.get("WHISPER_MODEL")
     if not model or not pathlib.Path(model).expanduser().exists():
         sys.exit("whisper model not found: pass --model <ggml-*.bin> or set WHISPER_MODEL")
@@ -90,12 +90,12 @@ def stt_pywhispercpp(mp3: pathlib.Path, lang: str, model: str | None) -> str:
     try:
         from pywhispercpp.model import Model  # type: ignore
     except ImportError:
-        sys.exit("pywhispercpp is not installed: pip install pywhispercpp (or use --stt whisper / elevenlabs)")
+        sys.exit("pywhispercpp is not installed: run `stg setup` (or pip install pywhispercpp, or use --stt whisper / elevenlabs)")
     model = model or os.environ.get("WHISPER_MODEL") or ("small.en" if lang == "en" else "small")
     with tempfile.TemporaryDirectory() as td:
         wav = pathlib.Path(td) / "a.wav"
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(mp3), "-ac", "1", "-ar", "16000", str(wav)], check=True)
-        m = Model(str(pathlib.Path(model).expanduser()) if pathlib.Path(model).expanduser().exists() else model, print_realtime=False, print_progress=False, redirect_whispercpp_logs_to=False)
+        m = Model(str(pathlib.Path(model).expanduser()) if pathlib.Path(model).expanduser().exists() else model, print_realtime=False, print_progress=False, redirect_whispercpp_logs_to=None)
         return " ".join(seg.text.strip() for seg in m.transcribe(str(wav), language=lang))
 
 

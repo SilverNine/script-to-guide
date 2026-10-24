@@ -26,6 +26,8 @@ The viewer's eye goes where the narration points. A dimmed screen keeps context 
 ## Usage
 
 ```tsx
+import { Spotlight } from 'script-to-guide';
+
 <Spotlight box={B.editor} from={cue('s2', 'code')} to={cue('s2', 'preview')} padding={0} radius={4} />
 ```
 

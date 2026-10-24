@@ -8,7 +8,7 @@
     {
       "name": "script-to-guide",
       "source": "./",
-      "description": "Script + screenshots in, a narrated product walkthrough out. Ships as 2 MB of HTML or as MP4."
+      "description": "Script + screenshots in, a narrated product walkthrough out. Ships as a small static web page or as MP4."
     }
   ]
 }

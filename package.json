@@ -1,8 +1,8 @@
 {
   "name": "script-to-guide",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
-  "description": "Script + screenshots in, a narrated product walkthrough out. Ships as HTML or MP4.",
+  "description": "Script + screenshots in, a narrated product walkthrough out. Ships as a static web page or MP4.",
   "license": "MIT",
   "type": "module",
   "scripts": {

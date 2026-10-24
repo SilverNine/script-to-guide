@@ -26,6 +26,8 @@ For overviews and summaries: "three things to try". Items are present but dim fr
 ## Usage
 
 ```tsx
+import { StepList } from 'script-to-guide';
+
 <StepList title="Three things to try" items={['Paste', 'Theme', 'Share']}
   at={[cue('s1', 'paste'), cue('s1', 'theme'), cue('s1', 'share')]} />
 ```

@@ -27,5 +27,5 @@ Go through this before showing the guide to anyone. Each item is a yes or a fix.
 ## Build
 
 - [ ] `stg check <name>` clean.
-- [ ] The build is near 2 MB; `build.limits` passes for the host it goes to.
+- [ ] The build is under about 2 MB; `build.limits` passes for the host it goes to.
 - [ ] If an MP4 ships: first and last second, and every screen change, scrubbed once.

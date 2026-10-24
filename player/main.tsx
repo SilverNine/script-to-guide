@@ -31,7 +31,8 @@ const q = new URLSearchParams(window.location.search);
 const STILL = q.has('still');
 const STILL_CC = STILL && q.has('cc');
 
-const STEPS = GUIDE.steps.map((s, i) => ({ ...s, end: i + 1 < GUIDE.steps.length ? GUIDE.steps[i + 1].at : DURATION }));
+const RAW_STEPS = GUIDE.steps.length ? GUIDE.steps : [{ id: 'all', label: GUIDE.title, at: 0 }];
+const STEPS = RAW_STEPS.map((s, i) => ({ ...s, end: i + 1 < RAW_STEPS.length ? RAW_STEPS[i + 1].at : DURATION }));
 const stepAt = (f: number) => {
   let i = 0;
   for (let k = 0; k < STEPS.length; k++) if (f >= STEPS[k].at) i = k;
@@ -250,7 +251,19 @@ const App: React.FC = () => {
     w.__SUBS__ = SENTENCES.map((x) => ({ text: x.words.map((y) => y.text).join(' '), f: x.f, t: x.t }));
     w.__seek = async (n: number) => {
       flushSync(() => setFrame(n));
-      await Promise.all(Array.from(document.images, (img) => (img.complete ? img.decode().catch(() => undefined) : new Promise((r) => img.addEventListener('load', r, { once: true })))));
+      // A missing image must not hang the render: settle on load, error or after 10 s, and report it.
+      const settle = (img: HTMLImageElement) =>
+        new Promise<void>((done) => {
+          if (img.complete) {
+            if (!img.naturalWidth) console.error(`[guide] image failed: ${img.src}`);
+            img.decode().catch(() => undefined).then(() => done());
+            return;
+          }
+          const t = setTimeout(() => (console.error(`[guide] image timed out: ${img.src}`), done()), 10000);
+          img.addEventListener('load', () => (clearTimeout(t), done()), { once: true });
+          img.addEventListener('error', () => (clearTimeout(t), console.error(`[guide] image failed: ${img.src}`), done()), { once: true });
+        });
+      await Promise.all(Array.from(document.images, settle));
       await new Promise((r) => requestAnimationFrame(() => r(undefined)));
     };
   }, []);

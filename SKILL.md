@@ -1,6 +1,6 @@
 ---
 name: script-to-guide
-description: Turn a written script and real app screenshots into a narrated product walkthrough. Output is a 2 MB HTML guide (embeddable, searchable, follow-along mode) or an MP4. Every highlight, zoom and cursor move is cued to a word of the synthesized narration, so editing the script re-times the screen. Use when the user wants a product guide, onboarding walkthrough, feature tutorial or help-center video for a web or desktop app.
+description: Turn a written script and real app screenshots into a narrated product walkthrough. Output is a small static web page (searchable transcript, follow-along mode, embeds with an iframe) or an MP4. Every highlight, zoom and cursor move is cued to a word of the synthesized narration, so editing the script re-times the screen. Use when the user wants a product guide, onboarding walkthrough, feature tutorial or help-center video for a web app, or for any app from screenshots.
 ---
 
 # script-to-guide

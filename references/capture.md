@@ -25,6 +25,19 @@ node <skill>/scripts/stg.mjs capture --url <url> --probe        # list visible c
 - `--wait <ms>` waits after load (default 1500).
 - `.webp` needs `cwebp`; `.png` needs nothing.
 
+## Bring your own screenshots
+
+When the app cannot run headless (a desktop app, a staging site behind SSO), take the screenshots yourself:
+
+1. Capture at 2x: a 1440x810 window gives a 2880x1620 image. Save it as `guides/<name>/public/screens/<shot>.png` (or `.webp`).
+2. Write `<shot>.boxes.json` beside it by hand. Coordinates are CSS pixels, half the image's pixels:
+
+```json
+{ "_size": [1440, 810], "save": [1210, 8, 64, 28], "editor": [0, 72, 719, 738] }
+```
+
+Each box is `[x, y, width, height]` from the top-left corner. Measure in any image viewer and divide by two.
+
 ## Drawn screens
 
 When a screen cannot be captured (an OS dialog, a third-party window), draw it with `<Dialog>` or a component, and say "drawn" in the script direction. Never draw a screen of the product itself.

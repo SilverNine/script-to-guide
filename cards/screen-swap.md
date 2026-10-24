@@ -25,6 +25,8 @@ Guides are made of states: menu closed, menu open, saved. Each is one capture; t
 ## Usage
 
 ```tsx
+import { Screen } from 'script-to-guide';
+
 <Screen shots={[
   { at: 0, src: asset('screens/editor.webp') },
   { at: cue('s3', 'opens'), src: asset('screens/theme-menu.webp') },

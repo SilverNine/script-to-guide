@@ -26,6 +26,8 @@ Names a control when its on-screen label is an icon, abbreviated, or in another 
 ## Usage
 
 ```tsx
+import { Callout } from 'script-to-guide';
+
 <Callout box={B.theme} text="Seven diagram themes" from={cue('s3', 'theme')} to={next} />
 ```
 

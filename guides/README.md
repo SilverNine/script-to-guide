@@ -66,8 +66,12 @@ step-by-step mode. Start a step at `scene(id).fromFrame` so it never opens mid-s
 import captions from './data/captions.json';
 import scenes from './data/scenes.json';
 import { createTimeline } from 'script-to-guide';
-export const { FPS, DURATION, scene, speechStart, speechEnd, cue } = createTimeline(scenes, captions);
+export const { FPS, DURATION, scene, speechStart, speechEnd, sceneStart, sceneEnd, cue } = createTimeline(scenes, captions);
 ```
+
+- `cue(scene, phrase, nth = 0)`: frame of the word that starts with `phrase` in that scene. Quotes and punctuation around words are ignored; `nth` is 0-based. It throws when the phrase is not there, so the guide fails to load: `stg frames` shows the error.
+- `sceneStart(id)`, `sceneEnd(id)`: first and last frame of a scene, including its silence from `gaps.json`.
+- `speechStart(id)`, `speechEnd(id)`: first and last spoken frame of a scene.
 
 ## Workflow
 

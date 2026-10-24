@@ -32,7 +32,7 @@ Every line under a scene heading is narration, except lines starting with `**(`,
 
 ## Cue words
 
-`cue(scene, phrase, nth = 1)` finds the first word of `phrase` in that scene's captions. Write narration so each motion has a distinct word to land on: "press **Link**", not "press it". A phrase that does not occur fails the type check at build time, never silently.
+`cue(scene, phrase, nth = 0)` finds the first word of `phrase` in that scene's captions. Quotes, brackets and punctuation around words are ignored, and `nth` is 0-based (1 is the second occurrence). Write narration so each motion has a distinct word to land on: "press **Link**", not "press it". A phrase that does not occur throws when the guide loads, never silently: `stg frames` shows the error, and so does the browser console.
 
 ## What the agent may not invent
 

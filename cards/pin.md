@@ -26,7 +26,9 @@ Pins tie the screen to the step list. When step 2 in the panel says "Pick a them
 ## Usage
 
 ```tsx
-<Pin at={[x, y]} n={2} from={cue('s3', 'theme')} to={sceneEnd} />
+import { Pin } from 'script-to-guide';
+
+<Pin at={[x, y]} n={2} from={cue('s3', 'theme')} to={sceneEnd('s3')} />
 ```
 
 ## Parameters

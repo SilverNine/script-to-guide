@@ -26,6 +26,8 @@ On a phone a 1440 px screen is tiny. A slow push-in on the area being worked on 
 ## Usage
 
 ```tsx
+import { Screen } from 'script-to-guide';
+
 <Screen src={…} size={B._size} camera={[
   { at: cue('s5', 'toolbar'), box: B.toolbar },
   { at: cue('s5', 'back') },

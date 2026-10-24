@@ -30,7 +30,8 @@ usage: node ${path.join(ROOT, 'scripts', 'stg.mjs')} <command> [args]
 <guide> is a name under ./guides or a folder path.`;
 
 const [cmd, ...rest] = process.argv.slice(2);
-const env = { ...process.env, STG_CWD: CWD };
+// no __pycache__ inside the skill folder
+const env = { ...process.env, STG_CWD: CWD, PYTHONDONTWRITEBYTECODE: '1' };
 const run = (bin, argv, opts = {}) => {
   const r = spawnSync(bin, argv, { stdio: 'inherit', cwd: CWD, env, ...opts });
   if (r.error) {
@@ -45,6 +46,14 @@ const has = (bin, arg = '-version') => spawnSync(bin, [arg], { stdio: 'ignore' }
 const die = (msg) => {
   console.error(msg);
   process.exit(1);
+};
+const chromiumReady = async () => {
+  try {
+    const { chromium } = await import(path.join(ROOT, 'node_modules', 'playwright', 'index.mjs'));
+    return existsSync(chromium.executablePath());
+  } catch {
+    return false;
+  }
 };
 const needSetup = () => {
   if (!existsSync(path.join(ROOT, 'node_modules', 'esbuild'))) {
@@ -72,10 +81,11 @@ switch (cmd) {
   case 'doctor': {
     const rows = [
       ['node 18+', Number(process.versions.node.split('.')[0]) >= 18],
-      ['python3', has('python3', '--version')],
+      ['python 3.10+', spawnSync('python3', ['-c', 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)'], { stdio: 'ignore' }).status === 0],
       ['ffmpeg', has('ffmpeg')],
       ['cwebp (optional)', has('cwebp')],
       ['engine node_modules', existsSync(path.join(ROOT, 'node_modules', 'esbuild'))],
+      ['Chromium for Playwright', await chromiumReady()],
       ['engine .venv', existsSync(path.join(ROOT, '.venv', 'bin', 'python'))],
       ['pywhispercpp (optional, for verify)', spawnSync(python(), ['-c', 'import pywhispercpp'], { stdio: 'ignore' }).status === 0],
     ];
@@ -116,6 +126,7 @@ switch (cmd) {
   case 'synth':
   case 'verify': {
     if (!rest[0]) die(`usage: stg ${cmd} <guide> [args]`);
+    if (!existsSync(path.join(ROOT, '.venv', 'bin', 'python'))) die(`the Python environment is not installed: node ${path.join(ROOT, 'scripts', 'stg.mjs')} setup`);
     process.exit(run(python(), [path.join(ROOT, 'scripts', cmd === 'synth' ? 'tts_synth.py' : 'tts_verify.py'), ...rest]));
   }
   case 'check': {

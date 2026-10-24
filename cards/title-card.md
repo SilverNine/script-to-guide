@@ -24,6 +24,8 @@ Says what the guide is and how long it takes. The player shows the `poster` fram
 ## Usage
 
 ```tsx
+import { TitleCard } from 'script-to-guide';
+
 <TitleCard kicker="Product guide" title="Your first diagram" subtitle="Two minutes" />
 ```
 

@@ -26,10 +26,12 @@ Shows that something is done, not just where it is. The click ripple marks the m
 ## Usage
 
 ```tsx
+import { Cursor } from 'script-to-guide';
+
 <Cursor keys={[
   { at: cue('s4', 'PNG') - 10, p: mid(B.png) },
   { at: cue('s4', 'PNG') + 8, p: mid(B.png), click: true },
-  { at: sceneEnd },
+  { at: sceneEnd('s4') },
 ]} />
 ```
 
@@ -38,7 +40,7 @@ Shows that something is done, not just where it is. The click ripple marks the m
 | Prop | Meaning | Default |
 |---|---|---|
 | `keys[].at` | Guide frame by which the pointer has arrived. Travel takes the 16 frames before | required |
-| `keys[].p` | Point in screenshot pixels. Omit to hide the pointer | required |
+| `keys[].p` | Point in screenshot pixels. Omit to hide the pointer from this key on | optional |
 | `keys[].click` | Press and ripple at this key | false |
 
 ## Known pitfalls

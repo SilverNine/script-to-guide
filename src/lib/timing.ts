@@ -32,12 +32,20 @@ export interface Timeline {
   speechStart: (id: string) => number;
   /** Frame where the scene's narration ends */
   speechEnd: (id: string) => number;
+  /** First frame of the scene, including the silence before its first word */
+  sceneStart: (id: string) => number;
+  /** Last frame of the scene, including its trailing silence from gaps.json */
+  sceneEnd: (id: string) => number;
   /**
-   * Frame of the word that starts with `phrase` inside scene `id`.
-   * Several words separated by spaces must appear in sequence. `nth` picks a repeat.
+   * Frame of the word that starts with `phrase` inside scene `id`. Quotes, brackets and punctuation
+   * around words are ignored. Several words separated by spaces must appear in sequence.
+   * `nth` is 0-based: 0 is the first occurrence, 1 the second. Throws when the phrase is not there.
    */
   cue: (id: string, phrase: string, nth?: number) => number;
 }
+
+/** A word without the quotes, brackets and punctuation around it */
+const bare = (s: string) => s.trim().replace(/^[\p{P}\p{S}]+|[\p{P}\p{S}]+$/gu, '');
 
 interface Word {
   text: string;
@@ -59,12 +67,12 @@ export const createTimeline = (scenesJson: ScenesJson, captionsJson: RawCaptions
   const speechStart = (id: string) => Math.round((scene(id).speechFromMs / 1000) * FPS);
 
   const WORDS: Word[] = captionsJson.transcription
-    .map((w) => ({ text: w.text.trim().replace(/[.,!?]$/, ''), ms: w.offsets.from }))
+    .map((w) => ({ text: bare(w.text), ms: w.offsets.from }))
     .filter((w) => w.text.length > 0);
 
   const cue = (id: string, phrase: string, nth = 0): number => {
     const s = scene(id);
-    const toks = phrase.split(/\s+/);
+    const toks = phrase.split(/\s+/).map(bare).filter(Boolean);
     let seen = 0;
     for (let i = 0; i < WORDS.length; i++) {
       const w = WORDS[i];
@@ -77,5 +85,8 @@ export const createTimeline = (scenesJson: ScenesJson, captionsJson: RawCaptions
     throw new Error(`Cue not found: scene ${id}, "${phrase}" #${nth}`);
   };
 
-  return { FPS, DURATION, SCENES, scene, speechStart, speechEnd, cue };
+  const sceneStart = (id: string) => scene(id).fromFrame;
+  const sceneEnd = (id: string) => scene(id).toFrame;
+
+  return { FPS, DURATION, SCENES, scene, speechStart, speechEnd, sceneStart, sceneEnd, cue };
 };

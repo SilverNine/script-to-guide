@@ -25,6 +25,8 @@ In guides longer than about two minutes, viewers lose track. A two-second card w
 ## Usage
 
 ```tsx
+import { ChapterCard } from 'script-to-guide';
+
 <ChapterCard n={2} title="Pick a theme" all={['Write', 'Pick a theme', 'Export', 'Share']} />
 ```
 

@@ -37,17 +37,26 @@ if (!NAME) {
   console.error('usage: node scripts/render-mp4.mjs --guide <name> [--out <file.mp4>] [--workers 4] [--captions srt|burn|none] [--crf 18] [--from <frame>] [--to <frame>]');
   process.exit(1);
 }
-const WORKERS = Math.max(1, Number(opt('--workers', String(Math.min(4, Math.max(1, os.cpus().length - 2))))));
+const num = (name, def) => {
+  const v = opt(name, def);
+  const n = Number(v);
+  if (v === undefined || !Number.isFinite(n) || n < 0) {
+    console.error(`${name} needs a number, got ${v}`);
+    process.exit(1);
+  }
+  return n;
+};
+const WORKERS = Math.max(1, Math.floor(num('--workers', String(Math.min(4, Math.max(1, os.cpus().length - 2))))));
 const CAPTIONS = opt('--captions', 'srt');
 if (!['srt', 'burn', 'none'].includes(CAPTIONS)) {
   console.error('--captions must be srt, burn or none');
   process.exit(1);
 }
-const CRF = opt('--crf', '18');
+const CRF = String(num('--crf', '18'));
 const dist = path.join(outPath(opt('--dist', 'dist')), NAME);
 const OUT = outPath(opt('--out', path.join('dist', `${NAME}.mp4`)));
 if (!existsSync(path.join(dist, 'index.html'))) {
-  console.error(`not built: ${dist} (run node scripts/build-web.mjs --guide ${NAME} first)`);
+  console.error(`not built: ${dist} (run: stg build ${GUIDE_ARG})`);
   process.exit(1);
 }
 if (spawnSync('ffmpeg', ['-version']).status !== 0) {
@@ -59,9 +68,14 @@ if (spawnSync('ffmpeg', ['-version']).status !== 0) {
 
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2' };
 const server = createServer((req, res) => {
-  const rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/^\/+/, '') || 'index.html';
+  let rel;
+  try {
+    rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/^\/+/, '') || 'index.html';
+  } catch {
+    rel = '';
+  }
   const p = path.join(dist, rel);
-  if (!p.startsWith(dist) || !existsSync(p) || statSync(p).isDirectory()) {
+  if (!rel || !p.startsWith(dist + path.sep) || !existsSync(p) || statSync(p).isDirectory()) {
     res.writeHead(404);
     res.end();
     return;
@@ -86,8 +100,8 @@ const SUBS = await probe.evaluate(() => window.__SUBS__);
 await probe.close();
 
 const FPS = META.fps;
-const FROM = Math.max(0, Number(opt('--from', '0')));
-const TO = Math.min(META.durationInFrames, Number(opt('--to', String(META.durationInFrames))));
+const FROM = Math.floor(num('--from', '0'));
+const TO = Math.min(META.durationInFrames, Math.floor(num('--to', String(META.durationInFrames))));
 if (!(TO > FROM)) {
   console.error(`empty range: ${FROM}..${TO}`);
   process.exit(1);
@@ -116,27 +130,50 @@ const tick = () => {
 
 const encode = (file) => {
   const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', CRF, '-pix_fmt', 'yuv420p', '-r', String(FPS), file], { stdio: ['pipe', 'inherit', 'inherit'] });
-  const closed = new Promise((res, rej) => ff.on('close', (c) => (c === 0 ? res() : rej(new Error(`ffmpeg exited ${c} for ${path.basename(file)}`)))));
-  const write = (buf) => (ff.stdin.write(buf) ? Promise.resolve() : new Promise((r) => ff.stdin.once('drain', r)));
-  return { write, end: () => (ff.stdin.end(), closed) };
+  const closed = new Promise((res, rej) => {
+    ff.on('error', rej);
+    ff.on('close', (c) => (c === 0 ? res() : rej(new Error(`ffmpeg exited ${c} for ${path.basename(file)}`))));
+  });
+  closed.catch(() => undefined); // awaited below; this only keeps an early failure from being unhandled
+  ff.stdin.on('error', () => undefined); // EPIPE when ffmpeg dies; reported through `closed`
+  const write = (buf) => (ff.stdin.write(buf) ? Promise.resolve() : Promise.race([new Promise((r) => ff.stdin.once('drain', r)), closed]));
+  return { write, end: () => (ff.stdin.end(), closed), kill: () => ff.kill('SIGKILL') };
 };
 
 console.log(`rendering ${NAME}: frames ${FROM}..${TO - 1} at ${FPS} fps, ${chunks.length} worker(s)`);
-const segments = await Promise.all(
-  chunks.map(async ([a, b], i) => {
-    const file = path.join(tmp, `seg${i}.mp4`);
-    const page = await open(a);
-    const enc = encode(file);
-    for (let f = a; f < b; f++) {
-      await page.evaluate((n) => window.__seek(n), f);
-      await enc.write(await page.screenshot({ type: 'jpeg', quality: 95 }));
-      tick();
-    }
-    await page.close();
-    await enc.end();
-    return file;
-  }),
-);
+const encoders = [];
+const seek = (page, f) =>
+  Promise.race([
+    page.evaluate((n) => window.__seek(n), f),
+    new Promise((_, rej) => setTimeout(() => rej(new Error(`frame ${f} did not paint within 30 s`)), 30000)),
+  ]);
+let segments;
+try {
+  segments = await Promise.all(
+    chunks.map(async ([a, b], i) => {
+      const file = path.join(tmp, `seg${i}.mp4`);
+      const page = await open(a);
+      page.on('console', (m) => m.type() === 'error' && m.text().startsWith('[guide]') && console.error(`  ${m.text()}`));
+      const enc = encode(file);
+      encoders.push(enc);
+      for (let f = a; f < b; f++) {
+        await seek(page, f);
+        await enc.write(await page.screenshot({ type: 'jpeg', quality: 95 }));
+        tick();
+      }
+      await page.close();
+      await enc.end();
+      return file;
+    }),
+  );
+} catch (err) {
+  console.error(`render failed: ${err.message}`);
+  for (const e of encoders) e.kill();
+  await browser.close().catch(() => undefined);
+  server.close();
+  rmSync(tmp, { recursive: true, force: true });
+  process.exit(1);
+}
 await browser.close();
 server.close();
 

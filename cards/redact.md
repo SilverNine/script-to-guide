@@ -25,6 +25,8 @@ The rule is demo data only. Redact is the second line: for the account name in a
 ## Usage
 
 ```tsx
+import { Redact } from 'script-to-guide';
+
 <Redact box={B.accountName} mode="blur" />
 ```
 

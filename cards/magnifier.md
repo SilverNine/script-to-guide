@@ -26,6 +26,8 @@ Toolbar buttons and settings are often 30 px tall on a 1440 px screen, unreadabl
 ## Usage
 
 ```tsx
+import { Magnifier } from 'script-to-guide';
+
 <Magnifier box={pad(B.export, 6)} from={cue('s4', 'export')} to={next} zoom={3} label="Export as SVG or PNG" />
 ```
 

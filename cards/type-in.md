@@ -26,6 +26,8 @@ Shows what to enter without recording the screen. The field is drawn over the ca
 ## Usage
 
 ```tsx
+import { TypeIn } from 'script-to-guide';
+
 <TypeIn box={B.search} text="sequence diagram" from={cue('s2', 'type')} cps={14} />
 ```
 
@@ -35,6 +37,8 @@ Shows what to enter without recording the screen. The field is drawn over the ca
 |---|---|---|
 | `box` | The input's box | required |
 | `text` | What is typed | required |
+| `from` | Guide frame where typing starts | required |
+| `to` | Guide frame where the field disappears | stays to the end |
 | `cps` | Characters per second | 14 |
 | `tone` | light or dark, to match the field | light |
 | `secret` | Draw dots instead of characters | false |

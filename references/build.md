@@ -10,8 +10,8 @@ node <skill>/scripts/stg.mjs build <name> [--out <folder>] [--zip]
 
 - Output: `./dist/<name>/` of the current directory (or `<out>/<name>/`) with `index.html`, `app.js`, the captures and the narration. Open `index.html` from any static host.
 - `guide.json` `build` decides what is copied: `copy` (captures), `audio` (re-encoded by ffmpeg at `bitrate`), `captions`, `chars` (folders whose text sets the font subset).
-- `build.limits` (`zipMB`, `fileMB`, `files`) fails the build when it would break a host's upload limits. Keep the guide near 2 MB.
-- `--zip` also writes `<name>.zip` for upload to a help center or LMS.
+- `build.limits` (`zipMB`, `fileMB`, `files`) fails the build when it would break a host's upload limits. Aim for under about 2 MB.
+- `--zip` also writes `<name>.zip` for upload to a help center or LMS. It needs the `zip` command.
 
 ## MP4
 

@@ -25,6 +25,8 @@ Operating system prompts, permission sheets and browser dialogs often cannot be 
 ## Usage
 
 ```tsx
+import { Dialog } from 'script-to-guide';
+
 <Dialog title="Allow clipboard access?" primary="Allow" secondary="Not now"
   from={cue('s2', 'asks')} pressAt={cue('s2', 'allow')} backdrop={<Screen … />} />
 ```

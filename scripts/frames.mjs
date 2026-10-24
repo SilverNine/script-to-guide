@@ -38,16 +38,21 @@ if (!NAME) {
 const dist = path.join(outPath(opt('--dist', 'dist')), NAME);
 const out = outPath(opt('--out', path.join('dist', 'frames')));
 if (!existsSync(path.join(dist, 'index.html'))) {
-  console.error(`not built: ${dist} (run scripts/build-web.mjs --guide ${NAME} first)`);
+  console.error(`not built: ${dist} (run: stg build ${GUIDE_ARG})`);
   process.exit(1);
 }
 mkdirSync(out, { recursive: true });
 
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2' };
 const server = createServer((req, res) => {
-  const rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/^\/+/, '') || 'index.html';
+  let rel;
+  try {
+    rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/^\/+/, '') || 'index.html';
+  } catch {
+    rel = '';
+  }
   const p = path.join(dist, rel);
-  if (!p.startsWith(dist) || !existsSync(p) || statSync(p).isDirectory()) {
+  if (!rel || !p.startsWith(dist + path.sep) || !existsSync(p) || statSync(p).isDirectory()) {
     res.writeHead(404);
     res.end();
     return;

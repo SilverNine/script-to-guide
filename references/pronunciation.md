@@ -21,7 +21,7 @@ The guide's file wins on a conflict.
 
 ## Rules
 
-- Keys match whole words as they appear in the script, punctuation aside. Put the longer key first when one contains another (`mermandraw.com` before `MermanDraw`).
+- Keys match whole words as they appear in the script, punctuation aside. Longer keys are applied first, so `mermandraw.com` wins over `MermanDraw`.
 - Values are what the voice should say. Spell it phonetically if needed ("Kubernetes" → "Koo ber net ees").
 - `_wrong` maps a spoken form to strings that mean the voice got it wrong. `stg verify` counts each one in the transcript and reports it.
 - Fix pronunciation here, never by changing the narration. The captions must show what the screen shows.
