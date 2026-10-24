@@ -76,4 +76,5 @@ python3 scripts/tts_synth.py <name>            # narration.mp3, data/captions.js
 python3 scripts/tts_verify.py <name>           # transcribe and compare with the script
 node scripts/build-web.mjs --guide <name>      # dist/<name>/index.html
 node scripts/frames.mjs --guide <name> --at 0,300,900   # review stills
+node scripts/render-mp4.mjs --guide <name>     # dist/<name>.mp4 + .srt (optional)
 ```

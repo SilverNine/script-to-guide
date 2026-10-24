@@ -9,7 +9,8 @@
     "build": "node scripts/build-web.mjs",
     "frames": "node scripts/frames.mjs",
     "typecheck": "tsc --noEmit",
-    "gallery": "node scripts/build-gallery.mjs"
+    "gallery": "node scripts/build-gallery.mjs",
+    "mp4": "node scripts/render-mp4.mjs"
   },
   "dependencies": {
     "react": "18.3.1",

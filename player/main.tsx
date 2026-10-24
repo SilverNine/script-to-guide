@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import GUIDE from '@guide';
 import { FrameProvider, type VideoConfig } from 'guide-runtime';
@@ -16,7 +17,9 @@ import { parseCaptions } from '../src/lib/captions';
  * Step by step (follow-along): playback stops at the end of each step so the viewer can do it in
  * their own app, then continues on request. The choice is remembered per browser.
  *
- * URL options: `?ch=<step id>` start at a step · `?f=<frame>` hold that frame · `?still` stage only (frame checks)
+ * URL options: `?ch=<step id>` start at a step · `?f=<frame>` hold that frame · `?still` stage only (frame checks, MP4 render)
+ *   · `?still&cc` stage only with captions burned in
+ * Render hook (`?still` only): `window.__seek(frame)` resolves once that frame is painted with its images decoded.
  * Keys: space/k play · ←/→ 5 s · n/p next/previous step · s step by step · c captions · f full screen · < > speed
  */
 const { Scene, asset, fps: FPS, durationInFrames: DURATION, poster: POSTER } = GUIDE;
@@ -26,6 +29,7 @@ const CONFIG: VideoConfig = { fps: FPS, width: W, height: H, durationInFrames: D
 
 const q = new URLSearchParams(window.location.search);
 const STILL = q.has('still');
+const STILL_CC = STILL && q.has('cc');
 
 const STEPS = GUIDE.steps.map((s, i) => ({ ...s, end: i + 1 < GUIDE.steps.length ? GUIDE.steps[i + 1].at : DURATION }));
 const stepAt = (f: number) => {
@@ -239,6 +243,18 @@ const App: React.FC = () => {
     return () => a?.pause();
   }, []);
 
+  useEffect(() => {
+    if (!STILL) return;
+    const w = window as unknown as Record<string, unknown>;
+    w.__META__ = { fps: FPS, durationInFrames: DURATION, audio: GUIDE.audio ?? null, lang: document.documentElement.lang };
+    w.__SUBS__ = SENTENCES.map((x) => ({ text: x.words.map((y) => y.text).join(' '), f: x.f, t: x.t }));
+    w.__seek = async (n: number) => {
+      flushSync(() => setFrame(n));
+      await Promise.all(Array.from(document.images, (img) => (img.complete ? img.decode().catch(() => undefined) : new Promise((r) => img.addEventListener('load', r, { once: true })))));
+      await new Promise((r) => requestAnimationFrame(() => r(undefined)));
+    };
+  }, []);
+
   useLayoutEffect(() => {
     const el = screenRef.current;
     if (!el) return;
@@ -422,8 +438,13 @@ const App: React.FC = () => {
 
   if (STILL) {
     return (
-      <div ref={screenRef} style={{ position: 'fixed', inset: 0, background: GUIDE.stage }}>
+      <div ref={screenRef} className="still" style={{ position: 'fixed', inset: 0, background: GUIDE.stage }}>
         {stageView}
+        {STILL_CC && active && (
+          <div className="cap">
+            <span>{active.words.map((w) => w.text).join(' ')}</span>
+          </div>
+        )}
       </div>
     );
   }

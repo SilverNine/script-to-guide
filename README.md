@@ -76,7 +76,7 @@ Runtime dependencies will be Node 18+, Python 3.11+, ffmpeg, and a Chromium that
 2. ~~**Player redesign.**~~ Done. Side panel with the live transcript and step list, segmented progress, step-by-step mode, captions overlay, light theme with system dark mode, copy buttons.
 3. ~~**Cards and gallery.**~~ First 13 cards done, each with a live preview. More cards as real guides need them.
 4. ~~**Sample guide.**~~ Done. "Your first diagram in MermanDraw", 1:28, built end to end with the skill. Narration checked by whisper.cpp: no mispronunciations, 0.993 similarity to the script.
-5. **MP4 export.** Frame-stepped render through Playwright, muxed with the narration by ffmpeg.
+5. ~~**MP4 export.**~~ Done. `scripts/render-mp4.mjs` steps the player frame by frame in headless Chromium, encodes in parallel, and lays the narration under it. Captions as an `.srt` file or burned in. The sample renders in about 40 seconds on a laptop.
 6. **First release.** Plugin manifest, Codex manifest, README in English and Korean.
 
 ## Related projects
