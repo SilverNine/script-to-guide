@@ -1,0 +1,4 @@
+{
+  "_comment": "On-screen spelling → spoken spelling, applied per word before synthesis. Captions keep the on-screen form. Guides add their own guides/<name>/pronunciation.json on top. `_wrong` lists transcript strings that mean a spoken form was misread; tts_verify.py reports them.",
+  "_wrong": {}
+}

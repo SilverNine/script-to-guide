@@ -1,0 +1,5 @@
+# Python tools for scripts/. Node dependencies are in package.json.
+# edge-tts follows a Microsoft endpoint; older versions stop with HTTP 403. 7.2.8 failed on 2026-10-24, 7.3.1 works.
+edge-tts>=7.3.1
+fonttools[woff]>=4.50
+brotli>=1.1

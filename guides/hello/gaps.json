@@ -1,0 +1,5 @@
+{
+  "_comment": "seconds of silence appended after each scene's narration",
+  "intro": 0.6,
+  "cue": 1.5
+}

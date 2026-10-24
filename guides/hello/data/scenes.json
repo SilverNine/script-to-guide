@@ -1,0 +1,22 @@
+{
+  "fps": 30,
+  "durationInFrames": 458,
+  "scenes": [
+    {
+      "scene": "intro",
+      "fromFrame": 0,
+      "toFrame": 210,
+      "speechFromMs": 100,
+      "speechToMs": 5487,
+      "gapSec": 0.6
+    },
+    {
+      "scene": "cue",
+      "fromFrame": 210,
+      "toFrame": 458,
+      "speechFromMs": 7084,
+      "speechToMs": 12884,
+      "gapSec": 1.5
+    }
+  ]
+}
