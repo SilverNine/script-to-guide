@@ -10,7 +10,7 @@ node scripts/build-web.mjs --guide <name> [--out <folder>] [--zip]
 
 - Output: `<out>/<name>/` with `index.html`, `app.js`, the captures and the narration. Open `index.html` from any static host.
 - `guide.json` `build` decides what is copied: `copy` (captures), `audio` (re-encoded by ffmpeg at `bitrate`), `captions`, `chars` (folders whose text sets the font subset).
-- `build.limits` fails the build when a file type grows past its budget. Keep the guide near 2 MB.
+- `build.limits` (`zipMB`, `fileMB`, `files`) fails the build when it would break a host's upload limits. Keep the guide near 2 MB.
 - `--zip` also writes `<name>.zip` for upload to a help center or LMS.
 
 ## MP4
