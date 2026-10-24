@@ -60,7 +60,7 @@ ln -s ~/.script-to-guide ~/.claude/skills/script-to-guide
 
 Then ask your agent for a guide ("make a 2 minute guide for our signup flow"). On first use it runs `setup`, which installs the engine's Node packages, Playwright's Chromium (about 150 MB) and a Python venv inside the skill folder. The first narration check downloads a whisper model (about 470 MB).
 
-You need macOS or Linux, Node 18+, Python 3.10+ (on Debian or Ubuntu also `python3-venv`) and ffmpeg. Windows is untested; WSL should work.
+You need macOS or Linux, Node 18+, Python 3.10+ (on Debian or Ubuntu also `python3-venv`) and ffmpeg. Windows is untested.
 
 The skill folder is the engine only. Your guides live in your project under `guides/<name>/` and builds go to `dist/`, so updating the skill never touches your work. Add these to your project's `.gitignore`:
 
