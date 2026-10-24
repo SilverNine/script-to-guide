@@ -221,8 +221,8 @@ if (big.length || (lim.files && files.length > lim.files)) {
 const mb = (n) => (n / 1048576).toFixed(2) + 'MB';
 const sum = (re) => files.filter((f) => re.test(f.p)).reduce((a, f) => a + f.size, 0);
 console.log(
-  `[${NAME}] ${files.length} files · js ${mb(sum(/\.js$/))} · images ${mb(sum(/\.(webp|png|jpe?g|gif|svg)$/i))} · audio ${mb(sum(/\.(mp3|m4a)$/))}` +
-    (font.source ? ` · font ${mb(sum(/\.woff2$/))} (${charCount} chars)` : ' · system font'),
+  `[${NAME}] ${files.length} files, js ${mb(sum(/\.js$/))}, images ${mb(sum(/\.(webp|png|jpe?g|gif|svg)$/i))}, audio ${mb(sum(/\.(mp3|m4a)$/))}` +
+    (font.source ? `, font ${mb(sum(/\.woff2$/))} (${charCount} chars)` : ', system font'),
 );
 console.log(`→ ${dir}`);
 if (ZIP) {

@@ -6,7 +6,7 @@
 
 ![샘플 가이드. 내레이션이 "Theme"라고 말할 때 커서가 테마 메뉴를 열고, "seven themes"에서 메뉴가 강조되고, "Neon"에서 미리보기가 네온으로 바뀝니다](docs/demo.gif)
 
-**[샘플 가이드를 소리와 함께 재생](https://silvernine.github.io/script-to-guide/first-diagram/)** (1분 27초, 영어). [mermandraw.com](https://mermandraw.com)에서 코드 작성, 테마 선택, 내보내기, 링크 공유를 안내합니다. 만든 재료는 전부 [`guides/first-diagram`](guides/first-diagram)에 있습니다. 대본 197단어, 캡처 4장, 장면 파일 하나이고 모든 강조는 `cue(장면, 단어)`로 걸었습니다.
+**[한국어 샘플 가이드를 소리와 함께 재생](https://silvernine.github.io/script-to-guide/first-diagram-ko/)** (1분 52초, 한국어). 같은 흐름의 [영어 샘플](https://silvernine.github.io/script-to-guide/first-diagram/)(1분 27초)도 있습니다. [mermandraw.com](https://mermandraw.com)에서 코드 작성, 테마 선택, 내보내기, 링크 공유를 안내합니다. 만든 재료는 전부 [`guides/first-diagram-ko`](guides/first-diagram-ko)와 [`guides/first-diagram`](guides/first-diagram)에 있습니다. 대본, 캡처 4장, 장면 파일 하나이고 모든 강조는 `cue(장면, 단어)`로 걸었습니다.
 
 모든 동작은 [갤러리](https://silvernine.github.io/script-to-guide/gallery/)에서 움직이는 모습으로 볼 수 있습니다.
 

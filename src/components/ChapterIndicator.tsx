@@ -8,7 +8,7 @@ export interface ChapterIndicatorProps {
   partTitle: string;
 }
 
-/** A small "PART n / N · title" pill in the top-left corner. */
+/** A small "PART n / N   title" pill in the top-left corner. */
 export const ChapterIndicator: React.FC<ChapterIndicatorProps> = ({ partNumber, totalParts, partTitle }) => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 12], [0, 1], { extrapolateRight: 'clamp' });
@@ -36,7 +36,7 @@ export const ChapterIndicator: React.FC<ChapterIndicatorProps> = ({ partNumber, 
         }}
       >
         <span>{`PART ${partNumber} / ${totalParts}`}</span>
-        <span style={{ opacity: 0.5 }}>·</span>
+        <span style={{ width: 1, height: '1em', background: 'currentColor', opacity: 0.4 }} />
         <span>{partTitle}</span>
       </div>
     </AbsoluteFill>

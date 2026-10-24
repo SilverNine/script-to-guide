@@ -6,7 +6,7 @@ A [Claude Code](https://claude.com/claude-code) / [Codex](https://openai.com/cod
 
 ![The sample guide: the cursor opens the Theme menu as the narration says "Theme", the menu lights up on "seven themes", and the preview turns neon on "Neon"](docs/demo.gif)
 
-**[Play the sample guide with sound](https://silvernine.github.io/script-to-guide/first-diagram/)** (1:27, English). It walks through [mermandraw.com](https://mermandraw.com): write the code, pick a theme, export, send a link. Everything that made it is in [`guides/first-diagram`](guides/first-diagram): a 197-word script, four captures, and one scene file where every highlight is `cue(scene, word)`. Nothing was placed on a timeline by hand.
+**[Play the sample guide with sound](https://silvernine.github.io/script-to-guide/first-diagram/)** (1:27, English). It walks through [mermandraw.com](https://mermandraw.com): write the code, pick a theme, export, send a link. Everything that made it is in [`guides/first-diagram`](guides/first-diagram): a 197-word script, four captures, and one scene file where every highlight is `cue(scene, word)`. Nothing was placed on a timeline by hand. The same guide in Korean, with a Korean diagram and voice: **[Korean sample](https://silvernine.github.io/script-to-guide/first-diagram-ko/)** (1:52, [`guides/first-diagram-ko`](guides/first-diagram-ko)).
 
 [![The player: stage on the left, the live transcript and steps on the right](docs/first-diagram.png)](https://silvernine.github.io/script-to-guide/first-diagram/)
 
@@ -106,6 +106,7 @@ stg mp4 signup                # dist/signup.mp4 + .srt
 | `player/` | The player: a single-page React app bundled into one `app.js`. The clock is the audio position, so picture and sound cannot drift. Keyboard shortcuts, captions, follow-along mode, light and dark themes |
 | `scripts/` | `stg.mjs`, the one entry point: setup, new guide, capture, TTS with word timestamps, transcription check, web build, MP4 render |
 | `guides/first-diagram/` | One complete sample guide for a public app: script, pronunciation dictionary, captures with element boxes, scenes |
+| `guides/first-diagram-ko/` | The same guide in Korean: Korean script with English UI names, a Korean pronunciation dictionary, Korean-diagram captures |
 
 ## Voices
 

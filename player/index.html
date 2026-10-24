@@ -49,9 +49,12 @@
   .cap { position:absolute; left:0; right:0; bottom:5%; display:flex; justify-content:center; padding:0 6%; pointer-events:none; }
   .cap span { background:rgba(8,10,16,.78); color:#fff; padding:.35em .7em; border-radius:8px; font-size:clamp(13px,2.1vw,24px); font-weight:600; line-height:1.35; text-align:center; }
   .still .cap span { font-size:38px; max-width:1500px; }
-  .cover { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.45)); }
-  .big { width:clamp(56px,11vw,96px); height:clamp(56px,11vw,96px); border-radius:50%; border:0; background:var(--brand); color:#fff; display:flex; align-items:center; justify-content:center; padding-left:4px; cursor:pointer; box-shadow:0 10px 36px rgba(0,0,0,.35); }
-  .cover-meta { color:#fff; font-size:14px; font-weight:600; text-shadow:0 1px 6px rgba(0,0,0,.6); }
+    /* poster: the play button sits in the bottom band so it never covers a title card's text */
+  .screen { container-type:inline-size; }
+  .cover { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:1.2cqw; padding-bottom:4.5cqw; background:linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.5)); }
+  .big { width:clamp(40px,7.5cqw,96px); height:clamp(40px,7.5cqw,96px); border-radius:50%; border:0; background:var(--brand); color:#fff; display:flex; align-items:center; justify-content:center; padding-left:4px; cursor:pointer; box-shadow:0 10px 36px rgba(0,0,0,.35); }
+  .big svg { width:46%; height:46%; }
+  .cover-meta { display:flex; gap:1.2em; color:#fff; font-size:clamp(11px,1.35cqw,16px); font-weight:600; text-shadow:0 1px 6px rgba(0,0,0,.6); }
   .wait { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(6,9,16,.55); backdrop-filter:blur(2px); cursor:default; }
   .wait-card { background:var(--surface); color:var(--fg); border-radius:14px; padding:22px 24px; max-width:min(440px, 86%); box-shadow:0 20px 60px rgba(0,0,0,.4); }
   .wait-kicker { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--brand); }
@@ -107,7 +110,7 @@
   .copy button:hover { background:var(--brand-soft); color:var(--brand); }
 
   .note { color:var(--dim); font-size:13px; margin:18px 2px 0; line-height:1.6; }
-  .keys { color:var(--faint); font-size:12px; margin:8px 2px 0; }
+  .keys { display:flex; flex-wrap:wrap; gap:4px 16px; color:var(--faint); font-size:12px; margin:8px 2px 0; }
   kbd { font-family:var(--font-code); font-size:11px; border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; padding:0 4px; background:var(--surface); color:var(--dim); }
 </style>
 </head>

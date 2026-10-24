@@ -22,6 +22,8 @@ const preview: Box = [720, 44, 720, 766];
 const line2 = W.line2;
 const labelInLine2: Box = [104, 105, 156, 21];
 const decision: Box = [1046, 500, 144, 148];
+/** The six code lines, for the magnifier: the code pane is too small to read in a 1080p recording. The lens sits above the caption band */
+const codeLines: Box = [36, 78, 372, 140];
 const exportBox: Box = [W.svg[0], W.svg[1], W.png[0] + W.png[2] - W.svg[0], W.svg[3]];
 
 const App: React.FC = () => {
@@ -62,6 +64,7 @@ const App: React.FC = () => {
         <Spotlight box={W.editor} from={left} to={line} padding={0} radius={4} />
         <Spotlight box={pad(line2, 4)} from={line} to={right} radius={6} />
         <Callout box={labelInLine2} text="label" side="below" from={brackets} to={right} />
+        <Magnifier box={codeLines} from={line} to={right} zoom={2.3} at={[548, 290]} label="One line, one arrow" />
         <Spotlight box={preview} from={right} to={decide} padding={0} radius={4} />
         <Spotlight box={decision} from={decide} to={sceneEnd('write')} radius={18} />
 
@@ -80,7 +83,7 @@ const App: React.FC = () => {
         <Spotlight box={W.editor} from={code} to={sceneEnd('theme')} padding={0} radius={4} />
 
         {/* export */}
-        <Magnifier box={pad(exportBox, 6)} from={exp} to={sceneEnd('export')} zoom={3} label="SVG for documents, PNG for anywhere" />
+        <Magnifier box={pad(exportBox, 6)} from={exp} to={sceneEnd('export')} zoom={3} at={[40, 500]} label="SVG for documents, PNG for anywhere" />
         <Cursor keys={[{ at: png - 12, p: tip(W.png) }, { at: png + 4, p: tip(W.png), click: true }, { at: sceneEnd('export') - 4 }]} />
 
         {/* link */}

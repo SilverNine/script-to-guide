@@ -311,7 +311,7 @@ def main() -> None:
             js.write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
             made.append(sc)
         per[sc] = {"display": display, "spans": spans, "times": word_times(meta["tokens"], spoken), "mp3": mp3, "dur": ffprobe_seconds(mp3)}
-    print(f"{len(lines)} lines · {len(order)} scenes · synthesized {','.join(made) or 'none'} · reused {len(kept)} · {len(table)} pronunciation rules")
+    print(f"{len(lines)} lines, {len(order)} scenes, synthesized {','.join(made) or 'none'}, reused {len(kept)}, {len(table)} pronunciation rules")
 
     # stitch: scene take + trailing silence, scenes level-matched
     gaps = [gaps_by_scene.get(sc, 0.0) for sc in order]
@@ -358,11 +358,11 @@ def main() -> None:
         json.dumps({"fps": FPS, "durationInFrames": round(total * FPS), "scenes": scenes}, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
-    print(f"{int(total // 60)}m {total % 60:.1f}s · {len(items)} caption words · {sum(gaps):.1f}s of inserted silence")
+    print(f"{int(total // 60)}m {total % 60:.1f}s, {len(items)} caption words, {sum(gaps):.1f}s of inserted silence")
     for sc in scenes:
         a_, b_ = sc["fromFrame"] / FPS, sc["toFrame"] / FPS
-        print(f"  {sc['scene']:<6} {int(a_ // 60)}:{a_ % 60:04.1f} ~ {int(b_ // 60)}:{b_ % 60:04.1f}  ({b_ - a_:4.1f}s · gap {sc['gapSec']:.1f})")
-    print(f"  → {out_mp3} · {data}/captions.json · scenes.json")
+        print(f"  {sc['scene']:<6} {int(a_ // 60)}:{a_ % 60:04.1f} ~ {int(b_ // 60)}:{b_ % 60:04.1f}  ({b_ - a_:4.1f}s, gap {sc['gapSec']:.1f})")
+    print(f"  → {out_mp3}, {data}/captions.json, scenes.json")
 
 
 if __name__ == "__main__":

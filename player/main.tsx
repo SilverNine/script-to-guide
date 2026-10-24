@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import GUIDE from '@guide';
 import { FrameProvider, type VideoConfig } from 'guide-runtime';
 import { parseCaptions } from '../src/lib/captions';
+import type { PlayerText } from './guide';
 
 /**
  * The guide player.
@@ -17,15 +18,48 @@ import { parseCaptions } from '../src/lib/captions';
  * Step by step (follow-along): playback stops at the end of each step so the viewer can do it in
  * their own app, then continues on request. The choice is remembered per browser.
  *
- * URL options: `?ch=<step id>` start at a step · `?f=<frame>` hold that frame · `?still` stage only (frame checks, MP4 render)
- *   · `?still&cc` stage only with captions burned in
+ * URL options: `?ch=<step id>` start at a step, `?f=<frame>` hold that frame, `?still` stage only (frame checks, MP4 render),
+ *   `?still&cc` stage only with captions burned in
  * Render hook (`?still` only): `window.__seek(frame)` resolves once that frame is painted with its images decoded.
- * Keys: space/k play · ←/→ 5 s · n/p next/previous step · s step by step · c captions · f full screen · < > speed
+ * Keys: space/k play, ←/→ 5 s, n/p next/previous step, s step by step, c captions, f full screen, < > speed
+ *
+ * Text: the player's own words follow `<html lang>` (guide.json page.lang). A guide may override any of them with `ui`.
  */
 const { Scene, asset, fps: FPS, durationInFrames: DURATION, poster: POSTER } = GUIDE;
 const W = 1920;
 const H = 1080;
 const CONFIG: VideoConfig = { fps: FPS, width: W, height: H, durationInFrames: DURATION, id: GUIDE.id };
+
+// ---------- the player's own words ----------
+
+const TEXT: Record<string, PlayerText> = {
+  en: {
+    steps: (n) => `${n} ${n === 1 ? 'step' : 'steps'}`,
+    stepByStep: 'Step by step',
+    stepByStepTitle: 'Stop after each step so you can do it yourself (s)',
+    stepDone: (n) => `Step ${n} done`,
+    tryIt: 'Try it in your app, then continue.',
+    stepN: (n, label) => `Step ${n}: ${label}`,
+    replay: 'Replay',
+    keys: [['space', 'play'], ['n/p', 'step'], ['s', 'step by step'], ['c', 'captions'], ['f', 'full screen']],
+    play: 'Play',
+    pause: 'Pause',
+  },
+  ko: {
+    steps: (n) => `${n}단계`,
+    stepByStep: '단계별 보기',
+    stepByStepTitle: '단계마다 멈춰서 직접 따라 할 수 있습니다 (s)',
+    stepDone: (n) => `${n}단계 완료`,
+    tryIt: '앱에서 직접 해 본 뒤 이어서 보세요.',
+    stepN: (n, label) => `${n}단계: ${label}`,
+    replay: '다시 보기',
+    keys: [['space', '재생'], ['n/p', '단계 이동'], ['s', '단계별 보기'], ['c', '자막'], ['f', '전체 화면']],
+    play: '재생',
+    pause: '일시 정지',
+  },
+};
+const LANG = (document.documentElement.lang || 'en').toLowerCase().split('-')[0];
+const T: PlayerText = { ...(TEXT[LANG] ?? TEXT.en), ...(GUIDE.ui ?? {}) };
 
 const q = new URLSearchParams(window.location.search);
 const STILL = q.has('still');
@@ -471,7 +505,7 @@ const App: React.FC = () => {
       </header>
       <div className="layout">
         <div className={`player${isFull ? ' full' : ''}`} ref={playerRef}>
-          <div ref={screenRef} className="screen" onClick={toggle} role="button" aria-label={playing ? 'Pause' : 'Play'}>
+          <div ref={screenRef} className="screen" onClick={toggle} role="button" aria-label={playing ? T.pause : T.play}>
             {stageView}
             {started && (
               <div className="tag">
@@ -487,25 +521,26 @@ const App: React.FC = () => {
             )}
             {!started && (
               <div className="cover">
-                <button className="big" aria-label="Play" onClick={(e) => (e.stopPropagation(), toggle())}>
+                <button className="big" aria-label={T.play} onClick={(e) => (e.stopPropagation(), toggle())}>
                   {ready ? <Ico d={I.play} size={44} /> : '…'}
                 </button>
                 <div className="cover-meta">
-                  {STEPS.length} steps · {clock(DURATION)}
+                  <span>{T.steps(STEPS.length)}</span>
+                  <span>{clock(DURATION)}</span>
                 </div>
               </div>
             )}
             {waiting !== null && (
               <div className="wait" onClick={(e) => e.stopPropagation()}>
                 <div className="wait-card">
-                  <div className="wait-kicker">Step {waiting} done</div>
-                  <div className="wait-title">Try it in your app, then continue.</div>
+                  <div className="wait-kicker">{T.stepDone(waiting)}</div>
+                  <div className="wait-title">{T.tryIt}</div>
                   <div className="wait-actions">
                     <button className="primary" onClick={() => playFrom(STEPS[waiting].at)} autoFocus>
-                      <Ico d={I.next} size={18} /> Step {waiting + 1}: {STEPS[waiting].label}
+                      <Ico d={I.next} size={18} /> {T.stepN(waiting + 1, STEPS[waiting].label)}
                     </button>
                     <button onClick={() => playFrom(STEPS[waiting - 1].at)}>
-                      <Ico d={I.replay} size={18} /> Replay
+                      <Ico d={I.replay} size={18} /> {T.replay}
                     </button>
                   </div>
                 </div>
@@ -536,7 +571,7 @@ const App: React.FC = () => {
               ))}
             </div>
             <div className="row">
-              <button className="btn play" onClick={toggle} aria-label={playing ? 'Pause' : 'Play'} title="Play/pause (space)">
+              <button className="btn play" onClick={toggle} aria-label={playing ? T.pause : T.play} title={`${T.play} (space)`}>
                 <Ico d={playing ? I.pause : I.play} />
               </button>
               <span className="time">
@@ -547,9 +582,9 @@ const App: React.FC = () => {
                 className={`btn pill${follow ? ' on' : ''}`}
                 aria-pressed={follow}
                 onClick={() => setFollow((v) => !v)}
-                title="Stop after each step so you can do it yourself (s)"
+                title={T.stepByStepTitle}
               >
-                <Ico d={I.steps} size={18} /> Step by step
+                <Ico d={I.steps} size={18} /> {T.stepByStep}
               </button>
               {GUIDE.captions && (
                 <button className={`btn${cc ? ' on' : ''}`} aria-pressed={cc} onClick={() => setCc((v) => !v)} aria-label="Captions" title="Captions on the stage (c)">
@@ -610,7 +645,11 @@ const App: React.FC = () => {
       </div>
       {GUIDE.note && <p className="note">{GUIDE.note}</p>}
       <p className="keys">
-        <kbd>space</kbd> play · <kbd>n</kbd>/<kbd>p</kbd> step · <kbd>s</kbd> step by step · <kbd>c</kbd> captions · <kbd>f</kbd> full screen
+        {T.keys.map(([k, what]) => (
+          <span key={k}>
+            <kbd>{k}</kbd> {what}
+          </span>
+        ))}
       </p>
     </div>
   );

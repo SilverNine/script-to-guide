@@ -9,6 +9,20 @@ import type { RawCaptionsJson } from '../src/lib/captions';
  * nothing else. Build settings (output folder, files to copy, font, theme) live in
  * `guides/<name>/guide.json`.
  */
+/** The player's own words (buttons, poster, step-by-step card, key hints) */
+export interface PlayerText {
+  steps: (n: number) => string;
+  stepByStep: string;
+  stepByStepTitle: string;
+  stepDone: (n: number) => string;
+  tryIt: string;
+  stepN: (n: number, label: string) => string;
+  replay: string;
+  keys: [string, string][];
+  play: string;
+  pause: string;
+}
+
 export interface Step {
   /** `?ch=<id>` opens the guide at this step */
   id: string;
@@ -42,4 +56,6 @@ export interface GuideDefinition {
   preload: string[];
   /** Color of the letterbox around the 1920x1080 stage */
   stage: string;
+  /** The player's own words. Defaults follow guide.json page.lang (en, ko); override any of them here */
+  ui?: Partial<PlayerText>;
 }

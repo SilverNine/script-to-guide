@@ -1,6 +1,6 @@
 name: Pages
 
-# Publishes the motion gallery and the sample guide to GitHub Pages on every push to main.
+# Publishes the motion gallery and the sample guides (English and Korean) to GitHub Pages on every push to main.
 # Needs Settings > Pages > Source: GitHub Actions. Skipped while the repository is private.
 
 on:
@@ -32,6 +32,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: node scripts/build-gallery.mjs --out site
       - run: node scripts/build-web.mjs --guide first-diagram --out site
+      - run: node scripts/build-web.mjs --guide first-diagram-ko --out site
       - run: printf '<meta http-equiv="refresh" content="0; url=first-diagram/">' > site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

@@ -1,0 +1,1500 @@
+{
+  "transcription": [
+    {
+      "timestamps": {
+        "from": "00:100",
+        "to": "00:449"
+      },
+      "offsets": {
+        "from": 100,
+        "to": 449
+      },
+      "text": " 이"
+    },
+    {
+      "timestamps": {
+        "from": "00:462",
+        "to": "01:100"
+      },
+      "offsets": {
+        "from": 462,
+        "to": 1100
+      },
+      "text": " 가이드는"
+    },
+    {
+      "timestamps": {
+        "from": "01:112",
+        "to": "02:012"
+      },
+      "offsets": {
+        "from": 1112,
+        "to": 2012
+      },
+      "text": " MermanDraw로"
+    },
+    {
+      "timestamps": {
+        "from": "02:025",
+        "to": "02:262"
+      },
+      "offsets": {
+        "from": 2025,
+        "to": 2262
+      },
+      "text": " 첫"
+    },
+    {
+      "timestamps": {
+        "from": "02:275",
+        "to": "02:937"
+      },
+      "offsets": {
+        "from": 2275,
+        "to": 2937
+      },
+      "text": " 다이어그램을"
+    },
+    {
+      "timestamps": {
+        "from": "02:950",
+        "to": "03:362"
+      },
+      "offsets": {
+        "from": 2950,
+        "to": 3362
+      },
+      "text": " 만드는"
+    },
+    {
+      "timestamps": {
+        "from": "03:375",
+        "to": "03:875"
+      },
+      "offsets": {
+        "from": 3375,
+        "to": 3875
+      },
+      "text": " 방법을"
+    },
+    {
+      "timestamps": {
+        "from": "03:887",
+        "to": "04:762"
+      },
+      "offsets": {
+        "from": 3887,
+        "to": 4762
+      },
+      "text": " 안내합니다."
+    },
+    {
+      "timestamps": {
+        "from": "05:750",
+        "to": "06:512"
+      },
+      "offsets": {
+        "from": 5750,
+        "to": 6512
+      },
+      "text": " 2분이면"
+    },
+    {
+      "timestamps": {
+        "from": "06:525",
+        "to": "07:425"
+      },
+      "offsets": {
+        "from": 6525,
+        "to": 7425
+      },
+      "text": " 충분하고,"
+    },
+    {
+      "timestamps": {
+        "from": "07:600",
+        "to": "08:312"
+      },
+      "offsets": {
+        "from": 7600,
+        "to": 8312
+      },
+      "text": " 브라우저"
+    },
+    {
+      "timestamps": {
+        "from": "08:325",
+        "to": "08:712"
+      },
+      "offsets": {
+        "from": 8325,
+        "to": 8712
+      },
+      "text": " 하나만"
+    },
+    {
+      "timestamps": {
+        "from": "08:725",
+        "to": "09:100"
+      },
+      "offsets": {
+        "from": 8725,
+        "to": 9100
+      },
+      "text": " 있으면"
+    },
+    {
+      "timestamps": {
+        "from": "09:112",
+        "to": "09:837"
+      },
+      "offsets": {
+        "from": 9112,
+        "to": 9837
+      },
+      "text": " 됩니다."
+    },
+    {
+      "timestamps": {
+        "from": "11:424",
+        "to": "11:824"
+      },
+      "offsets": {
+        "from": 11424,
+        "to": 11824
+      },
+      "text": " 할"
+    },
+    {
+      "timestamps": {
+        "from": "11:836",
+        "to": "12:161"
+      },
+      "offsets": {
+        "from": 11836,
+        "to": 12161
+      },
+      "text": " 일은"
+    },
+    {
+      "timestamps": {
+        "from": "12:174",
+        "to": "12:374"
+      },
+      "offsets": {
+        "from": 12174,
+        "to": 12374
+      },
+      "text": " 네"
+    },
+    {
+      "timestamps": {
+        "from": "12:386",
+        "to": "13:361"
+      },
+      "offsets": {
+        "from": 12386,
+        "to": 13361
+      },
+      "text": " 가지입니다."
+    },
+    {
+      "timestamps": {
+        "from": "14:386",
+        "to": "14:961"
+      },
+      "offsets": {
+        "from": 14386,
+        "to": 14961
+      },
+      "text": " 코드를"
+    },
+    {
+      "timestamps": {
+        "from": "14:974",
+        "to": "15:461"
+      },
+      "offsets": {
+        "from": 14974,
+        "to": 15461
+      },
+      "text": " 쓰고,"
+    },
+    {
+      "timestamps": {
+        "from": "15:599",
+        "to": "16:211"
+      },
+      "offsets": {
+        "from": 15599,
+        "to": 16211
+      },
+      "text": " 테마를"
+    },
+    {
+      "timestamps": {
+        "from": "16:224",
+        "to": "16:861"
+      },
+      "offsets": {
+        "from": 16224,
+        "to": 16861
+      },
+      "text": " 고르고,"
+    },
+    {
+      "timestamps": {
+        "from": "17:036",
+        "to": "17:611"
+      },
+      "offsets": {
+        "from": 17036,
+        "to": 17611
+      },
+      "text": " 그림을"
+    },
+    {
+      "timestamps": {
+        "from": "17:624",
+        "to": "18:386"
+      },
+      "offsets": {
+        "from": 17624,
+        "to": 18386
+      },
+      "text": " 내보내고,"
+    },
+    {
+      "timestamps": {
+        "from": "18:511",
+        "to": "19:161"
+      },
+      "offsets": {
+        "from": 18511,
+        "to": 19161
+      },
+      "text": " 링크를"
+    },
+    {
+      "timestamps": {
+        "from": "19:174",
+        "to": "19:948"
+      },
+      "offsets": {
+        "from": 19174,
+        "to": 19948
+      },
+      "text": " 보냅니다."
+    },
+    {
+      "timestamps": {
+        "from": "21:872",
+        "to": "23:359"
+      },
+      "offsets": {
+        "from": 21872,
+        "to": 23359
+      },
+      "text": " mermandraw.com에서"
+    },
+    {
+      "timestamps": {
+        "from": "23:372",
+        "to": "24:059"
+      },
+      "offsets": {
+        "from": 23372,
+        "to": 24059
+      },
+      "text": " 편집기를"
+    },
+    {
+      "timestamps": {
+        "from": "24:072",
+        "to": "24:709"
+      },
+      "offsets": {
+        "from": 24072,
+        "to": 24709
+      },
+      "text": " 엽니다."
+    },
+    {
+      "timestamps": {
+        "from": "25:747",
+        "to": "26:459"
+      },
+      "offsets": {
+        "from": 25747,
+        "to": 26459
+      },
+      "text": " 코드는"
+    },
+    {
+      "timestamps": {
+        "from": "26:472",
+        "to": "26:922"
+      },
+      "offsets": {
+        "from": 26472,
+        "to": 26922
+      },
+      "text": " 왼쪽에"
+    },
+    {
+      "timestamps": {
+        "from": "26:934",
+        "to": "27:609"
+      },
+      "offsets": {
+        "from": 26934,
+        "to": 27609
+      },
+      "text": " 씁니다."
+    },
+    {
+      "timestamps": {
+        "from": "28:584",
+        "to": "28:934"
+      },
+      "offsets": {
+        "from": 28584,
+        "to": 28934
+      },
+      "text": " 한"
+    },
+    {
+      "timestamps": {
+        "from": "28:947",
+        "to": "29:172"
+      },
+      "offsets": {
+        "from": 28947,
+        "to": 29172
+      },
+      "text": " 줄이"
+    },
+    {
+      "timestamps": {
+        "from": "29:184",
+        "to": "29:709"
+      },
+      "offsets": {
+        "from": 29184,
+        "to": 29709
+      },
+      "text": " 화살표"
+    },
+    {
+      "timestamps": {
+        "from": "29:722",
+        "to": "30:497"
+      },
+      "offsets": {
+        "from": 29722,
+        "to": 30497
+      },
+      "text": " 하나이고,"
+    },
+    {
+      "timestamps": {
+        "from": "30:634",
+        "to": "31:284"
+      },
+      "offsets": {
+        "from": 30634,
+        "to": 31284
+      },
+      "text": " 대괄호"
+    },
+    {
+      "timestamps": {
+        "from": "31:297",
+        "to": "31:509"
+      },
+      "offsets": {
+        "from": 31297,
+        "to": 31509
+      },
+      "text": " 안의"
+    },
+    {
+      "timestamps": {
+        "from": "31:522",
+        "to": "32:047"
+      },
+      "offsets": {
+        "from": 31522,
+        "to": 32047
+      },
+      "text": " 글자가"
+    },
+    {
+      "timestamps": {
+        "from": "32:059",
+        "to": "32:409"
+      },
+      "offsets": {
+        "from": 32059,
+        "to": 32409
+      },
+      "text": " 상자"
+    },
+    {
+      "timestamps": {
+        "from": "32:422",
+        "to": "32:722"
+      },
+      "offsets": {
+        "from": 32422,
+        "to": 32722
+      },
+      "text": " 이름이"
+    },
+    {
+      "timestamps": {
+        "from": "32:734",
+        "to": "33:459"
+      },
+      "offsets": {
+        "from": 32734,
+        "to": 33459
+      },
+      "text": " 됩니다."
+    },
+    {
+      "timestamps": {
+        "from": "34:484",
+        "to": "35:184"
+      },
+      "offsets": {
+        "from": 34484,
+        "to": 35184
+      },
+      "text": " 오른쪽"
+    },
+    {
+      "timestamps": {
+        "from": "35:197",
+        "to": "35:959"
+      },
+      "offsets": {
+        "from": 35197,
+        "to": 35959
+      },
+      "text": " 미리보기는"
+    },
+    {
+      "timestamps": {
+        "from": "35:972",
+        "to": "36:497"
+      },
+      "offsets": {
+        "from": 35972,
+        "to": 36497
+      },
+      "text": " 입력하는"
+    },
+    {
+      "timestamps": {
+        "from": "36:509",
+        "to": "36:947"
+      },
+      "offsets": {
+        "from": 36509,
+        "to": 36947
+      },
+      "text": " 동안"
+    },
+    {
+      "timestamps": {
+        "from": "36:959",
+        "to": "37:309"
+      },
+      "offsets": {
+        "from": 36959,
+        "to": 37309
+      },
+      "text": " 바로"
+    },
+    {
+      "timestamps": {
+        "from": "37:322",
+        "to": "37:659"
+      },
+      "offsets": {
+        "from": 37322,
+        "to": 37659
+      },
+      "text": " 다시"
+    },
+    {
+      "timestamps": {
+        "from": "37:672",
+        "to": "38:634"
+      },
+      "offsets": {
+        "from": 37672,
+        "to": 38634
+      },
+      "text": " 그려집니다."
+    },
+    {
+      "timestamps": {
+        "from": "39:659",
+        "to": "40:409"
+      },
+      "offsets": {
+        "from": 39659,
+        "to": 40409
+      },
+      "text": " 여기서는"
+    },
+    {
+      "timestamps": {
+        "from": "40:422",
+        "to": "40:747"
+      },
+      "offsets": {
+        "from": 40422,
+        "to": 40747
+      },
+      "text": " 판단"
+    },
+    {
+      "timestamps": {
+        "from": "40:759",
+        "to": "41:347"
+      },
+      "offsets": {
+        "from": 40759,
+        "to": 41347
+      },
+      "text": " 상자에서"
+    },
+    {
+      "timestamps": {
+        "from": "41:359",
+        "to": "41:859"
+      },
+      "offsets": {
+        "from": 41359,
+        "to": 41859
+      },
+      "text": " 아니요를"
+    },
+    {
+      "timestamps": {
+        "from": "41:872",
+        "to": "42:384"
+      },
+      "offsets": {
+        "from": 41872,
+        "to": 42384
+      },
+      "text": " 고르면"
+    },
+    {
+      "timestamps": {
+        "from": "42:397",
+        "to": "42:972"
+      },
+      "offsets": {
+        "from": 42397,
+        "to": 42972
+      },
+      "text": " 처음으로"
+    },
+    {
+      "timestamps": {
+        "from": "42:984",
+        "to": "43:934"
+      },
+      "offsets": {
+        "from": 42984,
+        "to": 43934
+      },
+      "text": " 돌아갑니다."
+    },
+    {
+      "timestamps": {
+        "from": "46:032",
+        "to": "46:819"
+      },
+      "offsets": {
+        "from": 46032,
+        "to": 46819
+      },
+      "text": " 다음으로"
+    },
+    {
+      "timestamps": {
+        "from": "46:832",
+        "to": "47:144"
+      },
+      "offsets": {
+        "from": 46832,
+        "to": 47144
+      },
+      "text": " Theme"
+    },
+    {
+      "timestamps": {
+        "from": "47:157",
+        "to": "47:607"
+      },
+      "offsets": {
+        "from": 47157,
+        "to": 47607
+      },
+      "text": " 메뉴를"
+    },
+    {
+      "timestamps": {
+        "from": "47:619",
+        "to": "48:244"
+      },
+      "offsets": {
+        "from": 47619,
+        "to": 48244
+      },
+      "text": " 엽니다."
+    },
+    {
+      "timestamps": {
+        "from": "49:182",
+        "to": "49:857"
+      },
+      "offsets": {
+        "from": 49182,
+        "to": 49857
+      },
+      "text": " 테마는"
+    },
+    {
+      "timestamps": {
+        "from": "49:869",
+        "to": "50:532"
+      },
+      "offsets": {
+        "from": 49869,
+        "to": 50532
+      },
+      "text": " Clean부터"
+    },
+    {
+      "timestamps": {
+        "from": "50:544",
+        "to": "51:294"
+      },
+      "offsets": {
+        "from": 50544,
+        "to": 51294
+      },
+      "text": " Mono까지"
+    },
+    {
+      "timestamps": {
+        "from": "51:307",
+        "to": "52:619"
+      },
+      "offsets": {
+        "from": 51307,
+        "to": 52619
+      },
+      "text": " 7가지입니다."
+    },
+    {
+      "timestamps": {
+        "from": "53:632",
+        "to": "54:282"
+      },
+      "offsets": {
+        "from": 53632,
+        "to": 54282
+      },
+      "text": " Neon을"
+    },
+    {
+      "timestamps": {
+        "from": "54:294",
+        "to": "54:782"
+      },
+      "offsets": {
+        "from": 54294,
+        "to": 54782
+      },
+      "text": " 고르면"
+    },
+    {
+      "timestamps": {
+        "from": "54:794",
+        "to": "55:557"
+      },
+      "offsets": {
+        "from": 54794,
+        "to": 55557
+      },
+      "text": " 미리보기가"
+    },
+    {
+      "timestamps": {
+        "from": "55:569",
+        "to": "55:857"
+      },
+      "offsets": {
+        "from": 55569,
+        "to": 55857
+      },
+      "text": " 바로"
+    },
+    {
+      "timestamps": {
+        "from": "55:869",
+        "to": "56:744"
+      },
+      "offsets": {
+        "from": 55869,
+        "to": 56744
+      },
+      "text": " 바뀝니다."
+    },
+    {
+      "timestamps": {
+        "from": "57:757",
+        "to": "58:419"
+      },
+      "offsets": {
+        "from": 57757,
+        "to": 58419
+      },
+      "text": " 코드는"
+    },
+    {
+      "timestamps": {
+        "from": "58:432",
+        "to": "58:644"
+      },
+      "offsets": {
+        "from": 58432,
+        "to": 58644
+      },
+      "text": " 한"
+    },
+    {
+      "timestamps": {
+        "from": "58:657",
+        "to": "59:132"
+      },
+      "offsets": {
+        "from": 58657,
+        "to": 59132
+      },
+      "text": " 글자도"
+    },
+    {
+      "timestamps": {
+        "from": "59:144",
+        "to": "59:619"
+      },
+      "offsets": {
+        "from": 59144,
+        "to": 59619
+      },
+      "text": " 바뀌지"
+    },
+    {
+      "timestamps": {
+        "from": "59:632",
+        "to": "60:394"
+      },
+      "offsets": {
+        "from": 59632,
+        "to": 60394
+      },
+      "text": " 않습니다."
+    },
+    {
+      "timestamps": {
+        "from": "62:440",
+        "to": "63:040"
+      },
+      "offsets": {
+        "from": 62440,
+        "to": 63040
+      },
+      "text": " 마음에"
+    },
+    {
+      "timestamps": {
+        "from": "63:052",
+        "to": "63:540"
+      },
+      "offsets": {
+        "from": 63052,
+        "to": 63540
+      },
+      "text": " 들면"
+    },
+    {
+      "timestamps": {
+        "from": "63:552",
+        "to": "64:115"
+      },
+      "offsets": {
+        "from": 63552,
+        "to": 64115
+      },
+      "text": " 그림으로"
+    },
+    {
+      "timestamps": {
+        "from": "64:127",
+        "to": "65:102"
+      },
+      "offsets": {
+        "from": 64127,
+        "to": 65102
+      },
+      "text": " 내보냅니다."
+    },
+    {
+      "timestamps": {
+        "from": "66:102",
+        "to": "67:140"
+      },
+      "offsets": {
+        "from": 66102,
+        "to": 67140
+      },
+      "text": " SVG는"
+    },
+    {
+      "timestamps": {
+        "from": "67:152",
+        "to": "67:602"
+      },
+      "offsets": {
+        "from": 67152,
+        "to": 67602
+      },
+      "text": " 크기를"
+    },
+    {
+      "timestamps": {
+        "from": "67:615",
+        "to": "68:027"
+      },
+      "offsets": {
+        "from": 67615,
+        "to": 68027
+      },
+      "text": " 키워도"
+    },
+    {
+      "timestamps": {
+        "from": "68:040",
+        "to": "68:440"
+      },
+      "offsets": {
+        "from": 68040,
+        "to": 68440
+      },
+      "text": " 깨지지"
+    },
+    {
+      "timestamps": {
+        "from": "68:452",
+        "to": "68:640"
+      },
+      "offsets": {
+        "from": 68452,
+        "to": 68640
+      },
+      "text": " 않아"
+    },
+    {
+      "timestamps": {
+        "from": "68:652",
+        "to": "69:290"
+      },
+      "offsets": {
+        "from": 68652,
+        "to": 69290
+      },
+      "text": " 문서와"
+    },
+    {
+      "timestamps": {
+        "from": "69:302",
+        "to": "69:702"
+      },
+      "offsets": {
+        "from": 69302,
+        "to": 69702
+      },
+      "text": " 발표"
+    },
+    {
+      "timestamps": {
+        "from": "69:715",
+        "to": "70:077"
+      },
+      "offsets": {
+        "from": 69715,
+        "to": 70077
+      },
+      "text": " 자료에"
+    },
+    {
+      "timestamps": {
+        "from": "70:090",
+        "to": "70:327"
+      },
+      "offsets": {
+        "from": 70090,
+        "to": 70327
+      },
+      "text": " 잘"
+    },
+    {
+      "timestamps": {
+        "from": "70:340",
+        "to": "71:177"
+      },
+      "offsets": {
+        "from": 70340,
+        "to": 71177
+      },
+      "text": " 맞습니다."
+    },
+    {
+      "timestamps": {
+        "from": "72:127",
+        "to": "72:902"
+      },
+      "offsets": {
+        "from": 72127,
+        "to": 72902
+      },
+      "text": " PNG는"
+    },
+    {
+      "timestamps": {
+        "from": "72:915",
+        "to": "73:365"
+      },
+      "offsets": {
+        "from": 72915,
+        "to": 73365
+      },
+      "text": " 이미지를"
+    },
+    {
+      "timestamps": {
+        "from": "73:377",
+        "to": "73:652"
+      },
+      "offsets": {
+        "from": 73377,
+        "to": 73652
+      },
+      "text": " 넣을"
+    },
+    {
+      "timestamps": {
+        "from": "73:665",
+        "to": "73:777"
+      },
+      "offsets": {
+        "from": 73665,
+        "to": 73777
+      },
+      "text": " 수"
+    },
+    {
+      "timestamps": {
+        "from": "73:790",
+        "to": "74:015"
+      },
+      "offsets": {
+        "from": 73790,
+        "to": 74015
+      },
+      "text": " 있는"
+    },
+    {
+      "timestamps": {
+        "from": "74:027",
+        "to": "74:602"
+      },
+      "offsets": {
+        "from": 74027,
+        "to": 74602
+      },
+      "text": " 곳이면"
+    },
+    {
+      "timestamps": {
+        "from": "74:615",
+        "to": "75:165"
+      },
+      "offsets": {
+        "from": 74615,
+        "to": 75165
+      },
+      "text": " 어디든"
+    },
+    {
+      "timestamps": {
+        "from": "75:177",
+        "to": "75:402"
+      },
+      "offsets": {
+        "from": 75177,
+        "to": 75402
+      },
+      "text": " 쓸"
+    },
+    {
+      "timestamps": {
+        "from": "75:415",
+        "to": "75:515"
+      },
+      "offsets": {
+        "from": 75415,
+        "to": 75515
+      },
+      "text": " 수"
+    },
+    {
+      "timestamps": {
+        "from": "75:527",
+        "to": "76:265"
+      },
+      "offsets": {
+        "from": 75527,
+        "to": 76265
+      },
+      "text": " 있습니다."
+    },
+    {
+      "timestamps": {
+        "from": "78:132",
+        "to": "78:619"
+      },
+      "offsets": {
+        "from": 78132,
+        "to": 78619
+      },
+      "text": " 보낼"
+    },
+    {
+      "timestamps": {
+        "from": "78:632",
+        "to": "79:007"
+      },
+      "offsets": {
+        "from": 78632,
+        "to": 79007
+      },
+      "text": " 때는"
+    },
+    {
+      "timestamps": {
+        "from": "79:020",
+        "to": "79:520"
+      },
+      "offsets": {
+        "from": 79020,
+        "to": 79520
+      },
+      "text": " Link를"
+    },
+    {
+      "timestamps": {
+        "from": "79:532",
+        "to": "80:357"
+      },
+      "offsets": {
+        "from": 79532,
+        "to": 80357
+      },
+      "text": " 누릅니다."
+    },
+    {
+      "timestamps": {
+        "from": "81:407",
+        "to": "82:045"
+      },
+      "offsets": {
+        "from": 81407,
+        "to": 82045
+      },
+      "text": " 복사된"
+    },
+    {
+      "timestamps": {
+        "from": "82:057",
+        "to": "82:494"
+      },
+      "offsets": {
+        "from": 82057,
+        "to": 82494
+      },
+      "text": " 주소에"
+    },
+    {
+      "timestamps": {
+        "from": "82:507",
+        "to": "83:220"
+      },
+      "offsets": {
+        "from": 82507,
+        "to": 83220
+      },
+      "text": " 다이어그램이"
+    },
+    {
+      "timestamps": {
+        "from": "83:232",
+        "to": "83:645"
+      },
+      "offsets": {
+        "from": 83232,
+        "to": 83645
+      },
+      "text": " 통째로"
+    },
+    {
+      "timestamps": {
+        "from": "83:657",
+        "to": "83:857"
+      },
+      "offsets": {
+        "from": 83657,
+        "to": 83857
+      },
+      "text": " 들어"
+    },
+    {
+      "timestamps": {
+        "from": "83:869",
+        "to": "84:345"
+      },
+      "offsets": {
+        "from": 83869,
+        "to": 84345
+      },
+      "text": " 있어서"
+    },
+    {
+      "timestamps": {
+        "from": "84:357",
+        "to": "84:670"
+      },
+      "offsets": {
+        "from": 84357,
+        "to": 84670
+      },
+      "text": " 따로"
+    },
+    {
+      "timestamps": {
+        "from": "84:682",
+        "to": "85:220"
+      },
+      "offsets": {
+        "from": 84682,
+        "to": 85220
+      },
+      "text": " 저장되지"
+    },
+    {
+      "timestamps": {
+        "from": "85:232",
+        "to": "85:920"
+      },
+      "offsets": {
+        "from": 85232,
+        "to": 85920
+      },
+      "text": " 않고,"
+    },
+    {
+      "timestamps": {
+        "from": "86:057",
+        "to": "86:744"
+      },
+      "offsets": {
+        "from": 86057,
+        "to": 86744
+      },
+      "text": " 계정도"
+    },
+    {
+      "timestamps": {
+        "from": "86:757",
+        "to": "87:070"
+      },
+      "offsets": {
+        "from": 86757,
+        "to": 87070
+      },
+      "text": " 필요"
+    },
+    {
+      "timestamps": {
+        "from": "87:082",
+        "to": "87:907"
+      },
+      "offsets": {
+        "from": 87082,
+        "to": 87907
+      },
+      "text": " 없습니다."
+    },
+    {
+      "timestamps": {
+        "from": "88:820",
+        "to": "89:320"
+      },
+      "offsets": {
+        "from": 88820,
+        "to": 89320
+      },
+      "text": " 다른"
+    },
+    {
+      "timestamps": {
+        "from": "89:332",
+        "to": "89:895"
+      },
+      "offsets": {
+        "from": 89332,
+        "to": 89895
+      },
+      "text": " 방법으로"
+    },
+    {
+      "timestamps": {
+        "from": "89:907",
+        "to": "90:307"
+      },
+      "offsets": {
+        "from": 89907,
+        "to": 90307
+      },
+      "text": " Share가"
+    },
+    {
+      "timestamps": {
+        "from": "90:320",
+        "to": "91:057"
+      },
+      "offsets": {
+        "from": 90320,
+        "to": 91057
+      },
+      "text": " 있습니다."
+    },
+    {
+      "timestamps": {
+        "from": "91:982",
+        "to": "92:932"
+      },
+      "offsets": {
+        "from": 91982,
+        "to": 92932
+      },
+      "text": " 메신저에서"
+    },
+    {
+      "timestamps": {
+        "from": "92:945",
+        "to": "93:545"
+      },
+      "offsets": {
+        "from": 92945,
+        "to": 93545
+      },
+      "text": " 미리보기"
+    },
+    {
+      "timestamps": {
+        "from": "93:557",
+        "to": "93:982"
+      },
+      "offsets": {
+        "from": 93557,
+        "to": 93982
+      },
+      "text": " 이미지가"
+    },
+    {
+      "timestamps": {
+        "from": "93:994",
+        "to": "94:345"
+      },
+      "offsets": {
+        "from": 93994,
+        "to": 94345
+      },
+      "text": " 뜨는"
+    },
+    {
+      "timestamps": {
+        "from": "94:357",
+        "to": "94:732"
+      },
+      "offsets": {
+        "from": 94357,
+        "to": 94732
+      },
+      "text": " 공개"
+    },
+    {
+      "timestamps": {
+        "from": "94:745",
+        "to": "95:270"
+      },
+      "offsets": {
+        "from": 94745,
+        "to": 95270
+      },
+      "text": " 페이지를"
+    },
+    {
+      "timestamps": {
+        "from": "95:282",
+        "to": "96:107"
+      },
+      "offsets": {
+        "from": 95282,
+        "to": 96107
+      },
+      "text": " 만듭니다."
+    },
+    {
+      "timestamps": {
+        "from": "98:175",
+        "to": "99:076"
+      },
+      "offsets": {
+        "from": 98175,
+        "to": 99076
+      },
+      "text": " 여기까지가"
+    },
+    {
+      "timestamps": {
+        "from": "99:088",
+        "to": "99:276"
+      },
+      "offsets": {
+        "from": 99088,
+        "to": 99276
+      },
+      "text": " 한"
+    },
+    {
+      "timestamps": {
+        "from": "99:288",
+        "to": "100:250"
+      },
+      "offsets": {
+        "from": 99288,
+        "to": 100250
+      },
+      "text": " 바퀴입니다."
+    },
+    {
+      "timestamps": {
+        "from": "101:326",
+        "to": "102:288"
+      },
+      "offsets": {
+        "from": 101326,
+        "to": 102288
+      },
+      "text": " 쓰고,"
+    },
+    {
+      "timestamps": {
+        "from": "102:476",
+        "to": "103:438"
+      },
+      "offsets": {
+        "from": 102476,
+        "to": 103438
+      },
+      "text": " 고르고,"
+    },
+    {
+      "timestamps": {
+        "from": "103:576",
+        "to": "104:663"
+      },
+      "offsets": {
+        "from": 103576,
+        "to": 104663
+      },
+      "text": " 내보내고,"
+    },
+    {
+      "timestamps": {
+        "from": "104:800",
+        "to": "105:851"
+      },
+      "offsets": {
+        "from": 104800,
+        "to": 105851
+      },
+      "text": " 보냅니다."
+    },
+    {
+      "timestamps": {
+        "from": "106:901",
+        "to": "107:413"
+      },
+      "offsets": {
+        "from": 106901,
+        "to": 107413
+      },
+      "text": " 지금"
+    },
+    {
+      "timestamps": {
+        "from": "107:425",
+        "to": "108:576"
+      },
+      "offsets": {
+        "from": 107425,
+        "to": 108576
+      },
+      "text": " mermandraw.com에서"
+    },
+    {
+      "timestamps": {
+        "from": "108:588",
+        "to": "108:726"
+      },
+      "offsets": {
+        "from": 108588,
+        "to": 108726
+      },
+      "text": " 해"
+    },
+    {
+      "timestamps": {
+        "from": "108:738",
+        "to": "109:538"
+      },
+      "offsets": {
+        "from": 108738,
+        "to": 109538
+      },
+      "text": " 보세요."
+    }
+  ]
+}
