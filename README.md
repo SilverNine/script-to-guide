@@ -39,7 +39,8 @@ Product UI changes. A recorded video dies with it. A guide built from a script d
 |---|---|
 | `SKILL.md` | The skill entry point. Picks a mode, says which reference to read, states the rules the agent must not break |
 | `references/` | Script format, narration rules, pronunciation dictionary format, pipeline stages, final review checklist |
-| `cards/` | Recipe cards for guide motions: spotlight, numbered pin, magnifier, cursor click, chapter label, callout. Each card has an intent, a parameter table, known pitfalls and a reference implementation |
+| `cards/` | 13 motion cards: spotlight, numbered pin, magnifier, cursor click, callout, type-in, screen swap, camera push-in, redact, title, chapter, step list, drawn dialog. Each has an intent, when to use and avoid it, a parameter table, known pitfalls and a reference implementation |
+| `gallery/` | Every card playing live, rendered by the player's own runtime |
 | `player/` | The HTML player. Dependency-free web component, frame clock driven by audio position, keyboard shortcuts, follow-along mode |
 | `scripts/` | TTS synthesis with word timestamps (free path: edge-tts; bring your own: ElevenLabs), caption and timetable generation, transcription check, web build, MP4 export |
 | `template/` | One complete sample guide for a public app, with a "replace with your product" walkthrough |
@@ -63,9 +64,9 @@ Runtime dependencies will be Node 18+, Python 3.11+, ffmpeg, and a Chromium that
 
 ## Roadmap
 
-1. **Engine extraction.** Frame clock, scene shim, `cue()`, caption and timetable generation, TTS provider abstraction (edge-tts default, ElevenLabs optional), transcription check via whisper.cpp. No proprietary code, no video framework.
-2. **Player redesign.** Side panel with the live transcript and step list, spotlight and numbered pins instead of glowing rings, magnifier inset instead of camera zoom, follow-along mode, light theme with system dark mode, copy buttons on commands.
-3. **Cards and gallery.** 20 to 30 motion cards, each with a live preview. Because the player is HTML, the gallery is the player.
+1. ~~**Engine extraction.**~~ Done. Frame runtime, `cue()`, caption and timetable generation, TTS providers (edge-tts default, ElevenLabs, silent), transcription check via whisper.cpp or ElevenLabs. No video framework.
+2. ~~**Player redesign.**~~ Done. Side panel with the live transcript and step list, segmented progress, step-by-step mode, captions overlay, light theme with system dark mode, copy buttons.
+3. ~~**Cards and gallery.**~~ First 13 cards done, each with a live preview. More cards as real guides need them.
 4. **Sample guide.** One complete guide for a public web app, used in the README and the gallery.
 5. **MP4 export.** Frame-stepped render through Playwright, muxed with the narration by ffmpeg.
 6. **First release.** Plugin manifest, Codex manifest, README in English and Korean.

@@ -8,7 +8,8 @@
   "scripts": {
     "build": "node scripts/build-web.mjs",
     "frames": "node scripts/frames.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "gallery": "node scripts/build-gallery.mjs"
   },
   "dependencies": {
     "react": "18.3.1",

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>script-to-guide gallery</title>
+<meta name="description" content="Every motion a narrated product guide can use, playing live: spotlight, pins, magnifier, cursor, callouts, typing, screen swaps, cards.">
+<style>
+  :root { --bg:#f5f6f8; --surface:#fff; --fg:#14171c; --dim:#5b626d; --faint:#9aa1ab; --line:#e2e5ea; --brand:#2563eb; --brand-soft:rgba(37,99,235,.10);
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; --font-code: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0c0f14; --surface:#141922; --fg:#e7eaef; --dim:#a3aab5; --faint:#6c7480; --line:#252b36; --brand:#6b9bff; --brand-soft:rgba(107,155,255,.14); } }
+  * { box-sizing:border-box; }
+  html, body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+  button { font:inherit; color:inherit; }
+  .page { max-width:1320px; margin:0 auto; padding:40px 20px 60px; }
+  header h1 { font-size:32px; letter-spacing:-.02em; margin:0 0 10px; }
+  header p { color:var(--dim); max-width:760px; line-height:1.6; margin:0 0 20px; font-size:15px; }
+  header code { font-family:var(--font-code); font-size:13px; background:var(--brand-soft); padding:1px 5px; border-radius:4px; color:var(--fg); }
+  nav { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:24px; }
+  nav button { border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:7px 14px; font-size:14px; font-weight:600; cursor:pointer; }
+  nav button.on { background:var(--brand); border-color:var(--brand); color:#fff; }
+  nav a { margin-left:auto; color:var(--brand); font-weight:600; font-size:14px; text-decoration:none; }
+  .grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:22px; }
+  @media (max-width:860px) { .grid { grid-template-columns:1fr; } }
+  .tile { --guide-brand:#2563eb; background:var(--surface); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+  .view { position:relative; aspect-ratio:16/9; overflow:hidden; background:#0b0f17; }
+  .stage { position:absolute; left:0; top:0; width:1920px; height:1080px; transform-origin:0 0; overflow:hidden; }
+  .prog { position:absolute; left:0; bottom:0; height:3px; background:var(--guide-brand); opacity:.8; }
+  .meta { padding:16px 18px 18px; }
+  .title { display:flex; align-items:center; gap:10px; }
+  .title h2 { font-size:18px; margin:0; }
+  .group { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--dim); border:1px solid var(--line); border-radius:999px; padding:2px 8px; }
+  .meta p { color:var(--dim); font-size:14px; margin:6px 0 12px; }
+  .code { position:relative; background:var(--bg); border:1px solid var(--line); border-radius:10px; }
+  .code pre { margin:0; padding:12px 64px 12px 12px; font-family:var(--font-code); font-size:12.5px; line-height:1.5; white-space:pre-wrap; word-break:break-word; }
+  .code button { position:absolute; right:6px; top:6px; border:1px solid var(--line); background:var(--surface); border-radius:6px; padding:3px 8px; font-size:12px; cursor:pointer; }
+  .meta a { display:inline-block; margin-top:12px; font-size:13px; font-weight:600; color:var(--brand); text-decoration:none; }
+  footer { color:var(--faint); font-size:12px; margin-top:28px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="app.js"></script>
+</body>
+</html>

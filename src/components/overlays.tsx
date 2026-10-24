@@ -15,6 +15,9 @@ import { bodyFontFamily } from '../theme/fonts';
  *   Magnifier  an inset that shows one box enlarged, without moving the camera
  *   Cursor     a pointer that travels between points and clicks
  *   Callout    a short label next to a box
+ *   TypeIn     text typed into a field, with a caret
+ *   Redact     blur or block out part of the capture
+ * Screen itself can swap captures over time (`shots`) and push in on a box (`camera`).
  */
 
 export type Box = [number, number, number, number];
@@ -32,13 +35,55 @@ const ScreenCtx = createContext<{ src: string; w: number; h: number }>({ src: ''
 
 const BRAND = 'var(--guide-brand, #2563eb)';
 
+/** One camera key: from frame `at`, move over `len` frames to frame `box` at `zoom` (no box = whole screen) */
+export interface CameraKey {
+  at: number;
+  box?: Box;
+  zoom?: number;
+  len?: number;
+}
+
+interface Cam {
+  z: number;
+  cx: number;
+  cy: number;
+}
+
+const camAt = (keys: CameraKey[], f: number, w: number, h: number): Cam => {
+  const FULL: Cam = { z: 1, cx: w / 2, cy: h / 2 };
+  const mix = (a: Cam, b: Cam, p: number): Cam => ({ z: a.z + (b.z - a.z) * p, cx: a.cx + (b.cx - a.cx) * p, cy: a.cy + (b.cy - a.cy) * p });
+  let from = FULL;
+  let to = FULL;
+  let start = -1e9;
+  let len = 1;
+  for (const k of keys) {
+    if (k.at > f) break;
+    from = mix(from, to, ease(clamp01((k.at - start) / len)));
+    if (k.box) {
+      // fit the box with some room, never below 1x
+      const z = k.zoom ?? Math.max(1, Math.min(3, Math.min(w / (k.box[2] * 1.5), h / (k.box[3] * 1.5))));
+      to = { z, cx: k.box[0] + k.box[2] / 2, cy: k.box[1] + k.box[3] / 2 };
+    } else to = FULL;
+    start = k.at;
+    len = k.len ?? 20;
+  }
+  const c = mix(from, to, ease(clamp01((f - start) / len)));
+  // keep the view inside the screenshot
+  const hw = w / (2 * c.z);
+  const hh = h / (2 * c.z);
+  return { z: c.z, cx: Math.min(w - hw, Math.max(hw, c.cx)), cy: Math.min(h - hh, Math.max(hh, c.cy)) };
+};
+
 /**
  * A captured screen placed on the 1920x1080 stage. Children are positioned in screenshot pixels.
  * `src` is the 2x capture; `size` is its CSS size (half the image's pixel size).
+ * `shots` swaps captures over time (crossfade, or a cut with `cut: true`); `camera` pushes in on a box.
  */
 export const Screen: React.FC<{
-  src: string;
+  src?: string;
+  shots?: { at: number; src: string; cut?: boolean }[];
   size: [number, number];
+  camera?: CameraKey[];
   /** Stage rectangle. Defaults to centered, 1680 wide */
   x?: number;
   y?: number;
@@ -46,14 +91,26 @@ export const Screen: React.FC<{
   /** Small address pill above the screen */
   url?: string;
   children?: ReactNode;
-}> = ({ src, size, x, y, width = 1680, url, children }) => {
+}> = ({ src, shots, size, camera, x, y, width = 1680, url, children }) => {
+  const f = useGuideFrame();
   const [w, h] = size;
   const s = width / w;
   const height = h * s;
   const left = x ?? (1920 - width) / 2;
   const top = y ?? (1080 - height) / 2 + (url ? 18 : 0);
+  const list = shots ?? (src ? [{ at: -1e9, src }] : []);
+  let ci = 0;
+  for (let i = 0; i < list.length; i++) if (list[i].at <= f) ci = i;
+  const curShot = list[ci];
+  const prevShot = ci > 0 ? list[ci - 1] : undefined;
+  const fadeIn = curShot && prevShot && !curShot.cut ? clamp01((f - curShot.at) / 8) : 1;
+  const cam = camera ? camAt(camera, f, w, h) : { z: 1, cx: w / 2, cy: h / 2 };
+  const view = `scale(${s}) translate(${w / 2}px, ${h / 2}px) scale(${cam.z}) translate(${-cam.cx}px, ${-cam.cy}px)`;
+  const img = (p: string, o: number) => (
+    <img key={p} src={p} alt="" decoding="sync" style={{ position: 'absolute', left: 0, top: 0, width: w, height: h, opacity: o }} />
+  );
   return (
-    <ScreenCtx.Provider value={{ src, w, h }}>
+    <ScreenCtx.Provider value={{ src: curShot?.src ?? '', w, h }}>
       {url && (
         <div
           style={{
@@ -89,8 +146,9 @@ export const Screen: React.FC<{
           boxShadow: '0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(0,0,0,0.45)',
         }}
       >
-        <div style={{ position: 'absolute', left: 0, top: 0, width: w, height: h, transform: `scale(${s})`, transformOrigin: '0 0' }}>
-          <img src={src} alt="" decoding="sync" style={{ position: 'absolute', left: 0, top: 0, width: w, height: h }} />
+        <div style={{ position: 'absolute', left: 0, top: 0, width: w, height: h, transform: view, transformOrigin: '0 0' }}>
+          {prevShot && fadeIn < 1 && img(prevShot.src, 1)}
+          {curShot && img(curShot.src, fadeIn)}
           {children}
         </div>
       </div>
@@ -314,6 +372,99 @@ export const Cursor: React.FC<{ keys: { at: number; p?: Pt; click?: boolean }[] 
         <path d="M2 2 L2 24 L8 18.5 L12 27.5 L15.5 26 L11.5 17 L19.5 17 Z" fill="#fff" stroke="#111" strokeWidth={1.6} strokeLinejoin="round" />
       </svg>
     </>
+  );
+};
+
+/**
+ * Types `text` into an input field drawn over `box`, at `cps` characters per second, with a caret.
+ * `secret` shows dots. `tone` matches the field: light fields get dark text and the reverse.
+ */
+export const TypeIn: React.FC<{
+  box: Box;
+  text: string;
+  from: number;
+  to?: number;
+  cps?: number;
+  secret?: boolean;
+  tone?: 'light' | 'dark';
+  fontSize?: number;
+  mono?: boolean;
+}> = ({ box, text, from, to = Infinity, cps = 14, secret, tone = 'light', fontSize = 15, mono }) => {
+  const f = useGuideFrame();
+  const { fps } = useVideoConfig();
+  if (f < from || f >= to) return null;
+  const n = Math.min(text.length, Math.floor(((f - from) / fps) * cps));
+  const typing = n < text.length;
+  const caretOn = typing || Math.floor((f - from) / (fps / 2)) % 2 === 0;
+  const shown = secret ? '•'.repeat(n) : text.slice(0, n);
+  const light = tone === 'light';
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: box[0],
+        top: box[1],
+        width: box[2],
+        height: box[3],
+        borderRadius: 6,
+        background: light ? '#ffffff' : '#25262b',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 12px',
+        overflow: 'hidden',
+        whiteSpace: 'pre',
+        fontFamily: mono ? 'var(--font-code, ui-monospace, Menlo, monospace)' : bodyFontFamily,
+        fontSize,
+        letterSpacing: secret ? 2 : 0,
+        color: light ? '#111' : '#f1f1f1',
+        boxShadow: `0 0 0 2px ${BRAND}`,
+        pointerEvents: 'none',
+      }}
+    >
+      {shown}
+      <span style={{ width: 2, height: fontSize * 1.2, marginLeft: 1, background: light ? '#111' : '#f1f1f1', opacity: caretOn ? 1 : 0 }} />
+    </div>
+  );
+};
+
+/**
+ * Hides part of a capture: a blur or a solid block. For anything that must not be readable in a
+ * published guide. Captures should already hold demo data only; this is the second line, not the first.
+ */
+export const Redact: React.FC<{ box: Box; from?: number; to?: number; mode?: 'blur' | 'block'; label?: string }> = ({
+  box,
+  from = -1e9,
+  to = Infinity,
+  mode = 'blur',
+  label,
+}) => {
+  const f = useGuideFrame();
+  if (f < from || f >= to) return null;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: box[0],
+        top: box[1],
+        width: box[2],
+        height: box[3],
+        borderRadius: 6,
+        ...(mode === 'blur'
+          ? { backdropFilter: 'blur(9px) saturate(0.6)', WebkitBackdropFilter: 'blur(9px) saturate(0.6)', background: 'rgba(128,128,128,0.12)' }
+          : { background: '#2a2d35' }),
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'rgba(255,255,255,0.85)',
+        fontFamily: bodyFontFamily,
+        fontSize: 13,
+        fontWeight: 700,
+        letterSpacing: 0.5,
+        pointerEvents: 'none',
+      }}
+    >
+      {label}
+    </div>
   );
 };
 

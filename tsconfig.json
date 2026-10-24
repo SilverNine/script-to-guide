@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "lib": ["dom", "es2020"],
+    "lib": [
+      "dom",
+      "es2020"
+    ],
     "jsx": "react-jsx",
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -11,8 +14,16 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "guide-runtime": ["runtime/index.tsx"]
+      "guide-runtime": [
+        "runtime/index.tsx"
+      ]
     }
   },
-  "include": ["runtime", "src", "player", "guides"]
+  "include": [
+    "runtime",
+    "src",
+    "player",
+    "guides",
+    "gallery"
+  ]
 }

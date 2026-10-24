@@ -36,6 +36,8 @@ See `references/pipeline.md`. Stages: brief → script → capture → narration
 | Script format and scene IDs | `references/script-format.md` |
 | Narration voice and sentence rules | `references/narration.md` |
 | Pronunciation dictionary | `references/pronunciation.md` |
-| Motion cards (spotlight, pin, magnifier, cursor, chapter label, callout) | `cards/` |
+| Motion cards: read the card before using a motion, copy its pitfalls into the scene plan | `cards/README.md`, then `cards/<id>.md` |
+| Live preview of every motion | `gallery/` (build with `node scripts/build-gallery.mjs`) |
+| Guide folder layout, frames, overlays, steps | `guides/README.md` |
 | Final review checklist | `references/final-review.md` |
 | Build and export | `references/build.md` |
