@@ -1,6 +1,6 @@
 # references
 
-Documents the skill reads while working. None exist yet; this list is the plan.
+Documents the skill reads while working.
 
 | File | Purpose |
 |---|---|

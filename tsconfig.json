@@ -16,6 +16,9 @@
     "paths": {
       "guide-runtime": [
         "runtime/index.tsx"
+      ],
+      "script-to-guide": [
+        "src/index.ts"
       ]
     }
   },

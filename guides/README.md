@@ -1,6 +1,6 @@
 # guides/
 
-One folder per guide. Everything a guide needs lives here; the engine (`runtime/`, `src/`, `player/`, `scripts/`) does not know any guide by name.
+One folder per guide. In a user's project guides live in `./guides/<name>/`; this folder holds the samples. The engine (`runtime/`, `src/`, `player/`, `scripts/`) does not know any guide by name, and a guide imports the engine only as `guide-runtime` (frames, sequences, primitives) and `script-to-guide` (overlays, cards, `createTimeline`, `asset`, types). Paths inside `guide.json` are relative to the guide folder.
 
 ```
 guides/<name>/
@@ -14,7 +14,7 @@ guides/<name>/
   public/              screenshots and other static files copied into the build
   data/                written by tts_synth.py: captions.json, scenes.json
   takes/               written by tts_synth.py: per-scene mp3 + json (ignored by git)
-  recordings/          written by tts_synth.py: narration.mp3 (ignored by git)
+  recordings/          written by tts_synth.py: narration.mp3
 ```
 
 ## script.md
@@ -65,16 +65,20 @@ step-by-step mode. Start a step at `scene(id).fromFrame` so it never opens mid-s
 ```ts
 import captions from './data/captions.json';
 import scenes from './data/scenes.json';
-import { createTimeline } from '../../src/lib/timing';
+import { createTimeline } from 'script-to-guide';
 export const { FPS, DURATION, scene, speechStart, speechEnd, cue } = createTimeline(scenes, captions);
 ```
 
 ## Workflow
 
 ```bash
-python3 scripts/tts_synth.py <name>            # narration.mp3, data/captions.json, data/scenes.json
-python3 scripts/tts_verify.py <name>           # transcribe and compare with the script
-node scripts/build-web.mjs --guide <name>      # dist/<name>/index.html
-node scripts/frames.mjs --guide <name> --at 0,300,900   # review stills
-node scripts/render-mp4.mjs --guide <name>     # dist/<name>.mp4 + .srt (optional)
+stg new <name>                      # ./guides/<name>/ from the sample
+stg synth <name>                    # narration.mp3, data/captions.json, data/scenes.json
+stg verify <name>                   # transcribe and compare with the script
+stg check <name>                    # type-check the scenes
+stg build <name>                    # dist/<name>/index.html
+stg frames <name> --at 0,300,900    # review stills
+stg mp4 <name>                      # dist/<name>.mp4 + .srt (optional)
 ```
+
+`stg` is `node <skill>/scripts/stg.mjs`. Inside this repository the scripts also run directly (`node scripts/build-web.mjs --guide <name>`).

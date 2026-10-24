@@ -15,6 +15,7 @@ import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { outPath } from './lib/paths.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -23,7 +24,9 @@ const opt = (name, def) => {
   return i < 0 ? def : args[i + 1];
 };
 const has = (name) => args.includes(name);
-const NAME = opt('--guide');
+const GUIDE_ARG = opt('--guide');
+/** a guide name or folder; the build lives at <dist>/<folder name> */
+const NAME = GUIDE_ARG && path.basename(path.resolve(GUIDE_ARG));
 const AT = (opt('--at', '0') || '0').split(',').map((s) => Number(s.trim())).filter((n) => Number.isFinite(n));
 const PAGE = has('--page');
 const DARK = has('--dark');
@@ -32,8 +35,8 @@ if (!NAME) {
   console.error('usage: node scripts/frames.mjs --guide <name> --at 0,450,1200 [--page] [--dark] [--width 1440] [--out <folder>] [--dist <folder>]');
   process.exit(1);
 }
-const dist = path.resolve(ROOT, opt('--dist', 'dist'), NAME);
-const out = path.resolve(ROOT, opt('--out', path.join('dist', 'frames')));
+const dist = path.join(outPath(opt('--dist', 'dist')), NAME);
+const out = outPath(opt('--out', path.join('dist', 'frames')));
 if (!existsSync(path.join(dist, 'index.html'))) {
   console.error(`not built: ${dist} (run scripts/build-web.mjs --guide ${NAME} first)`);
   process.exit(1);

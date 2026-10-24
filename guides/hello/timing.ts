@@ -1,6 +1,6 @@
 import captions from './data/captions.json';
 import scenes from './data/scenes.json';
-import { createTimeline } from '../../src/lib/timing';
+import { createTimeline } from 'script-to-guide';
 
 export const { FPS, DURATION, scene, speechStart, speechEnd, cue } = createTimeline(scenes, captions);
 /** First frame of a scene, including the silence before its first word */

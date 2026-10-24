@@ -26,6 +26,24 @@
 - **필요하면 영상으로.** 같은 타임라인을 헤드리스 브라우저에서 프레임 단위로 찍어 MP4로 냅니다. 영상 프레임워크 의존성이 없습니다.
 - **검산한 내레이션.** 합성한 음성을 다시 받아써서 대본과 비교합니다. 제품 이름을 잘못 읽으면 누가 듣기 전에 잡힙니다.
 
+## 설치
+
+첫 릴리스 전입니다. 릴리스 뒤에는 이렇게 설치합니다.
+
+```bash
+# Claude Code
+claude plugin marketplace add SilverNine/script-to-guide
+claude plugin install script-to-guide@silvernine
+
+# Codex (또는 플러그인 없이 Claude Code)
+git clone https://github.com/SilverNine/script-to-guide.git ~/.script-to-guide
+ln -s ~/.script-to-guide ~/.codex/skills/script-to-guide
+```
+
+에이전트에게 가이드를 만들어 달라고 하면 처음 한 번 `setup`이 돌아 Node 패키지, Playwright Chromium, Python 가상환경을 스킬 폴더 안에 설치합니다. Node 18 이상, Python 3.10 이상, ffmpeg가 필요합니다.
+
+스킬 폴더에는 엔진만 있습니다. 가이드는 내 프로젝트의 `guides/<이름>/`에, 빌드 결과는 `dist/`에 생깁니다. 스킬을 업데이트해도 내 작업은 그대로입니다.
+
 ## 한국어에 대해
 
 한국어로 8편을 만들며 쌓인 것이 들어 있습니다. 화면 표기와 낭독 표기를 분리하는 발음 치환 사전, 어절 단위 자막 시각 계산, 합니다체 내레이션 문체 규칙, 쓰인 글자만 담는 한글 폰트 서브셋. 영어 README가 정본이고, 이 문서는 요약입니다.

@@ -1,7 +1,5 @@
 import { AbsoluteFill, Sequence } from 'guide-runtime';
-import { asset } from '../../player/assets';
-import { Callout, Cursor, Magnifier, Screen, Spotlight, mid, pad, type Box } from '../../src/components/overlays';
-import { StepList, TitleCard } from '../../src/components/cards';
+import { asset, Callout, Cursor, Magnifier, Screen, Spotlight, mid, pad, type Box, StepList, TitleCard } from 'script-to-guide';
 import writeBoxes from './public/screens/write.boxes.json';
 import menuBoxes from './public/screens/theme-menu.boxes.json';
 import linkBoxes from './public/screens/link.boxes.json';

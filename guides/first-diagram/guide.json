@@ -1,10 +1,10 @@
 {
   "build": {
     "out": "dist",
-    "copy": [{ "from": "guides/first-diagram/public/screens", "to": "screens", "ext": [".webp"] }],
-    "audio": { "from": "guides/first-diagram/recordings/narration.mp3", "to": "narration.mp3", "bitrate": "96k" },
-    "captions": "guides/first-diagram/data/captions.json",
-    "chars": ["guides/first-diagram"]
+    "copy": [{ "from": "public/screens", "to": "screens", "ext": [".webp"] }],
+    "audio": { "from": "recordings/narration.mp3", "to": "narration.mp3", "bitrate": "96k" },
+    "captions": "data/captions.json",
+    "chars": ["."]
   },
   "page": {
     "lang": "en",

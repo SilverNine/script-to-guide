@@ -5,10 +5,10 @@ Two outputs from one timeline. Build the HTML first; the MP4 is rendered from th
 ## HTML
 
 ```bash
-node scripts/build-web.mjs --guide <name> [--out <folder>] [--zip]
+node <skill>/scripts/stg.mjs build <name> [--out <folder>] [--zip]
 ```
 
-- Output: `<out>/<name>/` with `index.html`, `app.js`, the captures and the narration. Open `index.html` from any static host.
+- Output: `./dist/<name>/` of the current directory (or `<out>/<name>/`) with `index.html`, `app.js`, the captures and the narration. Open `index.html` from any static host.
 - `guide.json` `build` decides what is copied: `copy` (captures), `audio` (re-encoded by ffmpeg at `bitrate`), `captions`, `chars` (folders whose text sets the font subset).
 - `build.limits` (`zipMB`, `fileMB`, `files`) fails the build when it would break a host's upload limits. Keep the guide near 2 MB.
 - `--zip` also writes `<name>.zip` for upload to a help center or LMS.
@@ -16,7 +16,7 @@ node scripts/build-web.mjs --guide <name> [--out <folder>] [--zip]
 ## MP4
 
 ```bash
-node scripts/render-mp4.mjs --guide <name> [--out dist/<name>.mp4] [--captions srt|burn|none] [--workers 4] [--crf 18]
+node <skill>/scripts/stg.mjs mp4 <name> [--out dist/<name>.mp4] [--captions srt|burn|none] [--workers 4] [--crf 18]
 ```
 
 - The player is the renderer. Each worker opens the build in headless Chromium in stage-only mode (`?still`), calls `window.__seek(frame)` for every frame, and pipes JPEG screenshots to its own x264 encoder. The segments are joined without re-encoding and the narration goes under them as AAC.
@@ -27,7 +27,7 @@ node scripts/render-mp4.mjs --guide <name> [--out dist/<name>.mp4] [--captions s
 
 ## Checks before publishing
 
-1. `python3 scripts/tts_verify.py <name>`: no known mispronunciations, similarity steady between runs.
-2. `node scripts/frames.mjs --guide <name> --at <one frame per scene>`: look at every scene.
+1. `stg verify <name>`: no known mispronunciations, similarity steady between runs.
+2. `stg frames <name> --at <one frame per scene>`: look at every scene.
 3. Play the HTML once end to end with sound, in step-by-step mode.
 4. If you ship the MP4, scrub it once: the first and last second, and every screen change.

@@ -1,5 +1,4 @@
-import type { GuideDefinition } from '../../player/guide';
-import { asset } from '../../player/assets';
+import { type GuideDefinition, asset } from 'script-to-guide';
 import { Scene } from './Scene';
 import { captions, DURATION, FPS, sceneStart } from './timing';
 

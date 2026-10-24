@@ -22,6 +22,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { outPath } from './lib/paths.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -29,7 +30,9 @@ const opt = (name, def) => {
   const i = args.indexOf(name);
   return i < 0 ? def : args[i + 1];
 };
-const NAME = opt('--guide');
+const GUIDE_ARG = opt('--guide');
+/** a guide name or folder; the build lives at <dist>/<folder name> */
+const NAME = GUIDE_ARG && path.basename(path.resolve(GUIDE_ARG));
 if (!NAME) {
   console.error('usage: node scripts/render-mp4.mjs --guide <name> [--out <file.mp4>] [--workers 4] [--captions srt|burn|none] [--crf 18] [--from <frame>] [--to <frame>]');
   process.exit(1);
@@ -41,10 +44,10 @@ if (!['srt', 'burn', 'none'].includes(CAPTIONS)) {
   process.exit(1);
 }
 const CRF = opt('--crf', '18');
-const dist = path.resolve(ROOT, opt('--dist', 'dist'), NAME);
-const OUT = path.resolve(ROOT, opt('--out', path.join('dist', `${NAME}.mp4`)));
+const dist = path.join(outPath(opt('--dist', 'dist')), NAME);
+const OUT = outPath(opt('--out', path.join('dist', `${NAME}.mp4`)));
 if (!existsSync(path.join(dist, 'index.html'))) {
-  console.error(`not built: ${path.relative(ROOT, dist)} (run node scripts/build-web.mjs --guide ${NAME} first)`);
+  console.error(`not built: ${dist} (run node scripts/build-web.mjs --guide ${NAME} first)`);
   process.exit(1);
 }
 if (spawnSync('ffmpeg', ['-version']).status !== 0) {
@@ -171,4 +174,4 @@ if (CAPTIONS === 'srt' && SUBS.length) {
 }
 
 const mb = (statSync(OUT).size / 1048576).toFixed(1);
-console.log(`→ ${path.relative(ROOT, OUT)}  ${seconds.toFixed(1)} s, ${mb} MB, rendered in ${((Date.now() - t0) / 1000).toFixed(0)} s${CAPTIONS === 'srt' ? ` (+ ${path.basename(OUT).replace(/\.mp4$/i, '')}.srt)` : ''}`);
+console.log(`→ ${OUT}  ${seconds.toFixed(1)} s, ${mb} MB, rendered in ${((Date.now() - t0) / 1000).toFixed(0)} s${CAPTIONS === 'srt' ? ` (+ ${path.basename(OUT).replace(/\.mp4$/i, '')}.srt)` : ''}`);

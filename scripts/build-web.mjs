@@ -2,17 +2,19 @@
 /**
  * Build one guide into a self-contained HTML folder (and optionally a zip).
  *
- *   node scripts/build-web.mjs --guide <name> [--out <folder>] [--zip]
+ *   node scripts/build-web.mjs --guide <name|folder> [--out <folder>] [--zip]
  *
- * Reads `guides/<name>/guide.json`:
+ * The guide is a folder path, or a name under ./guides, then the engine's own guides/ (scripts/lib/paths.mjs).
+ * Output goes to ./dist/<name>/ of the current directory unless --out or build.out says otherwise.
+ * Reads `<guide>/guide.json` (paths inside it are relative to the guide folder):
  *
  *   {
  *     "build": {
  *       "out": "dist",                       // output root; the guide lands in <out>/<name>/
- *       "copy": [ { "from": "guides/<name>/public/screens", "to": "screens", "ext": [".webp"] } ],
- *       "audio": { "from": "guides/<name>/recordings/narration.mp3", "to": "narration.mp3", "bitrate": "96k" },
- *       "captions": "guides/<name>/data/captions.json",
- *       "chars": ["guides/<name>"],          // folders whose source text may appear on screen (for font subsetting)
+ *       "copy": [ { "from": "public/screens", "to": "screens", "ext": [".webp"] } ],
+ *       "audio": { "from": "recordings/narration.mp3", "to": "narration.mp3", "bitrate": "96k" },
+ *       "captions": "data/captions.json",
+ *       "chars": ["."],                       // folders whose source text may appear on screen (for font subsetting)
  *       "limits": { "zipMB": 20, "fileMB": 10, "files": 300 }   // optional, for hosts that enforce them
  *     },
  *     "page": {
@@ -25,7 +27,7 @@
  *   }
  *
  * - Scene code imports `guide-runtime`; esbuild aliases it to runtime/index.tsx. No video framework ships.
- * - `@guide` is aliased to `guides/<name>/web.tsx`. player/main.tsx does not know the guide's name.
+ * - `@guide` is aliased to `<guide>/web.tsx`, `script-to-guide` to src/index.ts. player/main.tsx does not know the guide.
  * - The body font is subset to the characters that can appear (captions, scene source, page title) and
  *   embedded as woff2, so the guide renders offline and inside sandboxed embeds. Requires fontTools
  *   (`pip install -r requirements.txt`). Without `page.font.source` the system font stack is used.
@@ -36,6 +38,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as esbuild from 'esbuild';
+import { inGuide, outPath, resolveGuide } from './lib/paths.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(ROOT);
@@ -56,15 +59,15 @@ const flag = (name) => {
   args.splice(i, 1);
   return true;
 };
-const NAME = opt('--guide');
+const GUIDE_ARG = opt('--guide');
 const outArg = opt('--out');
 const ZIP = flag('--zip');
-if (!NAME) {
+if (!GUIDE_ARG) {
   const have = existsSync('guides') ? readdirSync('guides').filter((d) => existsSync(path.join('guides', d, 'guide.json'))) : [];
   console.error(`usage: node scripts/build-web.mjs --guide <name> [--out <folder>] [--zip]\navailable: ${have.join(', ') || '(none)'}`);
   process.exit(1);
 }
-const gDir = path.resolve('guides', NAME);
+const { dir: gDir, name: NAME } = resolveGuide(GUIDE_ARG);
 const gTsx = path.join(gDir, 'web.tsx');
 const gJson = path.join(gDir, 'guide.json');
 for (const f of [gTsx, gJson]) {
@@ -77,7 +80,8 @@ const cfg = JSON.parse(readFileSync(gJson, 'utf8'));
 const { build, page, theme } = cfg;
 const home = (p) => p.replace(/^~(?=\/|$)/, os.homedir());
 
-const outRoot = path.resolve(home(outArg || build.out || 'dist'));
+const outRoot = outPath(home(outArg || build.out || 'dist'));
+const G = (p) => inGuide(gDir, p);
 const dir = path.join(outRoot, NAME);
 rmSync(dir, { recursive: true, force: true });
 mkdirSync(path.join(dir, 'fonts'), { recursive: true });
@@ -86,8 +90,9 @@ mkdirSync(path.join(dir, 'fonts'), { recursive: true });
 const copies = [];
 for (const c of build.copy || []) {
   // a folder copy (ext) may be empty for a new guide; a named file (files) must exist
-  const names = c.files || (existsSync(c.from) ? readdirSync(c.from).filter((f) => (c.ext || []).some((e) => f.endsWith(e))).sort() : []);
-  for (const n of names) copies.push({ src: path.join(c.from, n), rel: `${c.to}/${n}` });
+  const from = G(c.from);
+  const names = c.files || (existsSync(from) ? readdirSync(from).filter((f) => (c.ext || []).some((e) => f.endsWith(e))).sort() : []);
+  for (const n of names) copies.push({ src: path.join(from, n), rel: `${c.to}/${n}` });
 }
 const IMAGES = copies.filter((c) => /\.(webp|png|jpe?g|gif|svg)$/i.test(c.rel)).map((c) => c.rel);
 
@@ -97,13 +102,15 @@ const alias = {
   setup(b) {
     b.onResolve({ filter: /^@guide$/ }, () => ({ path: gTsx }));
     b.onResolve({ filter: /^guide-runtime$/ }, () => ({ path: path.join(ROOT, 'runtime/index.tsx') }));
+    b.onResolve({ filter: /^script-to-guide$/ }, () => ({ path: path.join(ROOT, 'src/index.ts') }));
     b.onResolve({ filter: /^remotion$|^@remotion\// }, (a) => ({
       errors: [{ text: `${a.path}: scenes import from 'guide-runtime', not from a video framework` }],
     }));
   },
 };
 await esbuild.build({
-  entryPoints: ['player/main.tsx'],
+  entryPoints: [path.join(ROOT, 'player/main.tsx')],
+  absWorkingDir: ROOT,
   bundle: true,
   minify: true,
   format: 'iife',
@@ -114,6 +121,8 @@ await esbuild.build({
     __IMAGES__: JSON.stringify(IMAGES),
   },
   plugins: [alias],
+  // a guide outside the engine folder still resolves react from the engine's node_modules
+  nodePaths: [path.join(ROOT, 'node_modules')],
   outfile: path.join(dir, 'app.js'),
   logLevel: 'warning',
 });
@@ -151,7 +160,7 @@ for (const c of copies) {
 }
 if (build.audio) {
   mkdirSync(path.dirname(path.join(dir, build.audio.to)), { recursive: true });
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', build.audio.from, '-b:a', build.audio.bitrate || '96k', path.join(dir, build.audio.to)]);
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', G(build.audio.from), '-b:a', build.audio.bitrate || '96k', path.join(dir, build.audio.to)]);
 }
 
 // 3) font: only the characters that can appear on screen
@@ -162,8 +171,8 @@ if (font.source) {
       .filter((f) => /\.(tsx?|m?js|json|md)$/.test(f))
       .map((f) => readFileSync(path.join(d, f), 'utf8'));
   const texts = [
-    build.captions ? JSON.parse(readFileSync(build.captions, 'utf8')).transcription.map((w) => w.text).join('') : '',
-    ...(build.chars || [gDir]).flatMap(srcFiles),
+    build.captions ? JSON.parse(readFileSync(G(build.captions), 'utf8')).transcription.map((w) => w.text).join('') : '',
+    ...(build.chars || ['.']).map(G).flatMap(srcFiles),
     page.title,
     page.subtitle || '',
     readFileSync('player/main.tsx', 'utf8'),
@@ -177,7 +186,7 @@ if (font.source) {
   const py = existsSync('.venv/bin/python') ? '.venv/bin/python' : 'python3';
   execFileSync(py, [
     '-m', 'fontTools.subset',
-    font.source,
+    G(font.source),
     `--text-file=${charFile}`,
     '--flavor=woff2',
     '--layout-features=*',

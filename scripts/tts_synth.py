@@ -56,6 +56,8 @@ import urllib.error
 import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from _paths import CWD, resolve_guide  # noqa: E402
 FPS = 30
 
 # ---------- script and dictionaries ----------
@@ -129,7 +131,7 @@ def load_key() -> str:
     k = os.environ.get("ELEVENLABS_API_KEY")
     if k:
         return k.strip()
-    p = ROOT / ".env.elevenlabs"
+    p = next((d / ".env.elevenlabs" for d in (CWD, ROOT) if (d / ".env.elevenlabs").exists()), ROOT / ".env.elevenlabs")
     if p.exists():
         return p.read_text(encoding="utf-8").strip()
     sys.exit("No ElevenLabs key: set ELEVENLABS_API_KEY or create .env.elevenlabs in the repository root")
@@ -269,9 +271,9 @@ def main() -> None:
 
     if not re.fullmatch(r"[a-z][a-z0-9-]{1,39}", a.guide):
         sys.exit("guide names use lowercase letters, digits and hyphens")
-    gdir = ROOT / "guides" / a.guide
+    gdir = resolve_guide(a.guide)
     if not (gdir / "script.md").exists():
-        sys.exit(f"missing {gdir.relative_to(ROOT)}/script.md")
+        sys.exit(f"missing {gdir}/script.md")
     cfg = json.loads((gdir / "guide.json").read_text(encoding="utf-8")) if (gdir / "guide.json").exists() else {}
     lang = a.lang or cfg.get("page", {}).get("lang", "en")
     tts_cfg = cfg.get("tts", {})
@@ -362,7 +364,7 @@ def main() -> None:
     for sc in scenes:
         a_, b_ = sc["fromFrame"] / FPS, sc["toFrame"] / FPS
         print(f"  {sc['scene']:<6} {int(a_ // 60)}:{a_ % 60:04.1f} ~ {int(b_ // 60)}:{b_ % 60:04.1f}  ({b_ - a_:4.1f}s · gap {sc['gapSec']:.1f})")
-    print(f"  → {out_mp3.relative_to(ROOT)} · {data.relative_to(ROOT)}/captions.json · scenes.json")
+    print(f"  → {out_mp3} · {data}/captions.json · scenes.json")
 
 
 if __name__ == "__main__":

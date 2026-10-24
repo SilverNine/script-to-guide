@@ -41,13 +41,14 @@ import uuid
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 from tts_synth import build, load_dict, load_json_map, script_lines  # noqa: E402
+from _paths import CWD, resolve_guide  # noqa: E402
 
 
 def load_key() -> str:
     k = os.environ.get("ELEVENLABS_API_KEY")
     if k:
         return k.strip()
-    p = ROOT / ".env.elevenlabs"
+    p = next((d / ".env.elevenlabs" for d in (CWD, ROOT) if (d / ".env.elevenlabs").exists()), ROOT / ".env.elevenlabs")
     if p.exists():
         return p.read_text(encoding="utf-8").strip()
     sys.exit("No ElevenLabs key: set ELEVENLABS_API_KEY or create .env.elevenlabs")
@@ -112,10 +113,10 @@ def main() -> None:
     ap.add_argument("--lang", default=None)
     a = ap.parse_args()
 
-    gdir = ROOT / "guides" / a.guide
+    gdir = resolve_guide(a.guide)
     mp3 = gdir / "recordings" / "narration.mp3"
     if not mp3.exists():
-        sys.exit(f"missing {mp3.relative_to(ROOT)}: run tts_synth.py first")
+        sys.exit(f"missing {mp3}: run tts_synth.py first")
     cfg = json.loads((gdir / "guide.json").read_text(encoding="utf-8")) if (gdir / "guide.json").exists() else {}
     lang = a.lang or cfg.get("page", {}).get("lang", "en")
 
@@ -140,7 +141,7 @@ def main() -> None:
     ratio = difflib.SequenceMatcher(None, norm(spoken_script), norm(text)).ratio()
     print(f"known mispronunciations: {bad}" + ("" if bad else " (pass)"))
     print(f"transcript similarity to script: {ratio:.3f}")
-    print(f"transcript: {(gdir / 'recordings' / 'narration.stt.txt').relative_to(ROOT)} (numbers and foreign words are often rewritten by the engine; check those by ear)")
+    print(f"transcript: {gdir / 'recordings' / 'narration.stt.txt'} (numbers and foreign words are often rewritten by the engine; check those by ear)")
 
 
 if __name__ == "__main__":

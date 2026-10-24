@@ -1,10 +1,10 @@
 {
   "build": {
     "out": "dist",
-    "copy": [{ "from": "guides/hello/public/screens", "to": "screens", "ext": [".webp"] }],
-    "audio": { "from": "guides/hello/recordings/narration.mp3", "to": "narration.mp3", "bitrate": "96k" },
-    "captions": "guides/hello/data/captions.json",
-    "chars": ["guides/hello"]
+    "copy": [{ "from": "public/screens", "to": "screens", "ext": [".webp"] }],
+    "audio": { "from": "recordings/narration.mp3", "to": "narration.mp3", "bitrate": "96k" },
+    "captions": "data/captions.json",
+    "chars": ["."]
   },
   "page": {
     "lang": "en",

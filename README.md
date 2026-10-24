@@ -50,25 +50,41 @@ Product UI changes. A recorded video dies with it. A guide built from a script d
 | `cards/` | 13 motion cards: spotlight, numbered pin, magnifier, cursor click, callout, type-in, screen swap, camera push-in, redact, title, chapter, step list, drawn dialog. Each has an intent, when to use and avoid it, a parameter table, known pitfalls and a reference implementation |
 | `gallery/` | Every card playing live, rendered by the player's own runtime |
 | `player/` | The HTML player. Dependency-free web component, frame clock driven by audio position, keyboard shortcuts, follow-along mode |
-| `scripts/` | TTS synthesis with word timestamps (free path: edge-tts; bring your own: ElevenLabs), caption and timetable generation, transcription check, web build, MP4 export |
+| `scripts/` | `stg.mjs`, the one entry point: setup, new guide, capture, TTS with word timestamps (edge-tts with no key, or ElevenLabs), transcription check, web build, MP4 export |
 | `guides/first-diagram/` | One complete sample guide for a public app: script, pronunciation dictionary, captures with element boxes, scenes |
 
 ## Install
 
-Not yet. When the first release lands:
+Not released yet. When the first release lands:
 
 ```bash
 # Claude Code
 claude plugin marketplace add SilverNine/script-to-guide
 claude plugin install script-to-guide@silvernine
 
-# or, for Claude Code and Codex alike
-git clone https://github.com/SilverNine/script-to-guide.git
-ln -s "$PWD/script-to-guide" ~/.claude/skills/script-to-guide
-ln -s "$PWD/script-to-guide" ~/.codex/skills/script-to-guide
+# Codex (or Claude Code without the plugin system)
+git clone https://github.com/SilverNine/script-to-guide.git ~/.script-to-guide
+ln -s ~/.script-to-guide ~/.codex/skills/script-to-guide
+ln -s ~/.script-to-guide ~/.claude/skills/script-to-guide
 ```
 
-Runtime dependencies will be Node 18+, Python 3.11+, ffmpeg, and a Chromium that Playwright installs.
+Then ask your agent for a guide ("make a 2 minute guide for our signup flow"). On first use it runs `setup`, which installs the engine's Node packages, Playwright's Chromium and a Python venv inside the skill folder. You need Node 18+, Python 3.10+ and ffmpeg.
+
+The skill folder is the engine only. Your guides live in your project under `guides/<name>/` and builds go to `dist/`, so updating the skill never touches your work.
+
+## Without an agent
+
+Every step is one command:
+
+```bash
+STG="node ~/.script-to-guide/scripts/stg.mjs"
+$STG setup                     # once
+$STG new signup                # ./guides/signup/ from the sample, builds as is
+$STG synth signup              # narration, captions, scene timetable
+$STG verify signup             # transcribe it back and diff against the script
+$STG build signup              # dist/signup/index.html
+$STG mp4 signup                # dist/signup.mp4 + .srt
+```
 
 ## Roadmap
 
@@ -77,7 +93,7 @@ Runtime dependencies will be Node 18+, Python 3.11+, ffmpeg, and a Chromium that
 3. ~~**Cards and gallery.**~~ First 13 cards done, each with a live preview. More cards as real guides need them.
 4. ~~**Sample guide.**~~ Done. "Your first diagram in MermanDraw", 1:28, built end to end with the skill. Narration checked by whisper.cpp: no mispronunciations, 0.993 similarity to the script.
 5. ~~**MP4 export.**~~ Done. `scripts/render-mp4.mjs` steps the player frame by frame in headless Chromium, encodes in parallel, and lays the narration under it. Captions as an `.srt` file or burned in. The sample renders in about 40 seconds on a laptop.
-6. **First release.** Plugin manifest, Codex manifest, README in English and Korean.
+6. **First release.** Plugin and Codex manifests, one entry point (`stg`), guides kept in the user's project, references for every stage. Tag 0.1.0 and open the repository.
 
 ## Related projects
 

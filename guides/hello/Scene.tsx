@@ -1,7 +1,5 @@
 import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useGuideFrame, useVideoConfig } from 'guide-runtime';
-import { Cursor, Magnifier, Pin, Screen, Spotlight, mid, pad, type Box } from '../../src/components/overlays';
-import { bodyFontFamily } from '../../src/theme/fonts';
-import { asset } from '../../player/assets';
+import { Cursor, Magnifier, Pin, Screen, Spotlight, mid, pad, type Box, bodyFontFamily, asset } from 'script-to-guide';
 import shot from './public/screens/editor.boxes.json';
 import { cue, DURATION, sceneStart } from './timing';
 
