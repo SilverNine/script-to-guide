@@ -26,8 +26,13 @@
 
 ## 설치
 
+가장 쉬운 방법은 에이전트에게 링크를 주는 것입니다. "이 스킬 설치해 줘: https://github.com/SilverNine/script-to-guide". 직접 설치하려면 아래 중 하나를 고릅니다.
+
 ```bash
-# Claude Code
+# Claude Code, Codex 등 스킬을 읽는 에이전트 공통, skills.sh
+npx skills add SilverNine/script-to-guide
+
+# Claude Code 플러그인
 claude plugin marketplace add SilverNine/script-to-guide
 claude plugin install script-to-guide@silvernine
 

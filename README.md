@@ -41,8 +41,13 @@ Product UI changes. A recorded video dies with it. A guide built from a script d
 
 ## Install
 
+The quickest way is to hand your agent the link: "Install this skill: https://github.com/SilverNine/script-to-guide". Or pick one:
+
 ```bash
-# Claude Code
+# Claude Code, Codex and other agents that read skills, via skills.sh
+npx skills add SilverNine/script-to-guide
+
+# Claude Code plugin
 claude plugin marketplace add SilverNine/script-to-guide
 claude plugin install script-to-guide@silvernine
 
