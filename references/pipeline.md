@@ -38,7 +38,7 @@ Follow `capture.md`. One capture per screen state, with element boxes in `<shot>
 
 ```bash
 stg synth <name>                      # takes/, recordings/narration.mp3, data/captions.json, data/scenes.json
-stg verify <name> --stt pywhispercpp
+stg verify <name>
 ```
 
 Fix every hit from `stg verify` through `pronunciation.json` (see `pronunciation.md`), then re-run. Only changed scenes are re-synthesized. After this step the length is fixed: do not edit narration while assembling scenes. If a sentence must change, re-run synthesis and let the cues move.

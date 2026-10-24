@@ -77,13 +77,13 @@ The skill folder is the engine only. Your guides live in your project under `gui
 Every step is one command:
 
 ```bash
-STG="node ~/.script-to-guide/scripts/stg.mjs"
-$STG setup                     # once
-$STG new signup                # ./guides/signup/ from the sample, builds as is
-$STG synth signup              # narration, captions, scene timetable
-$STG verify signup             # transcribe it back and diff against the script
-$STG build signup              # dist/signup/index.html
-$STG mp4 signup                # dist/signup.mp4 + .srt
+stg() { node ~/.script-to-guide/scripts/stg.mjs "$@"; }
+stg setup                     # once
+stg new signup                # ./guides/signup/ from the sample, builds as is
+stg synth signup              # narration, captions, scene timetable
+stg verify signup             # transcribe it back and diff against the script
+stg build signup              # dist/signup/index.html
+stg mp4 signup                # dist/signup.mp4 + .srt
 ```
 
 ## Roadmap

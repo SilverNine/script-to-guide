@@ -16,7 +16,7 @@ const HELP = `script-to-guide
 
 usage: node ${path.join(ROOT, 'scripts', 'stg.mjs')} <command> [args]
 
-  setup                          install the engine's dependencies (once, and after an update)
+  setup [--no-verify]            install the engine's dependencies (once, and after an update)
   doctor                         check node, python, ffmpeg, cwebp, Chromium, dependencies
   new <name> [--from <sample>]   start ./guides/<name> from a sample guide (default: first-diagram)
   capture --url … --out …        capture a screen and element boxes (see references/capture.md)
@@ -60,7 +60,10 @@ switch (cmd) {
     if (run(npm, ['ci', '--no-audit', '--no-fund'], { cwd: ROOT }) !== 0) process.exit(1);
     if (run(npm, ['exec', '--', 'playwright', 'install', 'chromium'], { cwd: ROOT }) !== 0) process.exit(1);
     if (!existsSync(path.join(ROOT, '.venv'))) if (run('python3', ['-m', 'venv', '.venv'], { cwd: ROOT }) !== 0) process.exit(1);
-    if (run(path.join(ROOT, '.venv', 'bin', 'python'), ['-m', 'pip', 'install', '-q', '-r', 'requirements.txt'], { cwd: ROOT }) !== 0) process.exit(1);
+    if (run(path.join(ROOT, '.venv', 'bin', 'python'), ['-m', 'pip', 'install', '-q', '--disable-pip-version-check', '-r', 'requirements.txt'], { cwd: ROOT }) !== 0) process.exit(1);
+    // the transcription check is a rule of the skill; its model (~470 MB) downloads on the first verify
+    if (!rest.includes('--no-verify') && run(path.join(ROOT, '.venv', 'bin', 'python'), ['-m', 'pip', 'install', '-q', '--disable-pip-version-check', 'pywhispercpp'], { cwd: ROOT }) !== 0)
+      console.warn('pywhispercpp did not install; stg verify needs it, or whisper-cli on PATH, or an ElevenLabs key.');
     if (!has('ffmpeg')) console.warn('\nffmpeg is missing: brew install ffmpeg (macOS) or apt-get install ffmpeg (Linux). Needed for audio and MP4.');
     if (!has('cwebp', '-version')) console.warn('cwebp is missing (optional): brew install webp, or capture to .png.');
     console.log('\nready. Try: node ' + path.join(ROOT, 'scripts', 'stg.mjs') + ' new my-guide');

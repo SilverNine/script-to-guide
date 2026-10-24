@@ -44,7 +44,7 @@ If the user gave a project path, URL or screenshots but no mode, do a minimal re
 | Start a guide | `stg new <name>` |
 | Capture a screen and element boxes | `stg capture --url <url> --out guides/<name>/public/screens/<shot>.webp --box name=selector` |
 | Narration, captions, timetable | `stg synth <name>` |
-| Check the narration | `stg verify <name> --stt pywhispercpp` |
+| Check the narration | `stg verify <name>` |
 | Type-check scenes | `stg check <name>` |
 | HTML guide | `stg build <name>` → `dist/<name>/` |
 | Review stills | `stg frames <name> --at 0,450,900` (add `--page` for the whole player) |

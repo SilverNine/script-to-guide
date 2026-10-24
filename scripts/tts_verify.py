@@ -2,7 +2,7 @@
 """
 Verify the narration: transcribe the synthesized mp3 and compare it with the script.
 
-    python3 scripts/tts_verify.py <guide> [--stt whisper|elevenlabs] [--model <path-or-id>]
+    python3 scripts/tts_verify.py <guide> [--stt auto|pywhispercpp|whisper|elevenlabs] [--model <path-or-id>]
 
 Why: a person listening to three minutes of audio misses one word. A voice may read a product name
 as a different word, or a space may change a pronunciation. The machine listens first.
@@ -17,7 +17,8 @@ Checks
 
 Engines
 -------
-- whisper (default): whisper.cpp through the `whisper-cli` executable (brew install whisper-cpp, or
+- auto (default): pywhispercpp when it is installed (stg setup installs it), else whisper-cli on PATH.
+- whisper: whisper.cpp through the `whisper-cli` executable (brew install whisper-cpp, or
   build from source). Model path from --model or WHISPER_MODEL, e.g. ~/models/ggml-small.bin.
 - pywhispercpp: the same engine through its Python binding (pip install pywhispercpp). --model takes a
   model name (small.en) or a path to a ggml-*.bin file.
@@ -108,7 +109,7 @@ def norm(s: str) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("guide")
-    ap.add_argument("--stt", choices=sorted(ENGINES), default="whisper")
+    ap.add_argument("--stt", choices=["auto", *sorted(ENGINES)], default="auto")
     ap.add_argument("--model", default=None)
     ap.add_argument("--lang", default=None)
     a = ap.parse_args()
@@ -120,7 +121,14 @@ def main() -> None:
     cfg = json.loads((gdir / "guide.json").read_text(encoding="utf-8")) if (gdir / "guide.json").exists() else {}
     lang = a.lang or cfg.get("page", {}).get("lang", "en")
 
-    text = ENGINES[a.stt](mp3, lang, a.model)
+    stt = a.stt
+    if stt == "auto":
+        try:
+            import pywhispercpp  # type: ignore  # noqa: F401
+            stt = "pywhispercpp"
+        except ImportError:
+            stt = "whisper"
+    text = ENGINES[stt](mp3, lang, a.model)
     (gdir / "recordings" / "narration.stt.txt").write_text(text, encoding="utf-8")
 
     table = load_dict(gdir)
