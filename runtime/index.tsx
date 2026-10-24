@@ -21,15 +21,24 @@ export interface VideoConfig {
 }
 
 const FrameCtx = createContext(0);
+const GuideFrameCtx = createContext(0);
 const ConfigCtx = createContext<VideoConfig>({ fps: 30, width: 1920, height: 1080, durationInFrames: 1, id: 'guide' });
 
 export const FrameProvider: React.FC<{ frame: number; config: VideoConfig; children: ReactNode }> = ({ frame, config, children }) => (
   <ConfigCtx.Provider value={config}>
-    <FrameCtx.Provider value={frame}>{children}</FrameCtx.Provider>
+    <GuideFrameCtx.Provider value={frame}>
+      <FrameCtx.Provider value={frame}>{children}</FrameCtx.Provider>
+    </GuideFrameCtx.Provider>
   </ConfigCtx.Provider>
 );
 
+/** Frame relative to the nearest enclosing <Sequence>. Use for enter animations of a block. */
 export const useCurrentFrame = () => useContext(FrameCtx);
+/**
+ * Frame of the whole guide, unaffected by <Sequence>. `cue()` returns guide frames, so compare cues
+ * with this, not with useCurrentFrame(), anywhere below a Sequence.
+ */
+export const useGuideFrame = () => useContext(GuideFrameCtx);
 export const useVideoConfig = () => useContext(ConfigCtx);
 
 const fill: CSSProperties = {

@@ -208,33 +208,36 @@ DEFAULT_VOICE = {
 DEFAULT_MODEL = {"elevenlabs": "eleven_v3", "edge": "", "silent": ""}
 
 
+def _wordchars(s: str) -> str:
+    """Letters and digits only. Providers differ on punctuation (Edge drops it, ElevenLabs keeps it)."""
+    return re.sub(r"[\W_]", "", s)
+
+
 def word_times(tokens: list[dict], spoken: str) -> list[list[float]]:
-    """Join token timings to spoken words by character position (whitespace ignored on both sides)."""
+    """Join token timings to spoken words by position in the word-character stream."""
     words = spoken.split()
-    flat = "".join(words)
-    tok_text = "".join(t["text"] for t in tokens)
-    if re.sub(r"[^\w]", "", tok_text) != re.sub(r"[^\w]", "", flat):
+    tok_text = "".join(_wordchars(t["text"]) for t in tokens)
+    script_text = "".join(_wordchars(w) for w in words)
+    if tok_text != script_text:
+        at = next((i for i, (a, b) in enumerate(zip(tok_text, script_text)) if a != b), min(len(tok_text), len(script_text)))
         sys.exit(
             "Synthesized text does not match the script "
-            f"(tokens {len(tok_text)} chars, script {len(flat)} chars). "
-            "If you ran --reuse, the script changed: synthesize again."
+            f"(first difference at character {at}: synthesized '{tok_text[at:at + 12]}', script '{script_text[at:at + 12]}'). "
+            "If you ran --reuse, the script changed: synthesize again. Numbers and symbols may need a pronunciation entry."
         )
-    # map each flat char index to a token index
     char_tok = []
     for ti, t in enumerate(tokens):
-        char_tok.extend([ti] * len(t["text"]))
+        char_tok.extend([ti] * len(_wordchars(t["text"])))
     times, pos = [], 0
     for w in words:
-        n = len(w)
-        if n == 0:
+        n = len(_wordchars(w))
+        if n == 0:  # punctuation-only word: zero-length, at the end of the previous word
+            t0 = times[-1][1] if times else (tokens[0]["start"] if tokens else 0.0)
+            times.append([t0, t0])
             continue
-        if pos + n > len(char_tok):  # punctuation-only differences at the tail
-            n = max(1, len(char_tok) - pos)
-        first, last = tokens[char_tok[pos]], tokens[char_tok[min(pos + n - 1, len(char_tok) - 1)]]
+        first, last = tokens[char_tok[pos]], tokens[char_tok[pos + n - 1]]
         times.append([first["start"], last["end"]])
-        pos += len(w)
-    if len(times) != len(words):
-        sys.exit(f"Word count mismatch: synthesized {len(times)}, script {len(words)}")
+        pos += n
     return times
 
 

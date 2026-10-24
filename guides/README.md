@@ -32,6 +32,34 @@ Paste your diagram source on the left. The preview updates as you type.
 
 Lines under a `## [scene]` heading are narration. Lines that start with `**(`, `>`, `|`, `- [`, `---` or `<!--` are directions for the agent and are not spoken.
 
+## Frames: guide frame vs. block frame
+
+`cue()` returns a **guide frame** (from the start of the guide). Inside a `<Sequence>`, `useCurrentFrame()`
+returns a **block frame** (from the start of that Sequence). Compare cues only with `useGuideFrame()`.
+Use `useCurrentFrame()` for a block's own entrance animation. All overlays in
+`src/components/overlays.tsx` already use guide frames.
+
+## Overlays on a captured screen
+
+```tsx
+<Screen src={asset('screens/editor.webp')} size={B._size} url="example.com/app">
+  <Spotlight box={B.editor} from={cue('s3', 'code')} to={cue('s3', 'preview')} />
+  <Pin at={[x, y]} n={1} from={…} to={…} />
+  <Magnifier box={B.export} from={…} to={…} zoom={3} label="Export" />
+  <Cursor keys={[{ at: …, p: mid(B.export) }, { at: …, p: mid(B.export), click: true }]} />
+  <Callout box={B.share} text="Share a link" from={…} to={…} />
+</Screen>
+```
+
+Boxes come from `scripts/capture.mjs --box name=selector`, in the screenshot's CSS pixels.
+
+## Steps and the player panel
+
+`web.tsx` lists `steps` (id, label, first frame, optional `copy` strings). The player numbers them,
+splits the progress bar by them, shows the live transcript under each, and pauses at each step end in
+step-by-step mode. Start a step at `scene(id).fromFrame` so it never opens mid-sentence. Pass
+`captions` to enable the transcript and the caption overlay; scenes do not draw captions themselves.
+
 ## timing.ts
 
 ```ts

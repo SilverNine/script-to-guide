@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import type { RawCaptionsJson } from '../src/lib/captions';
 
 /**
  * What the player receives from one guide.
@@ -8,12 +9,15 @@ import type { ComponentType } from 'react';
  * nothing else. Build settings (output folder, files to copy, font, theme) live in
  * `guides/<name>/guide.json`.
  */
-export interface TocItem {
-  /** `?ch=<id>` opens the guide at this chapter */
+export interface Step {
+  /** `?ch=<id>` opens the guide at this step */
   id: string;
+  /** Short title shown in the step list and on the stage tag. The player numbers steps itself */
   label: string;
-  /** First frame of the chapter */
+  /** First frame of the step */
   at: number;
+  /** Text the viewer may want to paste (commands, values, code). Rendered as copy buttons under the step */
+  copy?: string[];
 }
 
 export interface GuideDefinition {
@@ -26,9 +30,11 @@ export interface GuideDefinition {
   asset: (p: string) => string;
   /** Narration path. Without it the player runs on a wall clock from frame 0 */
   audio?: string;
+  /** Word timings from tts_synth.py. Enables the live transcript and the caption overlay */
+  captions?: RawCaptionsJson;
   /** Frame shown before playback starts */
   poster: number;
-  toc: TocItem[];
+  steps: Step[];
   title: string;
   subtitle: string;
   note?: string;

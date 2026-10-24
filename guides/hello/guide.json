@@ -1,7 +1,7 @@
 {
   "build": {
     "out": "dist",
-    "copy": [],
+    "copy": [{ "from": "guides/hello/public/screens", "to": "screens", "ext": [".webp"] }],
     "audio": { "from": "guides/hello/recordings/narration.mp3", "to": "narration.mp3", "bitrate": "96k" },
     "captions": "guides/hello/data/captions.json",
     "chars": ["guides/hello"]
@@ -16,20 +16,6 @@
     "voice": "en-US-AriaNeural"
   },
   "theme": {
-    "bg": "#f6f7f9",
-    "fg": "#16181d",
-    "dim": "#5f6670",
-    "line": "#d9dde3",
-    "brand": "#1d4ed8",
-    "brandInk": "#ffffff",
-    "brandBig": "rgba(29,78,216,.95)",
-    "brandSoft": "rgba(29,78,216,.10)",
-    "stage": "#0b0f17",
-    "veil": "rgba(0,0,0,.25)",
-    "bar": "#ffffff",
-    "barLine": "#e5e8ec",
-    "hover": "#eef1f5",
-    "shadow": "rgba(16,24,40,.18)",
-    "bigShadow": "rgba(0,0,0,.35)"
+    "stage": "#0b0f17"
   }
 }

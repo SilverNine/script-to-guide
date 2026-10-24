@@ -1,6 +1,6 @@
 {
   "fps": 30,
-  "durationInFrames": 458,
+  "durationInFrames": 921,
   "scenes": [
     {
       "scene": "intro",
@@ -13,10 +13,18 @@
     {
       "scene": "cue",
       "fromFrame": 210,
-      "toFrame": 458,
+      "toFrame": 443,
       "speechFromMs": 7084,
       "speechToMs": 12884,
-      "gapSec": 1.5
+      "gapSec": 1.0
+    },
+    {
+      "scene": "editor",
+      "fromFrame": 443,
+      "toFrame": 921,
+      "speechFromMs": 14851,
+      "speechToMs": 27827,
+      "gapSec": 2.0
     }
   ]
 }

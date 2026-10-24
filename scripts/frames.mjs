@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 /**
- * Screenshot frames of a built guide for review.
+ * Screenshot a built guide for review.
  *
- *   node scripts/frames.mjs --guide <name> --at 0,450,1200 [--out <folder>] [--dist <folder>]
+ *   node scripts/frames.mjs --guide <name> --at 0,450,1200 [--page] [--dark] [--width 1440] [--out <folder>] [--dist <folder>]
  *
- * Serves the built guide folder (dist/<name> by default) on a local port, opens
- * `index.html?f=<frame>&still` in headless Chromium at 1920x1080, waits until the player reports
- * ready, and saves <out>/<name>-<frame>.png. No video framework involved: the player is the renderer.
+ * Serves the built guide folder (dist/<name> by default) on a local port and opens it in headless
+ * Chromium. Default: the stage only (`?f=<frame>&still`) at 1920x1080, one PNG per frame.
+ * `--page`: the whole player page at the given width, holding that frame (panel, controls, transcript).
+ * `--dark`: emulate prefers-color-scheme: dark.
+ * No video framework involved: the player is the renderer.
  */
 import { createServer } from 'node:http';
 import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
@@ -18,13 +20,16 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const opt = (name, def) => {
   const i = args.indexOf(name);
-  if (i < 0) return def;
-  return args[i + 1];
+  return i < 0 ? def : args[i + 1];
 };
+const has = (name) => args.includes(name);
 const NAME = opt('--guide');
 const AT = (opt('--at', '0') || '0').split(',').map((s) => Number(s.trim())).filter((n) => Number.isFinite(n));
+const PAGE = has('--page');
+const DARK = has('--dark');
+const WIDTH = Number(opt('--width', '1440'));
 if (!NAME) {
-  console.error('usage: node scripts/frames.mjs --guide <name> --at 0,450,1200 [--out <folder>] [--dist <folder>]');
+  console.error('usage: node scripts/frames.mjs --guide <name> --at 0,450,1200 [--page] [--dark] [--width 1440] [--out <folder>] [--dist <folder>]');
   process.exit(1);
 }
 const dist = path.resolve(ROOT, opt('--dist', 'dist'), NAME);
@@ -51,13 +56,18 @@ await new Promise((r) => server.listen(0, '127.0.0.1', r));
 const port = server.address().port;
 
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
+const page = await browser.newPage({
+  viewport: PAGE ? { width: WIDTH, height: 900 } : { width: 1920, height: 1080 },
+  deviceScaleFactor: PAGE ? 2 : 1,
+  colorScheme: DARK ? 'dark' : 'light',
+});
 for (const f of AT) {
-  await page.goto(`http://127.0.0.1:${port}/index.html?f=${f}&still`);
+  await page.goto(`http://127.0.0.1:${port}/index.html?f=${f}${PAGE ? '' : '&still'}`);
   await page.waitForFunction(() => window.__READY__ === true, null, { timeout: 30000 });
-  await page.waitForTimeout(50);
-  const file = path.join(out, `${NAME}-${String(f).padStart(5, '0')}.png`);
-  await page.screenshot({ path: file });
+  await page.waitForTimeout(PAGE ? 400 : 80);
+  const tag = `${PAGE ? `page${WIDTH}${DARK ? '-dark' : ''}-` : ''}${String(f).padStart(5, '0')}`;
+  const file = path.join(out, `${NAME}-${tag}.png`);
+  await page.screenshot({ path: file, fullPage: PAGE });
   console.log(file);
 }
 await browser.close();

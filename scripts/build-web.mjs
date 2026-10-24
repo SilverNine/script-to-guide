@@ -20,7 +20,8 @@
  *       "title": "…",
  *       "font": { "family": "Guide Sans", "source": "fonts/NotoSansKR-VF.ttf", "file": "guide-sans.woff2" }
  *     },
- *     "theme": { "bg": "#111", "fg": "#f5f5f5", … }   // becomes --bg, --fg, … on :root
+ *     "theme": { "brand": "#2563eb", … },       // overrides player/index.html defaults: --brand, --bg, --fg, …
+ *     "themeDark": { "brand": "#6b9bff", … }    // same, applied under prefers-color-scheme: dark
  *   }
  *
  * - Scene code imports `guide-runtime`; esbuild aliases it to runtime/index.tsx. No video framework ships.
@@ -124,16 +125,19 @@ if (build.audio && !js.includes(build.audio.to)) {
 
 // 2) page, images, audio
 const kebab = (k) => k.replace(/[A-Z]/g, (c) => '-' + c.toLowerCase());
-const vars = Object.entries(theme || {})
-  .filter(([k]) => k !== 'mode')
-  .map(([k, v]) => `--${kebab(k)}:${v};`)
-  .join(' ');
+const cssVars = (obj) =>
+  Object.entries(obj || {})
+    .filter(([k]) => k !== 'mode')
+    .map(([k, v]) => `--${kebab(k)}:${v};`)
+    .join(' ');
+const vars = cssVars(theme);
+const varsDark = cssVars(cfg.themeDark);
 const font = page.font || {};
 const family = font.family || 'Guide Sans';
 const fontFace = font.source
   ? `@font-face { font-family: "${family}"; src: url(fonts/${font.file}) format("woff2"); font-weight: 100 900; font-display: block; }`
   : '';
-const fill = { lang: page.lang || 'en', title: page.title, 'font.family': family, fontFace, theme: vars };
+const fill = { lang: page.lang || 'en', title: page.title, 'font.family': family, fontFace, theme: vars, themeDark: varsDark };
 const html = readFileSync('player/index.html', 'utf8')
   .replace(/^<!-- \{\{\.\.\.\}\}.*-->\n/m, '')
   .replace(/\{\{([\w.]+)\}\}/g, (m, k) => {
