@@ -1,0 +1,29 @@
+{
+  "build": {
+    "out": "dist",
+    "copy": [{ "from": "guides/first-diagram/public/screens", "to": "screens", "ext": [".webp"] }],
+    "audio": { "from": "guides/first-diagram/recordings/narration.mp3", "to": "narration.mp3", "bitrate": "96k" },
+    "captions": "guides/first-diagram/data/captions.json",
+    "chars": ["guides/first-diagram"]
+  },
+  "page": {
+    "lang": "en",
+    "title": "Your first diagram in MermanDraw",
+    "font": { "family": "Guide Sans" }
+  },
+  "tts": {
+    "provider": "edge",
+    "voice": "en-US-AriaNeural"
+  },
+  "theme": {
+    "brand": "#4f46e5",
+    "brandSoft": "rgba(79,70,229,.10)",
+    "mark": "rgba(79,70,229,.14)",
+    "stage": "#0b0f17"
+  },
+  "themeDark": {
+    "brand": "#8b84ff",
+    "brandSoft": "rgba(139,132,255,.14)",
+    "mark": "rgba(139,132,255,.20)"
+  }
+}

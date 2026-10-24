@@ -10,6 +10,7 @@
  * - `--box editor=.cm-editor` records the bounding box of the first match as `editor`. Selectors are
  *   Playwright selectors, so `text=Export` and `button:has-text("Export")` work.
  * - `--click` runs before the capture, in order (open a menu, switch a tab).
+ * - `--grant clipboard-read,clipboard-write` grants browser permissions first (for copy buttons).
  * - Boxes go to `<out without extension>.boxes.json`, merged with what is already there.
  * - `.webp` output needs `cwebp` (brew install webp); otherwise use `.png`.
  * - `--probe` prints the visible buttons, links and labelled elements with their boxes, to choose selectors.
@@ -36,7 +37,10 @@ if (!url || (!out && !has('--probe'))) {
 }
 
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 2 });
+const context = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2 });
+const grant = one('--grant');
+if (grant) await context.grantPermissions(grant.split(','), { origin: new URL(url).origin });
+const page = await context.newPage();
 await page.goto(url, { waitUntil: 'networkidle' });
 for (const sel of all('--click')) {
   await page.locator(sel).first().click();

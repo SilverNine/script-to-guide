@@ -19,6 +19,8 @@ Engines
 -------
 - whisper (default): whisper.cpp through the `whisper-cli` executable (brew install whisper-cpp, or
   build from source). Model path from --model or WHISPER_MODEL, e.g. ~/models/ggml-small.bin.
+- pywhispercpp: the same engine through its Python binding (pip install pywhispercpp). --model takes a
+  model name (small.en) or a path to a ggml-*.bin file.
 - elevenlabs: Scribe. Key from ELEVENLABS_API_KEY or .env.elevenlabs in the repository root.
 """
 from __future__ import annotations
@@ -81,7 +83,21 @@ def stt_whisper(mp3: pathlib.Path, lang: str, model: str | None) -> str:
         return (out.with_suffix(".txt")).read_text(encoding="utf-8")
 
 
-ENGINES = {"whisper": stt_whisper, "elevenlabs": stt_elevenlabs}
+def stt_pywhispercpp(mp3: pathlib.Path, lang: str, model: str | None) -> str:
+    """whisper.cpp through its Python binding (pip install pywhispercpp). No separate binary needed."""
+    try:
+        from pywhispercpp.model import Model  # type: ignore
+    except ImportError:
+        sys.exit("pywhispercpp is not installed: pip install pywhispercpp (or use --stt whisper / elevenlabs)")
+    model = model or os.environ.get("WHISPER_MODEL") or ("small.en" if lang == "en" else "small")
+    with tempfile.TemporaryDirectory() as td:
+        wav = pathlib.Path(td) / "a.wav"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(mp3), "-ac", "1", "-ar", "16000", str(wav)], check=True)
+        m = Model(str(pathlib.Path(model).expanduser()) if pathlib.Path(model).expanduser().exists() else model, print_realtime=False, print_progress=False, redirect_whispercpp_logs_to=False)
+        return " ".join(seg.text.strip() for seg in m.transcribe(str(wav), language=lang))
+
+
+ENGINES = {"whisper": stt_whisper, "pywhispercpp": stt_pywhispercpp, "elevenlabs": stt_elevenlabs}
 
 
 def norm(s: str) -> str:

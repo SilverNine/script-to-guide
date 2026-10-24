@@ -6,6 +6,14 @@ A [Claude Code](https://claude.com/claude-code) / [Codex](https://openai.com/cod
 
 > **Status: pre-release.** The engine is being extracted from a private pipeline that has shipped eight internal product guides and a YouTube series. Nothing here is installable yet. Watch the repo or check the [roadmap](#roadmap).
 
+## See it
+
+[![Your first diagram in MermanDraw: the sample guide, paused on step 3 with the live transcript beside it](docs/first-diagram.png)](https://silvernine.github.io/script-to-guide/first-diagram/)
+
+**[Play the sample guide](https://silvernine.github.io/script-to-guide/first-diagram/)** (1:28, English, free Edge voice). It walks through [mermandraw.com](https://mermandraw.com) in four steps. Everything that made it is in [`guides/first-diagram`](guides/first-diagram): a 200-word script, four captures, and one scene file where every highlight is `cue(scene, word)`. Nothing was placed on a timeline by hand.
+
+The motion vocabulary is in the [gallery](https://silvernine.github.io/script-to-guide/gallery/).
+
 ## What it does
 
 You write the script. Each paragraph names the scene it belongs to and says what should be on screen. The agent captures your real app with a headless browser (or draws the parts it cannot capture), synthesizes the narration, and assembles the guide. Every motion on screen is cued to a word of the narration.
@@ -43,7 +51,7 @@ Product UI changes. A recorded video dies with it. A guide built from a script d
 | `gallery/` | Every card playing live, rendered by the player's own runtime |
 | `player/` | The HTML player. Dependency-free web component, frame clock driven by audio position, keyboard shortcuts, follow-along mode |
 | `scripts/` | TTS synthesis with word timestamps (free path: edge-tts; bring your own: ElevenLabs), caption and timetable generation, transcription check, web build, MP4 export |
-| `template/` | One complete sample guide for a public app, with a "replace with your product" walkthrough |
+| `guides/first-diagram/` | One complete sample guide for a public app: script, pronunciation dictionary, captures with element boxes, scenes |
 
 ## Install
 
@@ -67,7 +75,7 @@ Runtime dependencies will be Node 18+, Python 3.11+, ffmpeg, and a Chromium that
 1. ~~**Engine extraction.**~~ Done. Frame runtime, `cue()`, caption and timetable generation, TTS providers (edge-tts default, ElevenLabs, silent), transcription check via whisper.cpp or ElevenLabs. No video framework.
 2. ~~**Player redesign.**~~ Done. Side panel with the live transcript and step list, segmented progress, step-by-step mode, captions overlay, light theme with system dark mode, copy buttons.
 3. ~~**Cards and gallery.**~~ First 13 cards done, each with a live preview. More cards as real guides need them.
-4. **Sample guide.** One complete guide for a public web app, used in the README and the gallery.
+4. ~~**Sample guide.**~~ Done. "Your first diagram in MermanDraw", 1:28, built end to end with the skill. Narration checked by whisper.cpp: no mispronunciations, 0.993 similarity to the script.
 5. **MP4 export.** Frame-stepped render through Playwright, muxed with the narration by ffmpeg.
 6. **First release.** Plugin manifest, Codex manifest, README in English and Korean.
 

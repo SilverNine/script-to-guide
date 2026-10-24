@@ -6,6 +6,12 @@
 
 > **상태: 출시 전.** 사내 가이드 8편과 유튜브 시리즈를 만든 비공개 파이프라인에서 엔진을 떼어내는 중입니다. 아직 설치할 수 있는 것이 없습니다. 진행 상황은 영문 README의 [Roadmap](README.md#roadmap)에 있습니다.
 
+## 샘플
+
+[![MermanDraw 첫 다이어그램 샘플 가이드. 3단계에서 멈춘 화면과 옆의 실시간 대본](docs/first-diagram.png)](https://silvernine.github.io/script-to-guide/first-diagram/)
+
+**[샘플 가이드 재생](https://silvernine.github.io/script-to-guide/first-diagram/)** (1분 28초, 영어, 무료 Edge 음성). [mermandraw.com](https://mermandraw.com) 사용법을 네 단계로 안내합니다. 만든 재료는 전부 [`guides/first-diagram`](guides/first-diagram)에 있습니다. 대본 200단어, 캡처 4장, 장면 파일 하나이고 모든 강조는 `cue(장면, 단어)`로 걸었습니다.
+
 ## 무엇을 하나
 
 대본을 씁니다. 문단마다 어느 장면인지, 화면에 무엇이 보여야 하는지 적습니다. 에이전트가 실제 앱을 헤드리스 브라우저로 캡처하고(캡처가 안 되는 화면은 그려서), 내레이션을 합성하고, 가이드를 조립합니다. 화면의 모든 동작은 내레이션의 단어에 걸립니다.

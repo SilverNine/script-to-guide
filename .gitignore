@@ -10,7 +10,6 @@ __pycache__/
 *.mp3
 *.mp4
 *.webm
-!template/public/**/*.mp3
 !docs/demo.mp4
 
 # TTS take cache
@@ -19,4 +18,6 @@ __pycache__/
 # build outputs and smoke-test audio
 dist/
 guides/*/takes/
-guides/*/recordings/
+guides/*/recordings/*
+# the sample guide ships its narration so Pages can build it
+!guides/first-diagram/recordings/narration.mp3

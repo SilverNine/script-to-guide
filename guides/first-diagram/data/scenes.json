@@ -1,0 +1,62 @@
+{
+  "fps": 30,
+  "durationInFrames": 2633,
+  "scenes": [
+    {
+      "scene": "intro",
+      "fromFrame": 0,
+      "toFrame": 267,
+      "speechFromMs": 100,
+      "speechToMs": 7524,
+      "gapSec": 0.5
+    },
+    {
+      "scene": "plan",
+      "fromFrame": 267,
+      "toFrame": 501,
+      "speechFromMs": 9000,
+      "speechToMs": 15037,
+      "gapSec": 0.8
+    },
+    {
+      "scene": "write",
+      "fromFrame": 501,
+      "toFrame": 1071,
+      "speechFromMs": 16808,
+      "speechToMs": 33808,
+      "gapSec": 1.0
+    },
+    {
+      "scene": "theme",
+      "fromFrame": 1071,
+      "toFrame": 1476,
+      "speechFromMs": 35784,
+      "speechToMs": 47321,
+      "gapSec": 1.0
+    },
+    {
+      "scene": "export",
+      "fromFrame": 1476,
+      "toFrame": 1842,
+      "speechFromMs": 49288,
+      "speechToMs": 59700,
+      "gapSec": 0.8
+    },
+    {
+      "scene": "link",
+      "fromFrame": 1842,
+      "toFrame": 2325,
+      "speechFromMs": 61487,
+      "speechToMs": 75600,
+      "gapSec": 1.0
+    },
+    {
+      "scene": "end",
+      "fromFrame": 2325,
+      "toFrame": 2633,
+      "speechFromMs": 77583,
+      "speechToMs": 85083,
+      "gapSec": 1.8
+    }
+  ]
+}

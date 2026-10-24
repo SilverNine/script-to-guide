@@ -1,0 +1,10 @@
+{
+  "_comment": "seconds of silence appended after each scene's narration",
+  "intro": 0.5,
+  "plan": 0.8,
+  "write": 1.0,
+  "theme": 1.0,
+  "export": 0.8,
+  "link": 1.0,
+  "end": 1.8
+}

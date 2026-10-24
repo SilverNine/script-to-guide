@@ -295,9 +295,11 @@ export const Magnifier: React.FC<{ box: Box; from: number; to: number; zoom?: nu
         <div
           style={{
             position: 'absolute',
-            left: pos[0],
+            // Centre the label under the lens, but pin it to the lens edge near a stage edge so it never clips.
+            left: pos[0] + lw / 2 < 480 ? pos[0] : pos[0] + lw / 2,
             top: pos[1] + lh + 14,
-            width: lw,
+            transform: pos[0] + lw / 2 < 480 ? undefined : 'translateX(-50%)',
+            whiteSpace: 'nowrap',
             textAlign: 'center',
             fontFamily: bodyFontFamily,
             fontSize: 22,

@@ -1,0 +1,8 @@
+{
+  "_comment": "On-screen spelling → spoken spelling. Captions keep the left side.",
+  "mermandraw.com": "Merman Draw dot com",
+  "MermanDraw": "Merman Draw",
+  "_wrong": {
+    "Merman Draw": ["mermaid draw", "merman drew"]
+  }
+}
