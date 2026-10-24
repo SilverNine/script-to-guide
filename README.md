@@ -117,16 +117,6 @@ Narration comes from a text-to-speech provider that returns word timestamps, so 
 
 The code is MIT. The voice output follows the terms of the provider you choose.
 
-## Roadmap
-
-1. ~~**Engine extraction.**~~ Done. Frame runtime, `cue()`, caption and timetable generation, TTS providers, transcription check. No video framework.
-2. ~~**Player redesign.**~~ Done. Side panel with the live transcript and step list, segmented progress, step-by-step mode, captions overlay, light theme with system dark mode, copy buttons.
-3. ~~**Cards and gallery.**~~ Done. 13 cards, each with a live preview. More as real guides need them.
-4. ~~**Sample guide.**~~ Done. "Your first diagram in MermanDraw", built end to end with the skill. Narration check: no known mispronunciations, 0.993 similarity to the script.
-5. ~~**MP4 export.**~~ Done. Parallel frame-stepped render in headless Chromium, narration laid under it, captions as `.srt` or burned in. The sample renders in about 40 seconds on a laptop.
-6. ~~**First release.**~~ Done. Plugin and Codex manifests, one entry point (`stg`), guides kept in your project, references for every stage.
-7. **Next.** A Korean sample guide, more cards, Windows support.
-
 ## License
 
 MIT. See [LICENSE](LICENSE).
