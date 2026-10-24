@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# narration takes and renders are build outputs, except the sample guide's shipped audio
+*.wav
+*.mp3
+*.mp4
+*.webm
+!template/public/**/*.mp3
+!docs/demo.mp4
+
+# TTS take cache
+.takes/

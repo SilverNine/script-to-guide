@@ -1,0 +1,21 @@
+{
+  "name": "script-to-guide",
+  "version": "0.0.1",
+  "description": "Script + screenshots in, a narrated product walkthrough out. Ships as 2 MB of HTML or as MP4. Every motion is cued to a word of narration.",
+  "author": {
+    "name": "SilverNine"
+  },
+  "homepage": "https://github.com/SilverNine/script-to-guide",
+  "repository": "https://github.com/SilverNine/script-to-guide",
+  "license": "MIT",
+  "keywords": [
+    "guide",
+    "walkthrough",
+    "product-tour",
+    "narration",
+    "tts",
+    "html",
+    "agent-skill"
+  ],
+  "skills": "./"
+}

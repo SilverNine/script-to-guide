@@ -1,0 +1,17 @@
+{
+  "name": "silvernine",
+  "description": "Plugins by SilverNine",
+  "owner": {
+    "name": "SilverNine"
+  },
+  "plugins": [
+    {
+      "name": "script-to-guide",
+      "source": {
+        "source": "github",
+        "repo": "SilverNine/script-to-guide"
+      },
+      "description": "Script + screenshots in, a narrated product walkthrough out. Ships as 2 MB of HTML or as MP4."
+    }
+  ]
+}

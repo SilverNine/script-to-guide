@@ -1,0 +1,7 @@
+# Codex skill UI metadata. Read by the Codex harness, not by the agent.
+# Claude Code reads SKILL.md frontmatter instead.
+interface:
+  display_name: "Script to Guide"
+  short_description: "Turn a script and real app screenshots into a narrated product walkthrough, shipped as HTML or MP4"
+  brand_color: "#1D4ED8"
+  default_prompt: "Use $script-to-guide to turn my script and my app's screens into a narrated walkthrough."
