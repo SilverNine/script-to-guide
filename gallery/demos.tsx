@@ -63,7 +63,7 @@ export const DEMOS: Demo[] = [
         </Screen>
       </Stage>
     ),
-    code: `<Pin at={[x, y]} n={2} from={cue('s3', 'theme')} to={sceneEnd} />`,
+    code: `<Pin at={[x, y]} n={2} from={cue('s3', 'theme')} to={sceneEnd('s3')} />`,
   },
   {
     id: 'magnifier',
