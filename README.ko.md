@@ -6,7 +6,7 @@
 
 ![샘플 가이드. 내레이션이 "Theme"라고 말할 때 커서가 테마 메뉴를 열고, "seven themes"에서 메뉴가 강조되고, "Neon"에서 미리보기가 네온으로 바뀝니다](docs/demo.gif)
 
-**[한국어 샘플 가이드를 소리와 함께 재생](https://silvernine.github.io/script-to-guide/first-diagram-ko/)** (1분 38초, 한국어). 같은 흐름의 [영어 샘플](https://silvernine.github.io/script-to-guide/first-diagram/)(1분 27초)도 있습니다. [mermandraw.com](https://mermandraw.com)에서 코드 작성, 테마 선택, 내보내기, 링크 공유를 안내합니다. 만든 재료는 전부 [`guides/first-diagram-ko`](guides/first-diagram-ko)와 [`guides/first-diagram`](guides/first-diagram)에 있습니다. 대본, 캡처 4장, 장면 파일 하나이고 모든 강조는 `cue(장면, 단어)`로 걸었습니다.
+**[한국어 샘플 가이드를 소리와 함께 재생](https://silvernine.github.io/script-to-guide/first-diagram-ko/)** (1분 38초, 한국어). 같은 흐름의 [영어 샘플](https://silvernine.github.io/script-to-guide/first-diagram/)(1분 29초)도 있습니다. [mermandraw.com](https://mermandraw.com)에서 코드 작성, 테마 선택, 내보내기, 링크 공유를 안내합니다. 만든 재료는 전부 [`guides/first-diagram-ko`](guides/first-diagram-ko)와 [`guides/first-diagram`](guides/first-diagram)에 있습니다. 대본, 캡처 4장, 장면 파일 하나이고 모든 강조는 `cue(장면, 단어)`로 걸었습니다.
 
 모든 동작은 [갤러리](https://silvernine.github.io/script-to-guide/gallery/)에서 움직이는 모습으로 볼 수 있습니다.
 
@@ -79,7 +79,7 @@ stg mp4 signup                # dist/signup.mp4 + .srt
 - Edge 한국어 음성 기본값(`ko-KR-SunHiNeural`)
 - 한글 폰트를 지정하면 화면에 쓰인 글자만 잘라 넣는 폰트 서브셋
 
-한국어 샘플 가이드는 ElevenLabs 음성(Anna Kim, `eleven_v3`)으로 낭독했습니다. 키 없이 쓰는 Edge 한국어 음성으로도 같은 가이드를 만들 수 있고, 음성은 `guide.json`의 `tts`에서 바꿉니다.
+샘플 가이드는 ElevenLabs 음성(한국어 Anna Kim, 영어 Max, `eleven_v3`)으로 낭독했습니다. 키 없이 쓰는 Edge 한국어 음성으로도 같은 가이드를 만들 수 있고, 음성은 `guide.json`의 `tts`에서 바꿉니다.
 
 ## 라이선스
 

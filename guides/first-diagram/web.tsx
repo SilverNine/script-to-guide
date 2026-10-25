@@ -29,7 +29,7 @@ const guide: GuideDefinition = {
   title: 'Your first diagram in MermanDraw',
   subtitle: 'Sample guide made with script-to-guide',
   note:
-    'Narration by an Edge neural voice (en-US-AriaNeural), no API key. Screens are mermandraw.com, captured from deep links with demo content. ' +
+    'Narration by the ElevenLabs voice Max (eleven_v3). Screens are mermandraw.com, captured from deep links with demo content. ' +
     'Made with script-to-guide: the script, captures and scenes for this guide are in guides/first-diagram.',
   preload: __IMAGES__,
   stage: '#0b0f17',

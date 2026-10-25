@@ -6,7 +6,7 @@ A [Claude Code](https://claude.com/claude-code) / [Codex](https://openai.com/cod
 
 ![The sample guide: the cursor opens the Theme menu as the narration says "Theme", the menu lights up on "seven themes", and the preview turns neon on "Neon"](docs/demo.gif)
 
-**[Play the sample guide with sound](https://silvernine.github.io/script-to-guide/first-diagram/)** (1:27, English). It walks through [mermandraw.com](https://mermandraw.com): write the code, pick a theme, export, send a link. Everything that made it is in [`guides/first-diagram`](guides/first-diagram): a 197-word script, four captures, and one scene file where every highlight is `cue(scene, word)`. Nothing was placed on a timeline by hand. The same guide in Korean, with a Korean diagram and voice: **[Korean sample](https://silvernine.github.io/script-to-guide/first-diagram-ko/)** (1:38, [`guides/first-diagram-ko`](guides/first-diagram-ko)).
+**[Play the sample guide with sound](https://silvernine.github.io/script-to-guide/first-diagram/)** (1:29, English). It walks through [mermandraw.com](https://mermandraw.com): write the code, pick a theme, export, send a link. Everything that made it is in [`guides/first-diagram`](guides/first-diagram): a 197-word script, four captures, and one scene file where every highlight is `cue(scene, word)`. Nothing was placed on a timeline by hand. The same guide in Korean, with a Korean diagram and voice: **[Korean sample](https://silvernine.github.io/script-to-guide/first-diagram-ko/)** (1:38, [`guides/first-diagram-ko`](guides/first-diagram-ko)). Both samples are narrated with ElevenLabs voices (Max in English, Anna Kim in Korean, `eleven_v3`). Without a key, the same guides build with the default Edge voices; the voice is set in `tts` in `guide.json`.
 
 [![The player: stage on the left, the live transcript and steps on the right](docs/first-diagram.png)](https://silvernine.github.io/script-to-guide/first-diagram/)
 
@@ -113,7 +113,7 @@ stg mp4 signup                # dist/signup.mp4 + .srt
 Narration comes from a text-to-speech provider that returns word timestamps, so captions are the script word for word.
 
 - **Edge** (default): Microsoft Edge neural voices through the [edge-tts](https://github.com/rany2/edge-tts) package. No API key. It uses an unofficial endpoint, so check whether its terms fit your use before you publish.
-- **ElevenLabs**: set `ELEVENLABS_API_KEY`. The scripts never print the key.
+- **ElevenLabs**: set `ELEVENLABS_API_KEY`. The scripts never print the key. The sample guides use it.
 - **Silent**: timing from text length and no audio, for layout work and CI.
 
 The code is MIT. The voice output follows the terms of the provider you choose.

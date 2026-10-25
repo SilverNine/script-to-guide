@@ -12,8 +12,9 @@
     "font": { "family": "Guide Sans" }
   },
   "tts": {
-    "provider": "edge",
-    "voice": "en-US-AriaNeural"
+    "provider": "elevenlabs",
+    "voice": "Gfpl8Yo74Is0W6cPUWWT",
+    "model": "eleven_v3"
   },
   "theme": {
     "brand": "#4f46e5",
