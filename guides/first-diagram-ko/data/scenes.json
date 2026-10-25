@@ -1,61 +1,61 @@
 {
   "fps": 30,
-  "durationInFrames": 3280,
+  "durationInFrames": 2930,
   "scenes": [
     {
       "scene": "intro",
       "fromFrame": 0,
-      "toFrame": 319,
-      "speechFromMs": 100,
-      "speechToMs": 9112,
+      "toFrame": 284,
+      "speechFromMs": 0,
+      "speechToMs": 8880,
       "gapSec": 0.5
     },
     {
       "scene": "plan",
-      "fromFrame": 319,
-      "toFrame": 588,
-      "speechFromMs": 10728,
-      "speechToMs": 17853,
+      "fromFrame": 284,
+      "toFrame": 505,
+      "speechFromMs": 9460,
+      "speechToMs": 15860,
       "gapSec": 0.8
     },
     {
       "scene": "write",
-      "fromFrame": 588,
-      "toFrame": 1306,
-      "speechFromMs": 19688,
-      "speechToMs": 41525,
-      "gapSec": 1.0
+      "fromFrame": 505,
+      "toFrame": 1147,
+      "speechFromMs": 16820,
+      "speechToMs": 36660,
+      "gapSec": 1.5
     },
     {
       "scene": "theme",
-      "fromFrame": 1306,
-      "toFrame": 1798,
-      "speechFromMs": 43632,
-      "speechToMs": 57994,
-      "gapSec": 1.0
+      "fromFrame": 1147,
+      "toFrame": 1586,
+      "speechFromMs": 38240,
+      "speechToMs": 51280,
+      "gapSec": 1.5
     },
     {
       "scene": "export",
-      "fromFrame": 1798,
-      "toFrame": 2269,
-      "speechFromMs": 60040,
-      "speechToMs": 73865,
-      "gapSec": 0.8
+      "fromFrame": 1586,
+      "toFrame": 2018,
+      "speechFromMs": 52860,
+      "speechToMs": 65900,
+      "gapSec": 1.2
     },
     {
       "scene": "link",
-      "fromFrame": 2269,
-      "toFrame": 2908,
-      "speechFromMs": 75732,
-      "speechToMs": 94982,
+      "fromFrame": 2018,
+      "toFrame": 2576,
+      "speechFromMs": 67260,
+      "speechToMs": 84700,
       "gapSec": 1.0
     },
     {
       "scene": "end",
-      "fromFrame": 2908,
-      "toFrame": 3280,
-      "speechFromMs": 97047,
-      "speechToMs": 106610,
+      "fromFrame": 2576,
+      "toFrame": 2930,
+      "speechFromMs": 85860,
+      "speechToMs": 95780,
       "gapSec": 1.8
     }
   ]

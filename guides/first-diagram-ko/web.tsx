@@ -29,7 +29,7 @@ const guide: GuideDefinition = {
   title: 'MermanDraw로 첫 다이어그램 만들기',
   subtitle: 'script-to-guide로 만든 한국어 샘플 가이드',
   note:
-    '내레이션은 Edge 신경망 음성(ko-KR-InJoonNeural)으로 API 키 없이 합성했습니다. 화면은 mermandraw.com을 데모 내용으로 딥링크에서 캡처했습니다. ' +
+    '내레이션은 ElevenLabs의 Anna Kim 음성(eleven_v3)으로 합성했습니다. 화면은 mermandraw.com을 데모 내용으로 딥링크에서 캡처했습니다. ' +
     'script-to-guide로 만들었습니다. 대본과 캡처와 장면 파일은 guides/first-diagram-ko에 있습니다.',
   preload: __IMAGES__,
   stage: '#0b0f17',
