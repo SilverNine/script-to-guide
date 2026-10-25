@@ -114,6 +114,7 @@ Narration comes from a text-to-speech provider that returns word timestamps, so 
 
 - **Edge** (default): Microsoft Edge neural voices through the [edge-tts](https://github.com/rany2/edge-tts) package. No API key. It uses an unofficial endpoint, so check whether its terms fit your use before you publish.
 - **ElevenLabs**: set `ELEVENLABS_API_KEY`. The scripts never print the key. The sample guides use it.
+- **Supertonic**: [Supertonic 3](https://github.com/supertone-inc/supertonic) runs on your machine (CPU, 31 languages including Korean). No key, and no network after the first run. Install it into the engine's venv with `.venv/bin/python -m pip install supertonic`; the model (about 385 MB) downloads on first use and is licensed under BigScience Open RAIL-M, which restricts some uses. It returns no word timings, so words inside a sentence are placed by letter count and a highlight can land about 0.2 s early or late.
 - **Silent**: timing from text length and no audio, for layout work and CI.
 
 The code is MIT. The voice output follows the terms of the provider you choose.

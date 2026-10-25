@@ -68,6 +68,7 @@ stg mp4 signup                # dist/signup.mp4 + .srt
 
 - **Edge**(기본): edge-tts 패키지로 Microsoft Edge 신경망 음성을 씁니다. API 키 없이 동작합니다. 공식 공개 API가 아니므로 공개 배포 전에 이용 조건을 직접 확인하세요.
 - **ElevenLabs**: `ELEVENLABS_API_KEY`를 설정합니다. 스크립트는 키를 출력하지 않습니다.
+- **Supertonic**: [Supertonic 3](https://github.com/supertone-inc/supertonic)을 내 컴퓨터에서 돌립니다(CPU, 한국어 포함 31개 언어). 키가 필요 없고 처음 한 번 뒤로는 네트워크도 쓰지 않습니다. 엔진 가상환경에 `.venv/bin/python -m pip install supertonic`으로 설치하면 첫 실행 때 모델(약 385MB)을 받습니다. 모델 라이선스는 BigScience Open RAIL-M이라 일부 용도가 제한됩니다. 낱말별 시간을 주지 않아 문장 안의 낱말 위치는 글자 수로 추정하고, 강조가 0.2초쯤 이르거나 늦을 수 있습니다.
 - 코드는 MIT이고, 음성 결과물의 이용 조건은 고른 음성 서비스를 따릅니다.
 
 ## 한국어에 대해

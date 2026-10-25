@@ -2,7 +2,7 @@
 """
 Synthesize the narration of a guide: one mp3, a captions JSON with word timestamps, and a scene timetable.
 
-    python3 scripts/tts_synth.py <guide> [--provider edge|elevenlabs] [--voice <id>] [--model <id>] [--lang ko]
+    python3 scripts/tts_synth.py <guide> [--provider edge|elevenlabs|supertonic] [--voice <id>] [--model <id>] [--lang ko]
     python3 scripts/tts_synth.py <guide> --reuse          # no API calls; re-stitch stored takes
     python3 scripts/tts_synth.py <guide> --force S3,S4    # re-synthesize those scenes
 
@@ -39,6 +39,11 @@ Providers
   word boundaries included. Voices such as `en-US-AriaNeural`, `ko-KR-SunHiNeural`.
 - elevenlabs: `with-timestamps` endpoint, character timestamps. Key from ELEVENLABS_API_KEY or
   a `.env.elevenlabs` file in your project folder (never in the skill folder). The key is never printed.
+- supertonic: Supertonic 3 on this machine (ONNX, CPU, 31 languages including Korean), no key and no
+  network after the first run. `pip install supertonic`; the model (about 385 MB, BigScience Open RAIL-M
+  license, use restrictions apply) downloads on first use. Voices F1..F5 and M1..M5. It returns no word
+  timings: sentence boundaries are exact, words inside a sentence are placed by letter count (about 0.2 s off
+  on average), so a cue can land a little early or late.
 """
 from __future__ import annotations
 
@@ -202,12 +207,62 @@ def synth_silent(text: str, voice: str, model: str, lang: str):
     return out.stdout, tokens
 
 
-PROVIDERS = {"edge": synth_edge, "elevenlabs": synth_elevenlabs, "silent": synth_silent}
+_SUPERTONIC: dict = {}
+
+
+def synth_supertonic(text: str, voice: str, model: str, lang: str):
+    """Supertonic on this machine (ONNX, CPU). It returns no word timings, so each sentence is synthesized
+    on its own (exact sentence boundaries) and its words share the sentence's speech span by letter count."""
+    try:
+        import numpy as np  # type: ignore
+        from supertonic import TTS  # type: ignore
+    except ImportError:
+        sys.exit(f"supertonic is not installed: {sys.executable} -m pip install supertonic (the model, about 385 MB, downloads on first use)")
+    if model not in _SUPERTONIC:
+        _SUPERTONIC[model] = TTS(model=model, auto_download=True)
+    tts = _SUPERTONIC[model]
+    style, sr, gap = tts.get_voice_style(voice), tts.sample_rate, 0.3
+
+    sentences, cur = [], []
+    for w in text.split():
+        cur.append(w)
+        if w[-1] in ".?!":
+            sentences.append(cur)
+            cur = []
+    if cur:
+        sentences.append(cur)
+
+    chunks, tokens, t0 = [], [], 0.0
+    for words in sentences:
+        wav, _ = tts.synthesize(" ".join(words), voice_style=style, lang=lang)
+        wav = np.asarray(wav, dtype=np.float32).reshape(-1)
+        # speech span: first and last 10 ms window above 3% of the sentence peak
+        win = max(1, sr // 100)
+        level = np.abs(wav[: len(wav) // win * win]).reshape(-1, win).max(axis=1)
+        loud = np.nonzero(level > 0.03 * (level.max() or 1.0))[0]
+        a, b = (loud[0] * win / sr, (loud[-1] + 1) * win / sr) if len(loud) else (0.0, len(wav) / sr)
+        weights = [max(1, len(_wordchars(w))) for w in words]
+        total, acc = sum(weights), 0
+        for w, n in zip(words, weights):
+            tokens.append({"text": re.sub(r"\s+", "", w), "start": t0 + a + (b - a) * acc / total, "end": t0 + a + (b - a) * (acc + n) / total})
+            acc += n
+        chunks += [wav, np.zeros(int(gap * sr), dtype=np.float32)]
+        t0 += len(wav) / sr + gap
+    pcm = np.concatenate(chunks[:-1]).astype(np.float32).tobytes()
+    out = subprocess.run(
+        ["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(sr), "-ac", "1", "-i", "pipe:0", "-b:a", "128k", "-f", "mp3", "pipe:1"],
+        input=pcm, capture_output=True, check=True,
+    )
+    return out.stdout, tokens
+
+
+PROVIDERS = {"edge": synth_edge, "elevenlabs": synth_elevenlabs, "supertonic": synth_supertonic, "silent": synth_silent}
 DEFAULT_VOICE = {
     "edge": {"en": "en-US-AriaNeural", "ko": "ko-KR-SunHiNeural", "ja": "ja-JP-NanamiNeural", "zh": "zh-CN-XiaoxiaoNeural"},
+    "supertonic": {"*": "F1"},
     "silent": {"en": "none", "ko": "none", "ja": "none", "zh": "none"},
 }
-DEFAULT_MODEL = {"elevenlabs": "eleven_v3", "edge": "", "silent": ""}
+DEFAULT_MODEL = {"elevenlabs": "eleven_v3", "supertonic": "supertonic-3", "edge": "", "silent": ""}
 
 
 def _wordchars(s: str) -> str:
@@ -276,7 +331,9 @@ def main() -> None:
     lang = a.lang or cfg.get("page", {}).get("lang", "en")
     tts_cfg = cfg.get("tts", {})
     provider = a.provider or tts_cfg.get("provider", "edge")
-    voice = a.voice or tts_cfg.get("voice") or DEFAULT_VOICE.get(provider, {}).get(lang)
+    if provider != tts_cfg.get("provider", "edge"):  # --provider overrides: the guide's voice and model belong to its own provider
+        tts_cfg = {}
+    voice = a.voice or tts_cfg.get("voice") or DEFAULT_VOICE.get(provider, {}).get(lang) or DEFAULT_VOICE.get(provider, {}).get("*")
     model = a.model or tts_cfg.get("model") or DEFAULT_MODEL.get(provider, "")
     if not voice:
         sys.exit(f"--voice is required for provider {provider} and language {lang}")

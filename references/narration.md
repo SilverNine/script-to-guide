@@ -24,10 +24,11 @@ The voice is the guide. Write for the ear.
 
 ## Voices
 
-`guide.json` `tts`: `{ "provider": "edge" | "elevenlabs" | "silent", "voice": "<id>", "model": "<id>" }`.
+`guide.json` `tts`: `{ "provider": "edge" | "elevenlabs" | "supertonic" | "silent", "voice": "<id>", "model": "<id>" }`.
 
 - edge: no key needed. `en-US-AriaNeural`, `en-US-GuyNeural`, `ko-KR-SunHiNeural`, `ko-KR-InJoonNeural`. `<skill>/.venv/bin/edge-tts --list-voices` lists the rest.
 - elevenlabs: key from `ELEVENLABS_API_KEY`, or a `.env.elevenlabs` file in your project folder (add `.env*` to its `.gitignore`). The scripts never print it.
+- supertonic: local and free after `<skill>/.venv/bin/python -m pip install supertonic` (model about 385 MB, Open RAIL-M). Voices `F1`..`F5`, `M1`..`M5`, default `F1`. Sentence boundaries are exact; words inside a sentence are estimated, so check cue timing by ear. Output varies a little per run: re-synthesize one scene with `--force <scene>` if verify flags a word.
 - silent: timing from text length, no audio. For CI and layout work.
 
 ## Korean
