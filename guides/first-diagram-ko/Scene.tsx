@@ -17,9 +17,12 @@ const M = menuBoxes as unknown as Boxes;
 const L = linkBoxes as unknown as Boxes;
 const tip = (b: Box): [number, number] => [mid(b)[0] + 4, mid(b)[1] + 4];
 
-/** Regions measured on write.webp that capture.mjs cannot select: the preview pane, a code label, the decision node, the code lines */
+/** Regions measured on write.webp that capture.mjs cannot select: the preview pane, line 2's text, the decision node, the code lines */
 const preview: Box = [720, 44, 720, 766];
-const labelInLine2: Box = [92, 105, 62, 21];
+/** Line 2 trimmed so its band ends inside the code pane (the pane's right edge is x 719) */
+const line2: Box = [W.line2[0], W.line2[1], W.editor[2] - W.line2[0] - 6, W.line2[3]];
+/** Line 2's text up to the lens outline, so the callout sits in the empty pane to its right and covers no code */
+const line2Text: Box = [92, 105, 197, 21];
 const decision: Box = [1040, 508, 132, 132];
 const codeLines: Box = [36, 78, 250, 140];
 const exportBox: Box = [W.svg[0], W.svg[1], W.png[0] + W.png[2] - W.svg[0], W.svg[3]];
@@ -60,9 +63,9 @@ const App: React.FC = () => {
       >
         {/* write: the code is magnified while the narration explains one line */}
         <Spotlight box={W.editor} from={left} to={line} padding={0} radius={4} />
-        <Spotlight box={pad(W.line2, 4)} from={line} to={right} radius={6} />
+        <Spotlight box={line2} from={line} to={right} padding={2} radius={6} />
         <Magnifier box={codeLines} from={line} to={right} zoom={2.8} at={[560, 250]} label="한 줄이 화살표 하나" />
-        <Callout box={labelInLine2} text="상자 이름" side="below" from={brackets} to={right} />
+        <Callout box={line2Text} text="← 대괄호 안이 상자 이름" side="right" from={brackets} to={right} />
         <Spotlight box={preview} from={right} to={decide} padding={0} radius={4} />
         <Spotlight box={decision} from={decide} to={sceneEnd('write')} radius={18} />
 
@@ -82,7 +85,7 @@ const App: React.FC = () => {
         <Spotlight box={W.editor} from={code} to={sceneEnd('theme')} padding={0} radius={4} />
 
         {/* export */}
-        <Magnifier box={pad(exportBox, 6)} from={exp} to={sceneEnd('export')} zoom={3} at={[40, 500]} label="SVG는 문서용, PNG는 어디든" />
+        <Magnifier box={pad(exportBox, 6)} from={exp} to={sceneEnd('export')} zoom={3} at={[40, 500]} label="SVG와 PNG로 내보내기" />
         <Cursor keys={[{ at: png - 12, p: tip(W.png) }, { at: png + 4, p: tip(W.png), click: true }, { at: sceneEnd('export') - 4 }]} />
 
         {/* link */}
@@ -114,7 +117,7 @@ export const Scene: React.FC = () => {
         <App />
       </Sequence>
       <Sequence from={endAt} durationInFrames={DURATION - endAt}>
-        <TitleCard kicker="여기까지가 한 바퀴" title="mermandraw.com" subtitle="쓰고, 고르고, 내보내고, 보냅니다." />
+        <TitleCard kicker="여기까지가 한 바퀴" title="mermandraw.com" subtitle="쓰고 고르고 내보내고 보내면 끝입니다." />
       </Sequence>
     </AbsoluteFill>
   );

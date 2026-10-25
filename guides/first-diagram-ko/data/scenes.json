@@ -1,61 +1,61 @@
 {
   "fps": 30,
-  "durationInFrames": 3368,
+  "durationInFrames": 3280,
   "scenes": [
     {
       "scene": "intro",
       "fromFrame": 0,
-      "toFrame": 340,
+      "toFrame": 319,
       "speechFromMs": 100,
-      "speechToMs": 9837,
+      "speechToMs": 9112,
       "gapSec": 0.5
     },
     {
       "scene": "plan",
-      "fromFrame": 340,
-      "toFrame": 653,
-      "speechFromMs": 11424,
-      "speechToMs": 19948,
+      "fromFrame": 319,
+      "toFrame": 588,
+      "speechFromMs": 10728,
+      "speechToMs": 17853,
       "gapSec": 0.8
     },
     {
       "scene": "write",
-      "fromFrame": 653,
-      "toFrame": 1378,
-      "speechFromMs": 21872,
-      "speechToMs": 43934,
+      "fromFrame": 588,
+      "toFrame": 1306,
+      "speechFromMs": 19688,
+      "speechToMs": 41525,
       "gapSec": 1.0
     },
     {
       "scene": "theme",
-      "fromFrame": 1378,
-      "toFrame": 1870,
-      "speechFromMs": 46032,
-      "speechToMs": 60394,
+      "fromFrame": 1306,
+      "toFrame": 1798,
+      "speechFromMs": 43632,
+      "speechToMs": 57994,
       "gapSec": 1.0
     },
     {
       "scene": "export",
-      "fromFrame": 1870,
-      "toFrame": 2341,
-      "speechFromMs": 62440,
-      "speechToMs": 76265,
+      "fromFrame": 1798,
+      "toFrame": 2269,
+      "speechFromMs": 60040,
+      "speechToMs": 73865,
       "gapSec": 0.8
     },
     {
       "scene": "link",
-      "fromFrame": 2341,
-      "toFrame": 2942,
-      "speechFromMs": 78132,
-      "speechToMs": 96107,
+      "fromFrame": 2269,
+      "toFrame": 2908,
+      "speechFromMs": 75732,
+      "speechToMs": 94982,
       "gapSec": 1.0
     },
     {
       "scene": "end",
-      "fromFrame": 2942,
-      "toFrame": 3368,
-      "speechFromMs": 98175,
-      "speechToMs": 109538,
+      "fromFrame": 2908,
+      "toFrame": 3280,
+      "speechFromMs": 97047,
+      "speechToMs": 106610,
       "gapSec": 1.8
     }
   ]

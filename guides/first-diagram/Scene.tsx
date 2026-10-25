@@ -17,10 +17,12 @@ const M = menuBoxes as unknown as Boxes;
 const L = linkBoxes as unknown as Boxes;
 const tip = (b: Box): [number, number] => [mid(b)[0] + 4, mid(b)[1] + 4];
 
-/** Regions measured on write.webp that capture.mjs cannot select: the preview pane, a code label, the decision node */
+/** Regions measured on write.webp that capture.mjs cannot select: the preview pane, line 2's text, the decision node */
 const preview: Box = [720, 44, 720, 766];
-const line2 = W.line2;
-const labelInLine2: Box = [104, 105, 156, 21];
+/** Line 2 trimmed so its band ends inside the code pane (the pane's right edge is x 719) */
+const line2: Box = [W.line2[0], W.line2[1], W.editor[2] - W.line2[0] - 6, W.line2[3]];
+/** Line 2's text up to the lens outline, so the callout sits in the empty pane to its right and covers no code */
+const line2Text: Box = [104, 105, 307, 21];
 const decision: Box = [1046, 500, 144, 148];
 /** The six code lines, for the magnifier: the code pane is too small to read in a 1080p recording. The lens sits above the caption band */
 const codeLines: Box = [36, 78, 372, 140];
@@ -62,8 +64,8 @@ const App: React.FC = () => {
       >
         {/* write */}
         <Spotlight box={W.editor} from={left} to={line} padding={0} radius={4} />
-        <Spotlight box={pad(line2, 4)} from={line} to={right} radius={6} />
-        <Callout box={labelInLine2} text="label" side="below" from={brackets} to={right} />
+        <Spotlight box={line2} from={line} to={right} padding={2} radius={6} />
+        <Callout box={line2Text} text="← brackets hold the label" side="right" from={brackets} to={right} />
         <Magnifier box={codeLines} from={line} to={right} zoom={2.3} at={[548, 290]} label="One line, one arrow" />
         <Spotlight box={preview} from={right} to={decide} padding={0} radius={4} />
         <Spotlight box={decision} from={decide} to={sceneEnd('write')} radius={18} />
