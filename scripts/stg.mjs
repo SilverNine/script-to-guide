@@ -70,7 +70,7 @@ switch (cmd) {
     if (run(npm, ['exec', '--', 'playwright', 'install', 'chromium'], { cwd: ROOT }) !== 0) process.exit(1);
     if (!existsSync(path.join(ROOT, '.venv'))) if (run('python3', ['-m', 'venv', '.venv'], { cwd: ROOT }) !== 0) process.exit(1);
     if (run(path.join(ROOT, '.venv', 'bin', 'python'), ['-m', 'pip', 'install', '-q', '--disable-pip-version-check', '-r', 'requirements.txt'], { cwd: ROOT }) !== 0) process.exit(1);
-    // the transcription check is a rule of the skill; its model (~470 MB) downloads on the first verify
+    // the transcription check is a rule of the skill; its model (~490 MB for English, ~570 MB otherwise) downloads on the first verify
     if (!rest.includes('--no-verify') && run(path.join(ROOT, '.venv', 'bin', 'python'), ['-m', 'pip', 'install', '-q', '--disable-pip-version-check', 'pywhispercpp'], { cwd: ROOT }) !== 0)
       console.warn('pywhispercpp did not install; stg verify needs it, or whisper-cli on PATH, or an ElevenLabs key.');
     if (!has('ffmpeg')) console.warn('\nffmpeg is missing: brew install ffmpeg (macOS) or apt-get install ffmpeg (Linux). Needed for audio and MP4.');

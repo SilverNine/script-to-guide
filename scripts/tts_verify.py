@@ -21,7 +21,8 @@ Engines
 - whisper: whisper.cpp through the `whisper-cli` executable (brew install whisper-cpp, or
   build from source). Model path from --model or WHISPER_MODEL, e.g. ~/models/ggml-small.bin.
 - pywhispercpp: the same engine through its Python binding (pip install pywhispercpp). --model takes a
-  model name (small.en) or a path to a ggml-*.bin file.
+  model name (small.en) or a path to a ggml-*.bin file. Default: small.en for English, large-v3-turbo-q5_0
+  for other languages (small mishears Korean often enough to trip the mispronunciation list).
 - elevenlabs: Scribe. Key from ELEVENLABS_API_KEY or .env.elevenlabs in your project folder.
 """
 from __future__ import annotations
@@ -91,7 +92,7 @@ def stt_pywhispercpp(mp3: pathlib.Path, lang: str, model: str | None) -> str:
         from pywhispercpp.model import Model  # type: ignore
     except ImportError:
         sys.exit("pywhispercpp is not installed: run `stg setup` (or pip install pywhispercpp, or use --stt whisper / elevenlabs)")
-    model = model or os.environ.get("WHISPER_MODEL") or ("small.en" if lang == "en" else "small")
+    model = model or os.environ.get("WHISPER_MODEL") or ("small.en" if lang == "en" else "large-v3-turbo-q5_0")
     with tempfile.TemporaryDirectory() as td:
         wav = pathlib.Path(td) / "a.wav"
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(mp3), "-ac", "1", "-ar", "16000", str(wav)], check=True)

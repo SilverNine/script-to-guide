@@ -43,7 +43,7 @@ ln -s ~/.script-to-guide ~/.codex/skills/script-to-guide
 ln -s ~/.script-to-guide ~/.claude/skills/script-to-guide
 ```
 
-에이전트에게 가이드를 만들어 달라고 하면 처음 한 번 `setup`이 돕니다. Node 패키지, Playwright Chromium(약 150MB), Python 가상환경을 스킬 폴더 안에 설치합니다. 첫 내레이션 검사 때 whisper 모델(약 470MB)을 받습니다.
+에이전트에게 가이드를 만들어 달라고 하면 처음 한 번 `setup`이 돕니다. Node 패키지, Playwright Chromium(약 150MB), Python 가상환경을 스킬 폴더 안에 설치합니다. 첫 내레이션 검사 때 whisper 모델을 받습니다(영어 약 490MB, 한국어 등 다른 언어 약 570MB).
 
 macOS나 Linux, Node 18 이상, Python 3.10 이상(Debian, Ubuntu는 `python3-venv` 포함), ffmpeg가 필요합니다. Windows는 시험하지 않았습니다.
 
