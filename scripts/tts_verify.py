@@ -146,7 +146,8 @@ def main() -> None:
                 print(f"  ✗ heard '{w}' {n}x (expected '{spoken}')")
 
     _, _, spoken_script = build(script_lines(gdir), table)
-    ratio = difflib.SequenceMatcher(None, norm(spoken_script), norm(text)).ratio()
+    # autojunk off: on long strings it treats common letters as junk and can report 0.1 for a perfect transcript
+    ratio = difflib.SequenceMatcher(None, norm(spoken_script), norm(text), autojunk=False).ratio()
     print(f"known mispronunciations: {bad}" + ("" if bad else " (pass)"))
     print(f"transcript similarity to script: {ratio:.3f}")
     print(f"transcript: {gdir / 'recordings' / 'narration.stt.txt'} (numbers and foreign words are often rewritten by the engine; check those by ear)")
