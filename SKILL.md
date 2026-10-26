@@ -36,6 +36,7 @@ If the user gave a project path, URL or screenshots but no mode, do a minimal re
 3. **The script is the source of truth.** Scene motions are `cue(scene, word)`. Never place a motion at a hand-typed time.
 4. **Narration is verified.** After synthesis, run `stg verify`. Fix pronunciation through the dictionary, never by rewording the on-screen text.
 5. **Length never changes after synthesis.** Captions, timetable and cues all derive from the narration's word timestamps. To change a sentence, re-synthesize and let the cues move.
+6. **API keys never enter the chat.** For ElevenLabs, do not ask the user to paste the key and do not read, print or write it. Tell them to create `.env.elevenlabs` in the project folder with the key alone on one line (or set `ELEVENLABS_API_KEY`) and add `.env*` to its `.gitignore`, then wait for them to say it is done.
 
 ## Commands
 
