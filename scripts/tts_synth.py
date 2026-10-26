@@ -387,6 +387,8 @@ def main() -> None:
     subprocess.run(["ffmpeg", "-y", "-v", "error", *inputs, "-filter_complex", graph, "-map", "[out]", "-ac", "1", "-ar", "44100", "-b:a", "192k", str(out_mp3)], check=True)
 
     # captions and scene timetable
+    # whole ms first, then floor, the same way the player places words: a scene must not start after its first word
+    to_frame = lambda sec: int(sec * 1000) * FPS // 1000  # noqa: E731
     items, scenes, t0 = [], [], 0.0
     for k, sc in enumerate(order):
         P = per[sc]
@@ -402,7 +404,7 @@ def main() -> None:
             })
         t1 = t0 + P["dur"] + gaps[k]
         scenes.append({
-            "scene": sc, "fromFrame": round(t0 * FPS), "toFrame": round(t1 * FPS),
+            "scene": sc, "fromFrame": to_frame(t0), "toFrame": to_frame(t1),
             "speechFromMs": items[first]["offsets"]["from"], "speechToMs": items[-1]["offsets"]["to"],
             "gapSec": gaps[k],
         })

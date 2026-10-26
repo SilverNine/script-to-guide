@@ -5,38 +5,38 @@
     {
       "scene": "intro",
       "fromFrame": 0,
-      "toFrame": 248,
+      "toFrame": 247,
       "speechFromMs": 0,
       "speechToMs": 7440,
       "gapSec": 0.5
     },
     {
       "scene": "plan",
-      "fromFrame": 248,
-      "toFrame": 488,
+      "fromFrame": 247,
+      "toFrame": 487,
       "speechFromMs": 8260,
       "speechToMs": 15379,
       "gapSec": 0.8
     },
     {
       "scene": "write",
-      "fromFrame": 488,
-      "toFrame": 1075,
+      "fromFrame": 487,
+      "toFrame": 1074,
       "speechFromMs": 16260,
       "speechToMs": 34740,
       "gapSec": 1.0
     },
     {
       "scene": "theme",
-      "fromFrame": 1075,
-      "toFrame": 1501,
+      "fromFrame": 1074,
+      "toFrame": 1500,
       "speechFromMs": 35820,
       "speechToMs": 48940,
       "gapSec": 1.0
     },
     {
       "scene": "export",
-      "fromFrame": 1501,
+      "fromFrame": 1500,
       "toFrame": 1846,
       "speechFromMs": 50019,
       "speechToMs": 60660,
@@ -53,7 +53,7 @@
     {
       "scene": "end",
       "fromFrame": 2349,
-      "toFrame": 2684,
+      "toFrame": 2683,
       "speechFromMs": 78300,
       "speechToMs": 87500,
       "gapSec": 1.8

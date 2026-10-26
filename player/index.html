@@ -49,6 +49,10 @@
   .cap { position:absolute; left:0; right:0; bottom:5%; display:flex; justify-content:center; padding:0 6%; pointer-events:none; }
   .cap span { background:rgba(8,10,16,.78); color:#fff; padding:.35em .7em; border-radius:8px; font-size:clamp(13px,2.1vw,24px); font-weight:600; line-height:1.35; text-align:center; }
   .still .cap span { font-size:38px; max-width:1500px; }
+  /* captions sit in a band under the stage, so they never cover the screen; two lines tall so wrapping does not move the controls */
+  .capbar { display:flex; align-items:center; justify-content:center; min-height:calc(2.8em + 20px); padding:10px 6%; border-bottom:1px solid var(--line); background:var(--bg); font-size:clamp(15px,1.5vw,20px); font-weight:600; line-height:1.4; text-align:center; text-wrap:balance; }
+  .capbar.idle { color:var(--dim); font-weight:500; }
+  .player.full .capbar { background:#0b0d12; color:#e7eaef; border-color:#1d222b; font-size:clamp(18px,2vw,30px); }
     /* poster: the play button sits in the bottom band so it never covers a title card's text */
   .screen { container-type:inline-size; }
   .cover { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:1.2cqw; padding-bottom:4.5cqw; background:linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.5)); }

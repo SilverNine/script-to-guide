@@ -5,22 +5,22 @@
     {
       "scene": "intro",
       "fromFrame": 0,
-      "toFrame": 284,
+      "toFrame": 283,
       "speechFromMs": 0,
       "speechToMs": 8880,
       "gapSec": 0.5
     },
     {
       "scene": "plan",
-      "fromFrame": 284,
-      "toFrame": 505,
+      "fromFrame": 283,
+      "toFrame": 504,
       "speechFromMs": 9460,
       "speechToMs": 15860,
       "gapSec": 0.8
     },
     {
       "scene": "write",
-      "fromFrame": 505,
+      "fromFrame": 504,
       "toFrame": 1147,
       "speechFromMs": 16820,
       "speechToMs": 36660,
@@ -29,31 +29,31 @@
     {
       "scene": "theme",
       "fromFrame": 1147,
-      "toFrame": 1586,
+      "toFrame": 1585,
       "speechFromMs": 38240,
       "speechToMs": 51280,
       "gapSec": 1.5
     },
     {
       "scene": "export",
-      "fromFrame": 1586,
-      "toFrame": 2018,
+      "fromFrame": 1585,
+      "toFrame": 2017,
       "speechFromMs": 52860,
       "speechToMs": 65900,
       "gapSec": 1.2
     },
     {
       "scene": "link",
-      "fromFrame": 2018,
-      "toFrame": 2576,
+      "fromFrame": 2017,
+      "toFrame": 2575,
       "speechFromMs": 67260,
       "speechToMs": 84700,
       "gapSec": 1.0
     },
     {
       "scene": "end",
-      "fromFrame": 2576,
-      "toFrame": 2930,
+      "fromFrame": 2575,
+      "toFrame": 2929,
       "speechFromMs": 85860,
       "speechToMs": 95780,
       "gapSec": 1.8

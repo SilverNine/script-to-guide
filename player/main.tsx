@@ -10,7 +10,7 @@ import type { PlayerText } from './guide';
  * The guide player.
  *
  * Layout: the stage on the left, a step panel with the live transcript on the right (below on narrow
- * screens). Under the stage, a progress bar split into one segment per step.
+ * screens). Under the stage, a caption band (on by default) and a progress bar split into one segment per step.
  *
  * Clock: the audio position. Picture and sound cannot drift apart; only the silence after the
  * narration ends is counted by a wall clock. A guide without audio runs on the wall clock.
@@ -86,7 +86,8 @@ interface Sentence {
   t: number;
 }
 const WORDS: Word[] = GUIDE.captions
-  ? parseCaptions(GUIDE.captions).map((w) => ({ text: w.text, f: Math.floor((w.fromMs / 1000) * FPS), t: Math.ceil((w.toMs / 1000) * FPS) }))
+  ? // ms × fps / 1000 in that order, as tts_synth.py does for scene starts, so a scene's first word never lands a frame early
+  parseCaptions(GUIDE.captions).map((w) => ({ text: w.text, f: Math.floor((w.fromMs * FPS) / 1000), t: Math.ceil((w.toMs * FPS) / 1000) }))
   : [];
 const BY_STEP: Sentence[][] = STEPS.map(() => []);
 {
@@ -246,7 +247,7 @@ const App: React.FC = () => {
   const [muted, setMuted] = useState(false);
   const [rate, setRate] = useState(savedRate);
   const [follow, setFollow] = useState(() => store.get('guide-follow') === '1');
-  const [cc, setCc] = useState(() => store.get('guide-cc') === '1');
+  const [cc, setCc] = useState(() => store.get('guide-cc') !== '0');
   const [isFull, setIsFull] = useState(false);
   const [waiting, setWaiting] = useState<number | null>(null);
   const [ready, setReady] = useState(false);
@@ -514,11 +515,6 @@ const App: React.FC = () => {
                 {step.label}
               </div>
             )}
-            {(cc || isFull) && active && started && (
-              <div className="cap">
-                <span>{active.words.map((w) => w.text).join(' ')}</span>
-              </div>
-            )}
             {!started && (
               <div className="cover">
                 <button className="big" aria-label={T.play} onClick={(e) => (e.stopPropagation(), toggle())}>
@@ -547,6 +543,10 @@ const App: React.FC = () => {
               </div>
             )}
           </div>
+          {GUIDE.captions && cc && (
+            // before playback the band previews the first sentence, so it never sits empty
+            <div className={`capbar${started ? '' : ' idle'}`}>{(started ? active : SENTENCES[0])?.words.map((w) => w.text).join(' ')}</div>
+          )}
           <div className="controls">
             <div
               className="bar"
@@ -587,7 +587,7 @@ const App: React.FC = () => {
                 <Ico d={I.steps} size={18} /> {T.stepByStep}
               </button>
               {GUIDE.captions && (
-                <button className={`btn${cc ? ' on' : ''}`} aria-pressed={cc} onClick={() => setCc((v) => !v)} aria-label="Captions" title="Captions on the stage (c)">
+                <button className={`btn${cc ? ' on' : ''}`} aria-pressed={cc} onClick={() => setCc((v) => !v)} aria-label="Captions" title="Captions (c)">
                   <Ico d={I.cc} />
                 </button>
               )}
