@@ -38,12 +38,14 @@ claude plugin install script-to-guide@silvernine
 
 # Codex (또는 플러그인 없이 Claude Code)
 git clone https://github.com/SilverNine/script-to-guide.git ~/.script-to-guide
-mkdir -p ~/.codex/skills ~/.claude/skills
-ln -s ~/.script-to-guide ~/.codex/skills/script-to-guide
+mkdir -p ~/.agents/skills ~/.claude/skills
+ln -s ~/.script-to-guide ~/.agents/skills/script-to-guide
 ln -s ~/.script-to-guide ~/.claude/skills/script-to-guide
 ```
 
 에이전트에게 가이드를 만들어 달라고 하면 처음 한 번 `setup`이 돕니다. Node 패키지, Playwright Chromium(약 150MB), Python 가상환경을 스킬 폴더 안에 설치합니다. 첫 내레이션 검사 때 whisper 모델을 받습니다(영어 약 490MB, 한국어 등 다른 언어 약 570MB).
+
+Codex는 사용자 스킬을 `~/.agents/skills`에서 읽고 링크도 따라갑니다([Codex 문서](https://learn.chatgpt.com/docs/build-skills)). 기본 샌드박스는 네트워크를 막고, 프로젝트 밖에 파일을 쓸 때 승인을 받습니다. 그래서 `setup`, 화면 캡처, 내레이션 합성 때와 `setup`이 스킬 폴더에 설치할 때 승인 요청이 뜹니다.
 
 macOS나 Linux, Node 18 이상, Python 3.10 이상(Debian, Ubuntu는 `python3-venv` 포함), ffmpeg가 필요합니다. Windows는 시험하지 않았습니다.
 

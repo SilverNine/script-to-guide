@@ -53,12 +53,14 @@ claude plugin install script-to-guide@silvernine
 
 # Codex (or Claude Code without the plugin system)
 git clone https://github.com/SilverNine/script-to-guide.git ~/.script-to-guide
-mkdir -p ~/.codex/skills ~/.claude/skills
-ln -s ~/.script-to-guide ~/.codex/skills/script-to-guide
+mkdir -p ~/.agents/skills ~/.claude/skills
+ln -s ~/.script-to-guide ~/.agents/skills/script-to-guide
 ln -s ~/.script-to-guide ~/.claude/skills/script-to-guide
 ```
 
 Then ask your agent for a guide ("make a 2 minute guide for our signup flow"). On first use it runs `setup`, which installs the engine's Node packages, Playwright's Chromium (about 150 MB) and a Python venv inside the skill folder. The first narration check downloads a whisper model (about 490 MB for English, 570 MB for other languages).
+
+Codex reads user skills from `~/.agents/skills` and follows the link ([Codex docs](https://learn.chatgpt.com/docs/build-skills)). Its default sandbox has no network and asks before writing outside your project, so expect approval prompts for `setup`, screen capture and narration, and for `setup` writing into the skill folder.
 
 You need macOS or Linux, Node 18+, Python 3.10+ (on Debian or Ubuntu also `python3-venv`) and ffmpeg. Windows is untested.
 
